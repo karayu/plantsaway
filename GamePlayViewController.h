@@ -1,13 +1,13 @@
 //
-//  ViewController.h
+//  GamePlayViewController.h
 //  project3
 //
-//  Created by Brooke Griffin on 4/8/12.
+//  Created by Kara Yu on 4/17/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface GamePlayViewController : UIViewController
 
 @end
