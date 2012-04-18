@@ -1,0 +1,92 @@
+// !$*UTF8*$!
+{
+	016B3F2415326A1A005177C1 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 01754934153F179E005667D2 /* project3 */;
+		activeSDKPreference = iphoneos4.3;
+		activeTarget = 016B3F2C15326A1A005177C1 /* project3 */;
+		codeSenseManager = 01754944153F17BE005667D2 /* Code sense */;
+		executables = (
+			01754934153F179E005667D2 /* project3 */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					356,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 356456618;
+			PBXWorkspaceStateSaveDate = 356456618;
+		};
+		sourceControlManager = 01754943153F17BE005667D2 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	016B3F2C15326A1A005177C1 /* project3 */ = {
+		activeExec = 0;
+		executables = (
+			01754934153F179E005667D2 /* project3 */,
+		);
+	};
+	016B3F4D15326A1A005177C1 /* project3Tests */ = {
+		activeExec = 0;
+	};
+	01754934153F179E005667D2 /* project3 */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = project3;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	01754943153F17BE005667D2 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	01754944153F17BE005667D2 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+}
