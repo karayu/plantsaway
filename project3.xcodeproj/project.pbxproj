@@ -13,13 +13,16 @@
 		016B3F3C15326A1A005177C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 016B3F3A15326A1A005177C1 /* InfoPlist.strings */; };
 		016B3F3E15326A1A005177C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B3F3D15326A1A005177C1 /* main.m */; };
 		016B3F4215326A1A005177C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B3F4115326A1A005177C1 /* AppDelegate.m */; };
-		016B3F4515326A1A005177C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B3F4415326A1A005177C1 /* ViewController.m */; };
-		016B3F4815326A1A005177C1 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016B3F4615326A1A005177C1 /* ViewController.xib */; };
 		016B3F5015326A1B005177C1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B3F4F15326A1A005177C1 /* SenTestingKit.framework */; };
 		016B3F5115326A1B005177C1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B3F3115326A1A005177C1 /* UIKit.framework */; };
 		016B3F5215326A1B005177C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B3F3315326A1A005177C1 /* Foundation.framework */; };
 		016B3F5A15326A1B005177C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 016B3F5815326A1B005177C1 /* InfoPlist.strings */; };
 		016B3F5D15326A1B005177C1 /* project3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B3F5C15326A1B005177C1 /* project3Tests.m */; };
+		E7CF4C77153E308500BE422E /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4C75153E308500BE422E /* GamePlayViewController.m */; };
+		E7CF4C78153E308500BE422E /* GamePlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CF4C76153E308500BE422E /* GamePlayViewController.xib */; };
+		E7CF4C7B153E387500BE422E /* OldLady.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4C7A153E387500BE422E /* OldLady.m */; };
+		E7CF4C7E153E38AA00BE422E /* Plant.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4C7D153E38AA00BE422E /* Plant.m */; };
+		E7CF4C81153E38BF00BE422E /* MovingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4C80153E38BE00BE422E /* MovingTarget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,15 +46,21 @@
 		016B3F3F15326A1A005177C1 /* project3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "project3-Prefix.pch"; sourceTree = "<group>"; };
 		016B3F4015326A1A005177C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		016B3F4115326A1A005177C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		016B3F4315326A1A005177C1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		016B3F4415326A1A005177C1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		016B3F4715326A1A005177C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		016B3F4E15326A1A005177C1 /* project3Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = project3Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		016B3F4F15326A1A005177C1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		016B3F5715326A1B005177C1 /* project3Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "project3Tests-Info.plist"; sourceTree = "<group>"; };
 		016B3F5915326A1B005177C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		016B3F5B15326A1B005177C1 /* project3Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = project3Tests.h; sourceTree = "<group>"; };
 		016B3F5C15326A1B005177C1 /* project3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = project3Tests.m; sourceTree = "<group>"; };
+		E7CF4C74153E308500BE422E /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayViewController.h; path = ../GamePlayViewController.h; sourceTree = "<group>"; };
+		E7CF4C75153E308500BE422E /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlayViewController.m; path = ../GamePlayViewController.m; sourceTree = "<group>"; };
+		E7CF4C76153E308500BE422E /* GamePlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GamePlayViewController.xib; path = ../GamePlayViewController.xib; sourceTree = "<group>"; };
+		E7CF4C79153E387500BE422E /* OldLady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldLady.h; sourceTree = "<group>"; };
+		E7CF4C7A153E387500BE422E /* OldLady.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldLady.m; sourceTree = "<group>"; };
+		E7CF4C7C153E38AA00BE422E /* Plant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plant.h; sourceTree = "<group>"; };
+		E7CF4C7D153E38AA00BE422E /* Plant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plant.m; sourceTree = "<group>"; };
+		E7CF4C7F153E38BE00BE422E /* MovingTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingTarget.h; sourceTree = "<group>"; };
+		E7CF4C80153E38BE00BE422E /* MovingTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingTarget.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,11 +120,17 @@
 		016B3F3715326A1A005177C1 /* project3 */ = {
 			isa = PBXGroup;
 			children = (
+				E7CF4C79153E387500BE422E /* OldLady.h */,
+				E7CF4C7A153E387500BE422E /* OldLady.m */,
+				E7CF4C7C153E38AA00BE422E /* Plant.h */,
+				E7CF4C7D153E38AA00BE422E /* Plant.m */,
+				E7CF4C7F153E38BE00BE422E /* MovingTarget.h */,
+				E7CF4C80153E38BE00BE422E /* MovingTarget.m */,
+				E7CF4C74153E308500BE422E /* GamePlayViewController.h */,
+				E7CF4C75153E308500BE422E /* GamePlayViewController.m */,
+				E7CF4C76153E308500BE422E /* GamePlayViewController.xib */,
 				016B3F4015326A1A005177C1 /* AppDelegate.h */,
 				016B3F4115326A1A005177C1 /* AppDelegate.m */,
-				016B3F4315326A1A005177C1 /* ViewController.h */,
-				016B3F4415326A1A005177C1 /* ViewController.m */,
-				016B3F4615326A1A005177C1 /* ViewController.xib */,
 				016B3F3815326A1A005177C1 /* Supporting Files */,
 			);
 			path = project3;
@@ -222,7 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				016B3F3C15326A1A005177C1 /* InfoPlist.strings in Resources */,
-				016B3F4815326A1A005177C1 /* ViewController.xib in Resources */,
+				E7CF4C78153E308500BE422E /* GamePlayViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +274,10 @@
 			files = (
 				016B3F3E15326A1A005177C1 /* main.m in Sources */,
 				016B3F4215326A1A005177C1 /* AppDelegate.m in Sources */,
-				016B3F4515326A1A005177C1 /* ViewController.m in Sources */,
+				E7CF4C77153E308500BE422E /* GamePlayViewController.m in Sources */,
+				E7CF4C7B153E387500BE422E /* OldLady.m in Sources */,
+				E7CF4C7E153E38AA00BE422E /* Plant.m in Sources */,
+				E7CF4C81153E38BF00BE422E /* MovingTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,14 +306,6 @@
 				016B3F3B15326A1A005177C1 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		016B3F4615326A1A005177C1 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				016B3F4715326A1A005177C1 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 		016B3F5815326A1B005177C1 /* InfoPlist.strings */ = {
@@ -360,6 +370,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "project3/project3-Prefix.pch";
 				INFOPLIST_FILE = "project3/project3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -371,6 +382,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "project3/project3-Prefix.pch";
 				INFOPLIST_FILE = "project3/project3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -387,6 +399,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "project3/project3-Prefix.pch";
 				INFOPLIST_FILE = "project3Tests/project3Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -404,6 +417,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "project3/project3-Prefix.pch";
 				INFOPLIST_FILE = "project3Tests/project3Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
