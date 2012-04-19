@@ -153,13 +153,12 @@
 		E7CF4EAD153E480700BE422E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EAC153E480700BE422E /* main.m */; };
 		E7CF4EB0153E480700BE422E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EAF153E480700BE422E /* AppDelegate.m */; };
 		E7CF4EB3153E480700BE422E /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EB2153E480700BE422E /* RootViewController.m */; };
-		E7CF4EB6153E480700BE422E /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EB5153E480700BE422E /* HelloWorldLayer.m */; };
+		E7CF4EB6153E480700BE422E /* MainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EB5153E480700BE422E /* MainLayer.m */; };
 		E7CF4EB9153E480700BE422E /* grossini_dance_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = E7CF4EB8153E480700BE422E /* grossini_dance_atlas.png */; };
 		E7CF4EC5153E48B900BE422E /* OldLady.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC0153E48B800BE422E /* OldLady.m */; };
 		E7CF4EC6153E48B900BE422E /* Plant.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC2153E48B800BE422E /* Plant.m */; };
 		E7CF4EC7153E48B900BE422E /* MovingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC4153E48B900BE422E /* MovingTarget.m */; };
 		E7CF4ECC153E490100BE422E /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4ECA153E490100BE422E /* GamePlayViewController.m */; };
-		E7CF4ECD153E490100BE422E /* GamePlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CF4ECB153E490100BE422E /* GamePlayViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -461,8 +460,8 @@
 		E7CF4EAF153E480700BE422E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E7CF4EB1153E480700BE422E /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		E7CF4EB2153E480700BE422E /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		E7CF4EB4153E480700BE422E /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		E7CF4EB5153E480700BE422E /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
+		E7CF4EB4153E480700BE422E /* MainLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainLayer.h; sourceTree = "<group>"; };
+		E7CF4EB5153E480700BE422E /* MainLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainLayer.m; sourceTree = "<group>"; };
 		E7CF4EB7153E480700BE422E /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		E7CF4EB8153E480700BE422E /* grossini_dance_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grossini_dance_atlas.png; path = Resources/grossini_dance_atlas.png; sourceTree = "<group>"; };
 		E7CF4EBF153E48B800BE422E /* OldLady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldLady.h; sourceTree = "<group>"; };
@@ -473,7 +472,6 @@
 		E7CF4EC4153E48B900BE422E /* MovingTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingTarget.m; sourceTree = "<group>"; };
 		E7CF4EC9153E490100BE422E /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		E7CF4ECA153E490100BE422E /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
-		E7CF4ECB153E490100BE422E /* GamePlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePlayViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,14 +544,13 @@
 				E7CF4EC8153E48D400BE422E /* Model */,
 				E7CF4EC9153E490100BE422E /* GamePlayViewController.h */,
 				E7CF4ECA153E490100BE422E /* GamePlayViewController.m */,
-				E7CF4ECB153E490100BE422E /* GamePlayViewController.xib */,
 				010D17F0153F2811002D5A80 /* images */,
 				E7CF4EAE153E480700BE422E /* AppDelegate.h */,
 				E7CF4EAF153E480700BE422E /* AppDelegate.m */,
 				E7CF4EB1153E480700BE422E /* RootViewController.h */,
 				E7CF4EB2153E480700BE422E /* RootViewController.m */,
-				E7CF4EB4153E480700BE422E /* HelloWorldLayer.h */,
-				E7CF4EB5153E480700BE422E /* HelloWorldLayer.m */,
+				E7CF4EB4153E480700BE422E /* MainLayer.h */,
+				E7CF4EB5153E480700BE422E /* MainLayer.m */,
 				E7CF4EB7153E480700BE422E /* GameConfig.h */,
 				E7CF4D01153E480300BE422E /* Resources */,
 				E7CF4D15153E480300BE422E /* libs */,
@@ -1072,7 +1069,6 @@
 				E7CF4D11153E480300BE422E /* Icon@2x.png in Resources */,
 				E7CF4D14153E480300BE422E /* iTunesArtwork in Resources */,
 				E7CF4EB9153E480700BE422E /* grossini_dance_atlas.png in Resources */,
-				E7CF4ECD153E490100BE422E /* GamePlayViewController.xib in Resources */,
 				010D17FD153FBDF7002D5A80 /* old2.png in Resources */,
 				010D1800153FBE02002D5A80 /* old1.png in Resources */,
 				010D1802153FBE0D002D5A80 /* flower.png in Resources */,
@@ -1212,7 +1208,7 @@
 				E7CF4EAD153E480700BE422E /* main.m in Sources */,
 				E7CF4EB0153E480700BE422E /* AppDelegate.m in Sources */,
 				E7CF4EB3153E480700BE422E /* RootViewController.m in Sources */,
-				E7CF4EB6153E480700BE422E /* HelloWorldLayer.m in Sources */,
+				E7CF4EB6153E480700BE422E /* MainLayer.m in Sources */,
 				E7CF4EC5153E48B900BE422E /* OldLady.m in Sources */,
 				E7CF4EC6153E48B900BE422E /* Plant.m in Sources */,
 				E7CF4EC7153E48B900BE422E /* MovingTarget.m in Sources */,
