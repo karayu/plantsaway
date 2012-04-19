@@ -10,12 +10,13 @@
 
 @interface OldLady : NSObject
 
-//the properties that define OldLady's updated location
-@property int velocity;
-@property int position;
+//the properties that define OldLady's new location
+@property int time;
 
-//the functions that return her new location
-- (int) calculatePosition;
-- (int) calculateVelocity;
+//constants (speed)
+extern int speed;
+
+//returns time it takes for movement to new position
+- (int) timeToPosition;
 
 @end

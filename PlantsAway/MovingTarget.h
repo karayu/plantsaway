@@ -23,5 +23,6 @@
 //constants for starting and ending positions
 extern int leftSidePosition;
 extern int rightSidePosition;
+extern int minVelocity;
 
 @end

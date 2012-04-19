@@ -10,19 +10,21 @@
 
 @implementation OldLady
 
-@synthesize velocity, position;
+@synthesize time;
 
-//calculates the updated position based on finger swipe to left or right
-- (int) calculatePosition
+
+//define constants
+int speed = 30;
+
+
+//calculates the updated position based on new position, old position, and velocity
+- (int)timeToPosition :(int)newPosition :(int)oldPosition
 {
-    return 5;
+    //determine which direction OldLady is moving in before making calculations 
+    if (newPosition > oldPosition)
+        return (newPosition - oldPosition)/speed;
+    else 
+        return (oldPosition - newPosition)/speed;
 }
-
-//calculates OldLady's velocity based on speed of finger swipe
-- (int) calculateVelocity
-{
-    return 5;
-}
-
 
 @end
