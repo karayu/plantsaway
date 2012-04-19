@@ -94,40 +94,6 @@ eachShape(void *ptr, void* unused)
 		//CGSize wins = [[CCDirector sharedDirector] winSize];
 		cpInitChipmunk();
 		
-	//	cpBody *staticBody = cpBodyNew(INFINITY, INFINITY);
-		space = cpSpaceNew();
-		cpSpaceResizeStaticHash(space, 400.0f, 40);
-		cpSpaceResizeActiveHash(space, 100, 600);
-		
-		space->gravity = ccp(0, 0);
-		space->elasticIterations = space->iterations;
-		
-		/*cpShape *shape;
-		
-		// bottom
-		shape = cpSegmentShapeNew(staticBody, ccp(0,0), ccp(wins.width,0), 0.0f);
-		shape->e = 1.0f; shape->u = 1.0f;
-		cpSpaceAddStaticShape(space, shape);
-		
-		// top
-		shape = cpSegmentShapeNew(staticBody, ccp(0,wins.height), ccp(wins.width,wins.height), 0.0f);
-		shape->e = 1.0f; shape->u = 1.0f;
-		cpSpaceAddStaticShape(space, shape);
-		
-		// left
-		shape = cpSegmentShapeNew(staticBody, ccp(0,0), ccp(0,wins.height), 0.0f);
-		shape->e = 1.0f; shape->u = 1.0f;
-		cpSpaceAddStaticShape(space, shape);
-		
-		// right
-		shape = cpSegmentShapeNew(staticBody, ccp(wins.width,0), ccp(wins.width,wins.height), 0.0f);
-		shape->e = 1.0f; shape->u = 1.0f;
-		cpSpaceAddStaticShape(space, shape);
-		
-		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"grossini_dance_atlas.png" capacity:100];
-		//[self addChild:batch z:0 tag:kTagBatchNode];
-		
-		[self addNewSpriteX: 200 y:200];*/
         
         [self schedule:@selector(nextFrame:)];		
 	}
