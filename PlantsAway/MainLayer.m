@@ -1,5 +1,5 @@
 //
-//  HelloWorldLayer.m
+//  MainLayer.m
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/17/12.
@@ -8,7 +8,12 @@
 
 
 // Import the interfaces
-#import "HelloWorldLayer.h"
+#import "MainLayer.h"
+#import "CCTouchDispatcher.h"
+
+CCSprite *oldLady;
+CCSprite *plant;
+CCSprite *movingTarget;
 
 enum {
 	kTagBatchNode = 1,
@@ -32,7 +37,9 @@ eachShape(void *ptr, void* unused)
 }
 
 // HelloWorldLayer implementation
-@implementation HelloWorldLayer
+@implementation MainLayer
+
+@synthesize plantActive;
 
 +(CCScene *) scene
 {
@@ -40,7 +47,7 @@ eachShape(void *ptr, void* unused)
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	HelloWorldLayer *layer = [HelloWorldLayer node];
+	MainLayer *layer = [MainLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -49,60 +56,45 @@ eachShape(void *ptr, void* unused)
 	return scene;
 }
 
--(void) addNewSpriteX: (float)x y:(float)y
-{
-	int posx, posy;
-	
-	CCSpriteBatchNode *batch = (CCSpriteBatchNode*) [self getChildByTag:kTagBatchNode];
-	
-	posx = (CCRANDOM_0_1() * 200);
-	posy = (CCRANDOM_0_1() * 200);
-	
-	posx = (posx % 4) * 85;
-	posy = (posy % 3) * 121;
-	
-	CCSprite *sprite = [CCSprite spriteWithBatchNode:batch rect:CGRectMake(posx, posy, 85, 121)];
-	[batch addChild: sprite];
-	
-	sprite.position = ccp(x,y);
-	
-	int num = 4;
-	CGPoint verts[] = {
-		ccp(-24,-54),
-		ccp(-24, 54),
-		ccp( 24, 54),
-		ccp( 24,-54),
-	};
-	
-	cpBody *body = cpBodyNew(1.0f, cpMomentForPoly(1.0f, num, verts, CGPointZero));
-	
-	// TIP:
-	// since v0.7.1 you can assign CGPoint to chipmunk instead of cpVect.
-	// cpVect == CGPoint
-	body->p = ccp(x, y);
-	cpSpaceAddBody(space, body);
-	
-	cpShape* shape = cpPolyShapeNew(body, num, verts, CGPointZero);
-	shape->e = 0.5f; shape->u = 0.5f;
-	shape->data = sprite;
-	cpSpaceAddShape(space, shape);
-	
-}
 
 // on "init" you need to initialize your instance
 -(id) init
 {
 	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
 		
+        plantActive = NO;
+        
+        CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
+        
+        background.position = ccp(160, 187);
+        [self addChild:background];
+        [background setScale:0.225];
+                
+        //initiate our old lady
+        oldLady = [CCSprite spriteWithFile: @"old1.png"];
+        oldLady.position = ccp( 160, 300 );
+        [self addChild:oldLady];
+        [oldLady setScale:0.5];
+        
+        // do the same for our cocos2d guy, reusing the app icon as its image
+        plant = [CCSprite spriteWithFile: @"flower.png"];
+        plant.position = ccp( 160, 300 );
+        [self addChild:plant];
+        [plant setScale:0.5];
+        
+        // do the same for our cocos2d guy, reusing the app icon as its image
+        movingTarget = [CCSprite spriteWithFile: @"flower.png"];
+        movingTarget.position = ccp( 0, 50 );
+        [self addChild:movingTarget];
+        
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
 		
-		CGSize wins = [[CCDirector sharedDirector] winSize];
+		//CGSize wins = [[CCDirector sharedDirector] winSize];
 		cpInitChipmunk();
 		
-		cpBody *staticBody = cpBodyNew(INFINITY, INFINITY);
+	//	cpBody *staticBody = cpBodyNew(INFINITY, INFINITY);
 		space = cpSpaceNew();
 		cpSpaceResizeStaticHash(space, 400.0f, 40);
 		cpSpaceResizeActiveHash(space, 100, 600);
@@ -110,7 +102,7 @@ eachShape(void *ptr, void* unused)
 		space->gravity = ccp(0, 0);
 		space->elasticIterations = space->iterations;
 		
-		cpShape *shape;
+		/*cpShape *shape;
 		
 		// bottom
 		shape = cpSegmentShapeNew(staticBody, ccp(0,0), ccp(wins.width,0), 0.0f);
@@ -132,12 +124,12 @@ eachShape(void *ptr, void* unused)
 		shape->e = 1.0f; shape->u = 1.0f;
 		cpSpaceAddStaticShape(space, shape);
 		
-		CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"grossini_dance_atlas.png" capacity:100];
-		[self addChild:batch z:0 tag:kTagBatchNode];
+		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"grossini_dance_atlas.png" capacity:100];
+		//[self addChild:batch z:0 tag:kTagBatchNode];
 		
-		[self addNewSpriteX: 200 y:200];
-		
-		[self schedule: @selector(step:)];
+		[self addNewSpriteX: 200 y:200];*/
+        
+        [self schedule:@selector(nextFrame:)];		
 	}
 	return self;
 }
@@ -160,6 +152,18 @@ eachShape(void *ptr, void* unused)
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 60)];
 }
 
+- (void) nextFrame:(ccTime)dt {
+    
+    movingTarget.position = ccp( movingTarget.position.x + 20*dt, movingTarget.position.y );
+    if (movingTarget.position.x > 480+32) {
+        movingTarget.position = ccp( -32, movingTarget.position.y );
+    }
+    
+    if (plantActive) {
+        
+    }
+}
+
 -(void) step: (ccTime) delta
 {
 	int steps = 2;
@@ -172,16 +176,55 @@ eachShape(void *ptr, void* unused)
 	cpSpaceHashEach(space->staticShapes, &eachShape, nil);
 }
 
-
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+//touch sensors
+-(void) registerWithTouchDispatcher
 {
-	for( UITouch *touch in touches ) {
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+}
+
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint location = [self convertTouchToNodeSpace: touch];
+    
+    if (CGPointEqualToPoint(location, plant.position)) {
+        plantActive = YES;
+    }
+    
+    return YES;
+}
+
+
+-(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    
+    if (plantActive) {
+        CGPoint location = [touch locationInView: [touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        plant.position = location;
+
+    }
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    plantActive = NO;
+    
+    CGPoint location = [self convertTouchToNodeSpace: touch];
+ 
+    [oldLady stopAllActions];
+    
+    //need logic around duration given location
+    
+    
+    [oldLady runAction: [CCMoveTo actionWithDuration:2 position:location]];
+ 
+ 
+ 
+	/*for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
 		[self addNewSpriteX: location.x y:location.y];
-	}
+	}*/
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration

@@ -7,24 +7,27 @@
 //
 
 #import "GamePlayViewController.h"
+//CCSprite *oldLadyImage;
 
-@interface GamePlayViewController (){
+@interface GamePlayViewController () {
 @private
-CGPoint _velocity;
+    CGPoint _velocity;
+    //CCLabel *_text;
 }
 
-@property (nonatomic, readwrite, weak) IBOutlet UIImageView *backgroundImage;
-@property (nonatomic, readwrite, weak) IBOutlet UIImageView *oldLadyImage;
-@property (nonatomic, readwrite, weak) IBOutlet UIImageView *plantImage;
+@property (nonatomic, readwrite, strong) IBOutlet UIImageView *backgroundImage;
+@property (nonatomic, readwrite, strong) IBOutlet UIImageView *oldLadyImage;
+@property (nonatomic, readwrite, strong) IBOutlet UIImageView *plantImage;
 
-@property (nonatomic, readwrite, weak) IBOutlet UILabel *timeLabel;
-@property (nonatomic, readwrite, weak) IBOutlet UILabel *scoreLabel;
+@property (nonatomic, readwrite, strong) IBOutlet UILabel *timeLabel;
+@property (nonatomic, readwrite, strong) IBOutlet UILabel *scoreLabel;
 
 
 @end
 
 @implementation GamePlayViewController
 
+//@property (nonatomic, retain) int countTime;
 @synthesize backgroundImage = _backgroundImage;
 @synthesize oldLadyImage = _oldLadyImage;
 @synthesize plantImage = _plantImage;
@@ -36,11 +39,21 @@ CGPoint _velocity;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        /*self.oldLadyImage = [CCSprite spriteWithFile: @"old1.png"];
+        self.oldLadyImage.position = ccp( 130, 90 );
+        [self addChild:seeker1];	
+        
+        // do the same for our cocos2d guy, reusing the app icon as its image
+        cocosGuy = [CCSprite spriteWithFile: @"Icon.png"];
+        cocosGuy.position = ccp( 200, 300 );
+        [self addChild:cocosGuy];*/
     }
     return self;
 }
 
 
+/*
 //checks to see if number of guesses remaining is at zero; if so, user has lost and starts new game
 - (void)checkEndGame
 {
@@ -109,7 +122,7 @@ CGPoint _velocity;
         //refresh the view, initializing new settings and thus starting new game
         [self viewDidLoad];        
     }
-}*/
+} */
 
 
 - (void)viewDidLoad
