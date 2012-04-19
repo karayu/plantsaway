@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010D17FD153FBDF7002D5A80 /* old2.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D17FC153FBDF7002D5A80 /* old2.png */; };
+		010D1800153FBE02002D5A80 /* old1.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D17FF153FBE02002D5A80 /* old1.png */; };
+		010D1802153FBE0D002D5A80 /* flower.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1801153FBE0D002D5A80 /* flower.png */; };
+		010D1804153FBEFB002D5A80 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1803153FBEFB002D5A80 /* bg.png */; };
 		E7CF4CF1153E480200BE422E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF0153E480200BE422E /* QuartzCore.framework */; };
 		E7CF4CF3153E480300BE422E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF2153E480300BE422E /* OpenGLES.framework */; };
 		E7CF4CF5153E480300BE422E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF4153E480300BE422E /* OpenAL.framework */; };
@@ -157,6 +161,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		010D17FC153FBDF7002D5A80 /* old2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = old2.png; sourceTree = "<group>"; };
+		010D17FF153FBE02002D5A80 /* old1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = old1.png; sourceTree = "<group>"; };
+		010D1801153FBE0D002D5A80 /* flower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flower.png; sourceTree = "<group>"; };
+		010D1803153FBEFB002D5A80 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		E7CF4CEC153E480200BE422E /* PlantsAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlantsAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7CF4CF0153E480200BE422E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E7CF4CF2153E480300BE422E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -483,6 +491,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		010D17F0153F2811002D5A80 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				010D1803153FBEFB002D5A80 /* bg.png */,
+				010D1801153FBE0D002D5A80 /* flower.png */,
+				010D17FF153FBE02002D5A80 /* old1.png */,
+				010D17FC153FBDF7002D5A80 /* old2.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		E7CF4CE1153E480200BE422E = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +541,7 @@
 				E7CF4EC9153E490100BE422E /* GamePlayViewController.h */,
 				E7CF4ECA153E490100BE422E /* GamePlayViewController.m */,
 				E7CF4ECB153E490100BE422E /* GamePlayViewController.xib */,
+				010D17F0153F2811002D5A80 /* images */,
 				E7CF4EAE153E480700BE422E /* AppDelegate.h */,
 				E7CF4EAF153E480700BE422E /* AppDelegate.m */,
 				E7CF4EB1153E480700BE422E /* RootViewController.h */,
@@ -1047,6 +1067,10 @@
 				E7CF4D14153E480300BE422E /* iTunesArtwork in Resources */,
 				E7CF4EB9153E480700BE422E /* grossini_dance_atlas.png in Resources */,
 				E7CF4ECD153E490100BE422E /* GamePlayViewController.xib in Resources */,
+				010D17FD153FBDF7002D5A80 /* old2.png in Resources */,
+				010D1800153FBE02002D5A80 /* old1.png in Resources */,
+				010D1802153FBE0D002D5A80 /* flower.png in Resources */,
+				010D1804153FBEFB002D5A80 /* bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,6 +1306,7 @@
 				E7CF4EBE153E480700BE422E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
