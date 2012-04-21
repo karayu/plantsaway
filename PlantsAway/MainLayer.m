@@ -27,7 +27,7 @@ eachShape(void *ptr, void* unused)
 	if( sprite ) {
 		cpBody *body = shape->body;
 		
-		// TIP: cocos2d and chipmunk uses the same struct to store it's position
+		// TIP: cocos2d and chipmunk uses the same struct to store its position
 		// chipmunk uses: cpVect, and cocos2d uses CGPoint but in reality the are the same
 		// since v0.7.1 you can mix them if you want.		
 		[sprite setPosition: body->p];
@@ -63,27 +63,35 @@ eachShape(void *ptr, void* unused)
 	// always call "super" init
 	if( (self=[super init])) {
 		
-        plantActive = NO;
+        // initiate the menu
         
+
+
+		//CCMenuItemLabel *label = [CCMenuItemLabel itemWithLabel:@"0" target:self selector:@selector(menuCallbackConfig:)];
+        CCMenu *myMenu = [CCMenu menuWithItems: nil];
+        [self addChild:myMenu];
+
+        
+        // initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
-        
         background.position = ccp(160, 187);
         [self addChild:background];
         [background setScale:0.225];
                 
-        //initiate our old lady
+        // initiate our old lady
         oldLady = [CCSprite spriteWithFile: @"old1.png"];
         oldLady.position = ccp( 160, 300 );
         [self addChild:oldLady];
         [oldLady setScale:0.5];
         
-        // do the same for our cocos2d guy, reusing the app icon as its image
+        // initiate her plant
         plant = [CCSprite spriteWithFile: @"flower.png"];
         plant.position = ccp( 160, 300 );
         [self addChild:plant];
         [plant setScale:0.5];
-        
-        // do the same for our cocos2d guy, reusing the app icon as its image
+        plantActive = NO;  //our finger is not currrently on the plant
+
+        // initial passerby
         movingTarget = [CCSprite spriteWithFile: @"flower.png"];
         movingTarget.position = ccp( 0, 50 );
         [self addChild:movingTarget];
@@ -91,10 +99,8 @@ eachShape(void *ptr, void* unused)
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
 		
-		//CGSize wins = [[CCDirector sharedDirector] winSize];
+
 		cpInitChipmunk();
-		
-        
         [self schedule:@selector(nextFrame:)];		
 	}
 	return self;
@@ -130,6 +136,7 @@ eachShape(void *ptr, void* unused)
     }
 }
 
+/*
 -(void) step: (ccTime) delta
 {
 	int steps = 2;
@@ -140,7 +147,7 @@ eachShape(void *ptr, void* unused)
 	}
 	cpSpaceHashEach(space->activeShapes, &eachShape, nil);
 	cpSpaceHashEach(space->staticShapes, &eachShape, nil);
-}
+}*/
 
 //touch sensors
 -(void) registerWithTouchDispatcher
