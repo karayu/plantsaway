@@ -36,7 +36,7 @@ eachShape(void *ptr, void* unused)
 	}
 }
 
-// HelloWorldLayer implementation
+//MainLayer implementation
 @implementation MainLayer
 
 @synthesize plantActive;
