@@ -166,7 +166,7 @@ eachShape(void *ptr, void* unused)
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     CGPoint location = [self convertTouchToNodeSpace: touch];
-    //plant.position = location;
+    plant.position = location;
 
     
     if (CGRectContainsPoint(plant.boundingBox, location)) 
@@ -205,10 +205,10 @@ eachShape(void *ptr, void* unused)
     oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:location]];
     
-    //CGPoint plantDestination = ccp( location.x, 0 );
-    //[plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
+    CGPoint plantDestination = ccp( location.x, -20 );
+    [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
 
-    [plant runAction: [CCMoveTo actionWithDuration:2 position:location]]; 
+    //[plant runAction: [CCMoveTo actionWithDuration:2 position:location]]; 
     
 	/*for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];
