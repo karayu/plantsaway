@@ -7,7 +7,7 @@
 //
 
 
-// Import the interfaces
+//Import the interfaces
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
 
@@ -27,9 +27,9 @@ eachShape(void *ptr, void* unused)
 	if( sprite ) {
 		cpBody *body = shape->body;
 		
-		// TIP: cocos2d and chipmunk uses the same struct to store its position
-		// chipmunk uses: cpVect, and cocos2d uses CGPoint but in reality the are the same
-		// since v0.7.1 you can mix them if you want.		
+		//TIP: cocos2d and chipmunk uses the same struct to store its position
+		//chipmunk uses: cpVect, and cocos2d uses CGPoint but in reality the are the same
+		//since v0.7.1 you can mix them if you want.		
 		[sprite setPosition: body->p];
 		
 		[sprite setRotation: (float) CC_RADIANS_TO_DEGREES( -body->a )];
@@ -43,58 +43,63 @@ eachShape(void *ptr, void* unused)
 
 +(CCScene *) scene
 {
-	// 'scene' is an autorelease object.
+	//'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
-	// 'layer' is an autorelease object.
+	//'layer' is an autorelease object.
 	MainLayer *layer = [MainLayer node];
 	
-	// add layer as a child to scene
+	//add layer as a child to scene
 	[scene addChild: layer];
 	
-	// return the scene
+	//return the scene
 	return scene;
 }
 
 
-// on "init" you need to initialize your instance
+//on "init" you need to initialize your instance
 -(id) init
 {
-	// always call "super" init
-	if( (self=[super init])) {
+	//always call "super" init
+	if( (self=[super init])) 
+    {
 		
-        // initiate the menu
+        //initiate the menu
         
-
 
 		//CCMenuItemLabel *label = [CCMenuItemLabel itemWithLabel:@"0" target:self selector:@selector(menuCallbackConfig:)];
         CCMenu *myMenu = [CCMenu menuWithItems: nil];
         [self addChild:myMenu];
 
         
-        // initiate the background
+        //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
         background.position = ccp(160, 187);
         [self addChild:background];
-        [background setScale:0.225];
-                
-        // initiate our old lady
-        oldLady = [CCSprite spriteWithFile: @"old1.png"];
+        [background setScale:0.24];
+            
+        //initiate images for oldLady's two positions
+        oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
+        oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
+        
+        //initiate oldLady
+        oldLady = [CCSprite spriteWithTexture:oldLadyTexture1];
         oldLady.position = ccp( 160, 300 );
         [self addChild:oldLady];
         [oldLady setScale:0.5];
         
-        // initiate her plant
+        //initiate her plant
         plant = [CCSprite spriteWithFile: @"flower.png"];
         plant.position = ccp( 160, 300 );
         [self addChild:plant];
         [plant setScale:0.5];
         plantActive = NO;  //our finger is not currrently on the plant
 
-        // initial passerby
-        movingTarget = [CCSprite spriteWithFile: @"flower.png"];
+        //initial passerby
+        movingTarget = [CCSprite spriteWithFile: @"hoodlum2.png"];
         movingTarget.position = ccp( 0, 50 );
         [self addChild:movingTarget];
+        [movingTarget setScale:0.75];
         
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
@@ -106,14 +111,14 @@ eachShape(void *ptr, void* unused)
 	return self;
 }
 
-// on "dealloc" you need to release all your retained objects
+//on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
-	// in case you have something to dealloc, do it in this method
+	//in case you have something to dealloc, do it in this method
 	cpSpaceFree(space);
 	space = NULL;
 	
-	// don't forget to call "super dealloc"
+	//don't forget to call "super dealloc"
 	[super dealloc];
 }
 
@@ -124,14 +129,17 @@ eachShape(void *ptr, void* unused)
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 60)];
 }
 
-- (void) nextFrame:(ccTime)dt {
+- (void) nextFrame:(ccTime)dt 
+{
     
     movingTarget.position = ccp( movingTarget.position.x + 20*dt, movingTarget.position.y );
-    if (movingTarget.position.x > 480+32) {
+    if (movingTarget.position.x > 480+32) 
+    {
         movingTarget.position = ccp( -32, movingTarget.position.y );
     }
     
-    if (plantActive) {
+    if (plantActive) 
+    {
         
     }
 }
@@ -155,24 +163,31 @@ eachShape(void *ptr, void* unused)
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
-- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
+{
     CGPoint location = [self convertTouchToNodeSpace: touch];
+    //plant.position = location;
+
     
-    if (CGPointEqualToPoint(location, plant.position)) {
+    if (CGRectContainsPoint(plant.boundingBox, location)) 
+    {
         plantActive = YES;
+        oldLady.texture = oldLadyTexture2;
     }
     
     return YES;
 }
 
 
--(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+-(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event 
+{
     
-    if (plantActive) {
+    if(plantActive) 
+    {
         CGPoint location = [touch locationInView: [touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
+        int newPlantY = oldLady.position.y + 30;
+        location = ccp(oldLady.position.x, newPlantY);
         plant.position = location;
-
     }
 }
 
@@ -181,16 +196,20 @@ eachShape(void *ptr, void* unused)
     plantActive = NO;
     
     CGPoint location = [self convertTouchToNodeSpace: touch];
- 
+    location.y = 300;
+    
     [oldLady stopAllActions];
     
     //need logic around duration given location
     
-    
+    oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:location]];
- 
- 
- 
+    
+    //CGPoint plantDestination = ccp( location.x, 0 );
+    //[plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
+
+    [plant runAction: [CCMoveTo actionWithDuration:2 position:location]]; 
+    
 	/*for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];
 		
