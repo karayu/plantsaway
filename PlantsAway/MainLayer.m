@@ -13,10 +13,10 @@
 
 CCSprite *oldLady;
 CCSprite *plant;
-CCSprite *movingTarget;
 CCSprite *hourGlass;
 
-
+CCSprite *goodTarget;
+CCSprite *badTarget;
 
 enum {
 	kTagBatchNode = 1,
@@ -42,7 +42,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive;
+@synthesize plantActive, goodCollision, badCollision;
 
 +(CCScene *) scene
 {
@@ -120,21 +120,34 @@ eachShape(void *ptr, void* unused)
         plant.position = ccp( 160, 300 );
         [self addChild:plant];
         [plant setScale:0.5];
-        plantActive = NO;  //our finger is not currrently on the plant
+
+        //initialize mommy and baby
+        goodTarget = [CCSprite spriteWithFile: @"mom2.png"];
+        goodTarget.position = ccp( 0, 50 );
+        [self addChild:goodTarget];
+        [goodTarget setScale:0.75];
         
-        //initial passerby
-        movingTarget = [CCSprite spriteWithFile: @"hoodlum2.png"];
-        movingTarget.position = ccp( 0, 50 );
-        [self addChild:movingTarget];
-        [movingTarget setScale:0.75];
+        //initialize hoodlum
+        badTarget = [CCSprite spriteWithFile: @"hoodlum.png"];
+        badTarget.position = ccp( 500, 50 );
+        [self addChild:badTarget];
+        [badTarget setScale:0.75];
+        
+        //initialize bools: currently no intersection of sprites
+        goodCollision = NO;
+        badCollision = NO;
+        
+        //our finger is not currrently on the plant
+        plantActive = NO;  
         
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
 		
 
 		cpInitChipmunk();
-        [self schedule:@selector(nextFrame:)];		
-	}
+        [self schedule:@selector(nextFrameGoodTarget:)];		
+        [self schedule:@selector(nextFrameBadTarget:)];	
+    }
 	return self;
 }
 
@@ -169,18 +182,43 @@ eachShape(void *ptr, void* unused)
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 60)];
 }
 
-- (void) nextFrame:(ccTime)dt 
+- (void) nextFrameGoodTarget:(ccTime)dt 
 {
-    
-    movingTarget.position = ccp( movingTarget.position.x + 20*dt, movingTarget.position.y );
-    if (movingTarget.position.x > 480+32) 
+    //detect intersection of target and plant
+    if (CGRectIntersectsRect(goodTarget.boundingBox, plant.boundingBox))
     {
-        movingTarget.position = ccp( -32, movingTarget.position.y );
+        goodTarget.rotation = -90;
+        goodCollision = YES;
     }
-    
-    if (plantActive) 
+    else 
     {
-        
+        goodTarget.position = ccp( goodTarget.position.x + 20*dt, goodTarget.position.y );
+        if (goodCollision || goodTarget.position.x > 480+32) 
+        {
+            goodCollision = NO;
+            goodTarget.rotation = 0;
+            goodTarget.position = ccp( -32, goodTarget.position.y );
+        }    
+    }
+}
+
+- (void) nextFrameBadTarget:(ccTime)dt 
+{
+    //detect intersection of target and plant
+    if (CGRectIntersectsRect(badTarget.boundingBox, plant.boundingBox))
+    {
+        badTarget.rotation = -90;
+        badCollision = YES;
+    }
+    else 
+    {
+        badTarget.position = ccp( badTarget.position.x - 20*dt, badTarget.position.y );
+        if (badCollision || badTarget.position.x < -480-32) 
+        {
+            badCollision = NO;
+            badTarget.rotation = 0;
+            badTarget.position = ccp( 480+32, badTarget.position.y );
+        }    
     }
 }
 
@@ -205,9 +243,10 @@ eachShape(void *ptr, void* unused)
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
+    if (plant.position.y < 0)
+        plant.position = oldLady.position;
+    
     CGPoint location = [self convertTouchToNodeSpace: touch];
-    plant.position = location;
-
     
     if (CGRectContainsPoint(plant.boundingBox, location)) 
     {
@@ -224,33 +263,36 @@ eachShape(void *ptr, void* unused)
     
     if(plantActive) 
     {
-        CGPoint location = [touch locationInView: [touch view]];
+        //shows oldLady lifting plant above her head
         int newPlantY = oldLady.position.y + 30;
-        location = ccp(oldLady.position.x, newPlantY);
+        CGPoint location = ccp(oldLady.position.x, newPlantY);
         plant.position = location;
     }
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    plantActive = NO;
-    
-    CGPoint location = [self convertTouchToNodeSpace: touch];
-    location.y = 300;
+    //set location for oldLady 
+    CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
+    oldLadyLocation.y = 300;
     
     [oldLady stopAllActions];
     
     //need logic around duration given location
     
     oldLady.texture = oldLadyTexture1;
-    [oldLady runAction: [CCMoveTo actionWithDuration:2 position:location]];
+    [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
-    CGPoint plantDestination = ccp( location.x, -20 );
-    [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
-
-    //[plant runAction: [CCMoveTo actionWithDuration:2 position:location]]; 
+    CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
+    if ((plant.position.y > 0) && plantActive)
+        [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
+    else if (plant.position.y == oldLadyLocation.y)
+        [plant runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
-	/*for( UITouch *touch in touches ) {
+    plantActive = NO;
+    
+    
+    /*for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
