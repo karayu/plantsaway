@@ -18,6 +18,8 @@
 @interface MainLayer : CCLayer
 {
 	cpSpace *space;
+    int score;    
+    CCLabelTTF *scoreLabel;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

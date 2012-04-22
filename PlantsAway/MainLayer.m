@@ -14,6 +14,8 @@
 CCSprite *oldLady;
 CCSprite *plant;
 CCSprite *movingTarget;
+//CCLabelAtlas* scoreLabel;
+
 
 enum {
 	kTagBatchNode = 1,
@@ -68,13 +70,30 @@ eachShape(void *ptr, void* unused)
 
 
 		//CCMenuItemLabel *label = [CCMenuItemLabel itemWithLabel:@"0" target:self selector:@selector(menuCallbackConfig:)];
-        CCMenu *myMenu = [CCMenu menuWithItems: nil];
-        [self addChild:myMenu];
+        /*scoreLabel = [[CCLabelAtlas alloc] initWithString:@"20" charMapFile:@"fps_images.png" itemWidth:6 itemHeight:8 startCharMap:'2'];
+        
+        [scoreLabel setPosition:ccp(160, 420)];
+        [scoreLabel setString:[NSString stringWithFormat:@"20"]]; 
+
+        [self addChild:scoreLabel];*/
+
+        score = 0;
+        
+        //Create and add the score label as a child.
+        scoreLabel = [CCLabelTTF labelWithString:@"20" fontName:@"Marker Felt" fontSize:24];
+        scoreLabel.position = ccp(160, 420 ); //Middle of the screen...
+        [self addChild:scoreLabel z:1];
+        
+        //CCMenuItemLabel *labelItem1 = [CCMenuItemLabel itemWithLabel:scoreLabel];
+        //[labelItem1 setTag:111];
+        
+        //CCMenu *myMenu = [CCMenu menuWithItems:  labelItem1, nil];
+        //[self addChild:myMenu];
 
         
         // initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
-        background.position = ccp(160, 187);
+        background.position = ccp(160, 187  ); //187
         [self addChild:background];
         [background setScale:0.225];
                 
@@ -92,7 +111,7 @@ eachShape(void *ptr, void* unused)
         plantActive = NO;  //our finger is not currrently on the plant
 
         // initial passerby
-        movingTarget = [CCSprite spriteWithFile: @"flower.png"];
+        movingTarget = [CCSprite spriteWithFile: @"hoodlum.png"];
         movingTarget.position = ccp( 0, 50 );
         [self addChild:movingTarget];
         
