@@ -29,5 +29,7 @@
 //-(void) addNewSpriteX:(float)x y:(float)y;
 
 @property BOOL plantActive;
+@property BOOL goodCollision;
+@property BOOL badCollision;
 
 @end
