@@ -7,23 +7,28 @@
 //
 
 
-// When you import this file, you import all the cocos2d classes
+//When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
-
-// Importing Chipmunk headers
+//Importing Chipmunk headers
 #import "chipmunk.h"
 
-// HelloWorldLayer
+//MainLayer for gameplay
 @interface MainLayer : CCLayer
 {
 	cpSpace *space;
-    int score;    
+    int score;
+    int time;
     CCLabelTTF *scoreLabel;
+    CCLabelTTF *timeLabel;
+
+    CCTexture2D *oldLadyTexture1;
+    CCTexture2D *oldLadyTexture2;
 }
 
-// returns a CCScene that contains the HelloWorldLayer as the only child
+//returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+
 //-(void) step: (ccTime) dt;
 //-(void) addNewSpriteX:(float)x y:(float)y;
 
