@@ -73,7 +73,7 @@ eachShape(void *ptr, void* unused)
         
         //Create and add the score label as a child.
         scoreLabel = [CCLabelTTF labelWithString:@"0 pts" fontName:@"Marker Felt" fontSize:24];
-        scoreLabel.position = ccp(160, 440 ); //Middle of the screen...
+        scoreLabel.position = ccp(160, 440 ); 
         [self addChild:scoreLabel];
         
         //Create and add pause button as a child
@@ -87,11 +87,12 @@ eachShape(void *ptr, void* unused)
         [pauseMenu setScale:0.7];
 
         //hour glass
-        hourGlass = [CCSprite spriteWithFile: @"hourglass.png"];
+        hourGlass = [CCSprite spriteWithFile: @"hourglass.jpg"];
         hourGlass.position = ccp( 20, 440 );
         [self addChild:hourGlass];
-        [hourGlass setScale:0.05];
+        [hourGlass setScale:0.12];
         
+        //count down timer for gameplay
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp(50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
