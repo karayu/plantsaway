@@ -13,7 +13,6 @@
 
 @implementation GameEndLayer
 {
-    GameEndLayer *gameEndLayer;
 }
 
 @synthesize score;
@@ -78,9 +77,6 @@
 	[SceneManager goNewGame];
 }
 
-- (void)onCredits:(id)sender{
-	[SceneManager goMenu];
-}
 @end
 
 

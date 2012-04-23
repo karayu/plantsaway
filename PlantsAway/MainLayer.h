@@ -17,8 +17,6 @@
 @interface MainLayer : CCLayer
 {
 	cpSpace *space;
-    int score;
-    int time;
     CCLabelTTF *scoreLabel;
     CCLabelTTF *timeLabel;
 
@@ -37,6 +35,9 @@
 
 //-(void) step: (ccTime) dt;
 //-(void) addNewSpriteX:(float)x y:(float)y;
+@property int score;
+@property int time;
+
 
 @property BOOL plantActive;
 @property BOOL swipedUp;
@@ -49,6 +50,11 @@
 
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
+
+- (void) updateScore;
+- (void) updateTime;
+
+
 
 
 @end

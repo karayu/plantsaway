@@ -43,7 +43,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, goodSpeed, badSpeed, goodStart, badStart;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, goodSpeed, badSpeed, goodStart, badStart, score, time;
 
 +(CCScene *) scene
 {
@@ -191,7 +191,7 @@ eachShape(void *ptr, void* unused)
 
 - (void) pauseTapped
 {
-    [SceneManager goPause];
+    [SceneManager goPause: score WithTime: time];
 }
 
 -(void) onEnter
@@ -286,6 +286,18 @@ eachShape(void *ptr, void* unused)
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
+
+- (void) updateScore
+{
+    NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
+    [scoreLabel setString:(NSString *)currentScore];
+}
+
+- (void) updateTime
+{
+    [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+}
+
 
 //determines random speed
 -(int)initializeSpeed

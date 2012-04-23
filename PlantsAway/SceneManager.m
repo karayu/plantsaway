@@ -13,6 +13,7 @@
 //Importing Chipmunk headers
 #import "chipmunk.h"
 #import "GameEndLayer.h"
+#import "GamePausedLayer.h"
 #import "MainLayer.h"
 
 
@@ -28,8 +29,11 @@
 
 }
 
-+(void) goPause{
-
++(void) goPause: (int) score WithTime:(int)time {
+    GamePausedLayer *layer = [GamePausedLayer node];
+    layer.score = score;
+    layer.time = time;
+    [SceneManager go: layer];
 }
 
 +(void) goEndGame: (int) score {
@@ -39,11 +43,19 @@
 	[SceneManager go: layer];
 }
 
++(void) goResumeGame: (int) score WithTime: (int) time {
+    MainLayer *layer =  [MainLayer node];
+    layer.score = score;
+    layer.time = time;
+    [layer updateScore];
+    [layer updateTime];
+	[SceneManager go: layer];
+}
+
 +(void) goNewGame {
     CCLayer *layer = [MainLayer node];
 	[SceneManager go: layer];
 }
-
 
 
 +(void) go: (CCLayer *) layer{
