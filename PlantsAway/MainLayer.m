@@ -14,11 +14,11 @@
 CCSprite *oldLady;
 CCSprite *plant;
 CCSprite *hourGlass;
-
 CCSprite *goodTarget;
 CCSprite *badTarget;
 
-enum {
+enum 
+{
 	kTagBatchNode = 1,
 };
 
@@ -42,7 +42,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, goodCollision, badCollision;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision;
 
 +(CCScene *) scene
 {
@@ -99,7 +99,6 @@ eachShape(void *ptr, void* unused)
         [self schedule: @selector(tick:) interval:1.0];
         time = 100; 
 
-
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
         background.position = ccp(160, 187  ); //187
@@ -139,7 +138,7 @@ eachShape(void *ptr, void* unused)
         badCollision = NO;
         
         //our finger is not currrently on the plant
-        plantActive = NO;  
+        self.plantActive = NO;  
         
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
@@ -193,15 +192,21 @@ eachShape(void *ptr, void* unused)
 
 - (void) nextFrameGoodTarget:(ccTime)dt 
 {
-    //detect intersection of target and plant
+    //detect intersection of mom and plant
     if (CGRectIntersectsRect(goodTarget.boundingBox, plant.boundingBox))
     {
+        //rotate to show that target was hit
         goodTarget.rotation = -90;
+        
+        //set collision bool to true
         goodCollision = YES;
     }
     else 
     {
+        //if target has not yet been hit, continue to move normally across screen
         goodTarget.position = ccp( goodTarget.position.x + 20*dt, goodTarget.position.y );
+        
+        //if target was just hit or went offscreen, move to either left or right side and begin cycle again
         if (goodCollision || goodTarget.position.x > 480+32) 
         {
             goodCollision = NO;
@@ -213,16 +218,22 @@ eachShape(void *ptr, void* unused)
 
 - (void) nextFrameBadTarget:(ccTime)dt 
 {
-    //detect intersection of target and plant
+    //detect intersection of hoodlum and plant
     if (CGRectIntersectsRect(badTarget.boundingBox, plant.boundingBox))
     {
-        badTarget.rotation = -90;
+        //rotate to show that target was hit
+        badTarget.rotation = 65;
+        
+        //set collision bool to true
         badCollision = YES;
     }
     else 
     {
+        //if target has not yet been hit, continue to move normally across screen
         badTarget.position = ccp( badTarget.position.x - 20*dt, badTarget.position.y );
-        if (badCollision || badTarget.position.x < -480-32) 
+        
+        //if target was just hit or went offscreen, move to either left or right side and begin cycle again
+        if (badCollision || badTarget.position.x < -32) 
         {
             badCollision = NO;
             badTarget.rotation = 0;
@@ -231,37 +242,22 @@ eachShape(void *ptr, void* unused)
     }
 }
 
-/*
--(void) step: (ccTime) delta
-{
-	int steps = 2;
-	CGFloat dt = delta/(CGFloat)steps;
-	
-	for(int i=0; i<steps; i++){
-		cpSpaceStep(space, dt);
-	}
-	cpSpaceHashEach(space->activeShapes, &eachShape, nil);
-	cpSpaceHashEach(space->staticShapes, &eachShape, nil);
-}*/
+//calculates points of hit
 
-//touch sensors
--(void) registerWithTouchDispatcher
-{
-	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-}
 
+//initiates actions whenever user touches screen
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
+    //when user touches screen, if plant has just been launched it returns to oldLady to prepare for RELAUNCH!
     if (plant.position.y < 0)
         plant.position = oldLady.position;
     
-    CGPoint location = [self convertTouchToNodeSpace: touch];
+    //gets location of finger touch
+    self.startTouchPosition = [self convertTouchToNodeSpace:touch];
     
-    if (CGRectContainsPoint(plant.boundingBox, location)) 
-    {
-        plantActive = YES;
-        oldLady.texture = oldLadyTexture2;
-    }
+    //if finger is touching plant, set plant to active
+    if (CGRectContainsPoint(plant.boundingBox, self.startTouchPosition)) 
+        self.plantActive = YES;
     
     return YES;
 }
@@ -269,52 +265,65 @@ eachShape(void *ptr, void* unused)
 
 -(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event 
 {
-    
-    if(plantActive) 
+    //only animate oldLady lift if plant is currently being pulled up or down
+    if(self.plantActive) 
     {
-        //shows oldLady lifting plant above her head
-        int newPlantY = oldLady.position.y + 30;
-        CGPoint location = ccp(oldLady.position.x, newPlantY);
-        plant.position = location;
+        //while finger is still on screen, get new touch location
+        self.endTouchPosition = [self convertTouchToNodeSpace: touch];
+        
+        //if endTouch is higher than startTouch, shows oldLady lifting plant above her head
+        if (self.endTouchPosition.y > self.startTouchPosition.y)
+        {            
+            int newPlantY = oldLady.position.y + 30;
+            CGPoint location = ccp(oldLady.position.x, newPlantY);
+            plant.position = location;
+            
+            //change oldLady's texture to show her lifting the plant
+            oldLady.texture = oldLadyTexture2;
+            
+            //sets swipedUp bool to true
+            self.swipedUp = YES;
+        }
     }
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    //set location for oldLady 
+    //set location for oldLady to wherever touch ended
     CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
     oldLadyLocation.y = 300;
     
-    [oldLady stopAllActions];
-    
-    //need logic around duration given location
-    
+    //return oldLady to original view and show movement to touch location
+    //[oldLady stopAllActions]; //necessary?
     oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
+    //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
-    if ((plant.position.y > 0) && plantActive)
+    
+    //decide whether or not plant will stay with oldLady or be launched to the passersby!
+    if (self.plantActive && self.swipedUp)
         [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
     else if (plant.position.y == oldLadyLocation.y)
         [plant runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
-    plantActive = NO;
-    
-    
-    /*for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		[self addNewSpriteX: location.x y:location.y];
-	}*/
+    //finger is no longer touching plant, finger is no longer swiping up
+    self.plantActive = NO;
+    self.swipedUp = NO;
 }
 
+//registers finger touch sensors
+-(void) registerWithTouchDispatcher
+{
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+}
+
+//senses whether or not phone is moved/tilted/etc
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
 	static float prevX=0, prevY=0;
 	
-#define kFilterFactor 0.05f
+    #define kFilterFactor 0.05f
 	
 	float accelX = (float) acceleration.x * kFilterFactor + (1- kFilterFactor)*prevX;
 	float accelY = (float) acceleration.y * kFilterFactor + (1- kFilterFactor)*prevY;
