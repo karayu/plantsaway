@@ -24,6 +24,12 @@
 
     CCTexture2D *oldLadyTexture1;
     CCTexture2D *oldLadyTexture2;
+    
+    CCTexture2D *hoodlumTexture1;
+    CCTexture2D *hoodlumTexture2;
+    
+    CCTexture2D *momTexture1;
+    CCTexture2D *momTexture2;
 }
 
 //returns a CCScene that contains the HelloWorldLayer as the only child
@@ -36,7 +42,11 @@
 @property BOOL swipedUp;
 @property BOOL goodCollision;
 @property BOOL badCollision;
-@property BOOL firstHit;
+@property int goodSpeed;
+@property int badSpeed;
+@property int goodStart;
+@property int badStart;
+
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
 
