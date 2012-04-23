@@ -86,7 +86,7 @@ eachShape(void *ptr, void* unused)
         [self addChild:pauseMenu];
         [pauseMenu setScale:0.7];
 
-        //hour glass
+        //create and add hour glass
         hourGlass = [CCSprite spriteWithFile: @"hourglass.jpg"];
         hourGlass.position = ccp( 20, 440 );
         [self addChild:hourGlass];
@@ -157,8 +157,16 @@ eachShape(void *ptr, void* unused)
 {
     time = time - dt/2;
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+    
+    if (time == 0) {
+        [self gameOver];
+    }
 }
 
+-(void) gameOver
+{
+    
+}
 
 //on "dealloc" you need to release all your retained objects
 - (void) dealloc
