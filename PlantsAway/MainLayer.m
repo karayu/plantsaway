@@ -42,7 +42,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, firstHit;
 
 +(CCScene *) scene
 {
@@ -67,12 +67,12 @@ eachShape(void *ptr, void* unused)
 	if( (self=[super init])) 
     {
 		
-        //initiate the menu
-
+        //initialize the score
         score = 0;
+        NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
         
         //Create and add the score label as a child.
-        scoreLabel = [CCLabelTTF labelWithString:@"0 pts" fontName:@"Marker Felt" fontSize:24];
+        scoreLabel = [CCLabelTTF labelWithString:currentScore fontName:@"Marker Felt" fontSize:24];
         scoreLabel.position = ccp(160, 440 ); 
         [self addChild:scoreLabel];
         
@@ -136,10 +136,12 @@ eachShape(void *ptr, void* unused)
         //initialize bools: currently no intersection of sprites
         goodCollision = NO;
         badCollision = NO;
+        firstHit = NO;
         
         //our finger is not currrently on the plant
         self.plantActive = NO;  
         
+        //make touch and shake enabled
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
 		
@@ -190,8 +192,13 @@ eachShape(void *ptr, void* unused)
         //rotate to show that target was hit
         goodTarget.rotation = -90;
         
-        //set collision bool to true
-        goodCollision = YES;
+        //call this only once upon a collision (sets goodCollision to true upon the first hit)
+        if (!goodCollision)
+        {
+            goodCollision = YES;
+            [self calculateHit];
+            
+        }
     }
     else 
     {
@@ -216,8 +223,13 @@ eachShape(void *ptr, void* unused)
         //rotate to show that target was hit
         badTarget.rotation = 65;
         
-        //set collision bool to true
-        badCollision = YES;
+        //call this only once upon a collision (sets badCollision to true upon first hit)
+        if (!badCollision)
+        {
+            badCollision = YES;
+            [self calculateHit];
+            
+        }
     }
     else 
     {
@@ -235,6 +247,16 @@ eachShape(void *ptr, void* unused)
 }
 
 //calculates points of hit
+- (void) calculateHit
+{
+    if (goodCollision)
+        score = score - 10;
+    if (badCollision)
+        score = score + 10;
+        
+    NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
+    [scoreLabel setString:(NSString *)currentScore];
+}
 
 
 //initiates actions whenever user touches screen

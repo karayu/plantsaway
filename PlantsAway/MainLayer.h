@@ -36,6 +36,7 @@
 @property BOOL swipedUp;
 @property BOOL goodCollision;
 @property BOOL badCollision;
+@property BOOL firstHit;
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
 
