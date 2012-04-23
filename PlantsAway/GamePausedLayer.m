@@ -19,16 +19,15 @@
 	//always call "super" init
 	if( (self=[super init])) 
     {
-        //Create and add the score label as a child.
-        
-        
+        //Create and add the title for the layer
         gamePausedLabel = [CCLabelTTF labelWithString:@"Game Paused" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:35 ];
         gamePausedLabel.position = ccp(160, 300 ); 
         [self addChild:gamePausedLabel];
         
-        
+        //button for resuming game
         CCMenuItemFont *resumeGame = [CCMenuItemFont itemFromString:@"Resume Game" target:self selector: @selector(resumeGame:)];
         
+        //button for starting a new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         
         
@@ -36,7 +35,7 @@
         
         menu.position = ccp(160, 200);
         [menu alignItemsVerticallyWithPadding: 40.0f];
-        [self addChild:menu z: 1];
+        [self addChild:menu z: 2];
         
         
         

@@ -13,7 +13,6 @@
     
 }
 
-+(void) goMenu;
 +(void) goResumeGame: (int) score WithTime: (int) time;
 +(void) goEndGame: (int) score;
 +(void) goNewGame;
