@@ -33,7 +33,11 @@
 //-(void) addNewSpriteX:(float)x y:(float)y;
 
 @property BOOL plantActive;
+@property BOOL swipedUp;
 @property BOOL goodCollision;
 @property BOOL badCollision;
+@property CGPoint startTouchPosition;
+@property CGPoint endTouchPosition;
+
 
 @end
