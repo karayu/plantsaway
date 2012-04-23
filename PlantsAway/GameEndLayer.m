@@ -23,17 +23,18 @@
 	if( (self=[super init])) 
     {
         //Create and add the score label as a child.
-
         
+        //create a label to either congratulate or disparage the user depending on the score (default value is congratulate)
         gameEndLabel = [CCLabelTTF labelWithString:@"Congratulations!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
         gameEndLabel.position = ccp(160, 400 ); 
         [self addChild:gameEndLabel];
         
-        
+        //create and add label to tell user their score
         scoreLabel = [CCLabelTTF labelWithString: [NSString stringWithFormat:@"Your score was %d", score] fontName:@"Marker Felt" fontSize:24 ];
         scoreLabel.position = ccp(160, 150);
         [self addChild:scoreLabel];
       
+        //button to start new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
    
     
@@ -49,7 +50,7 @@
     return self;
 }
 
-
+//sets text to either congratulate or disparage the user depending on score
 - (void) setScoreText {
     if ( self.score < 50 )
     {
@@ -72,7 +73,7 @@
 
 }
 
-
+//called by new score button
 - (void)newGame:(id)sender{
 	[SceneManager goNewGame];
 }

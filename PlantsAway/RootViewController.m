@@ -71,12 +71,7 @@
 	CGRect screenRect = [[UIScreen mainScreen] bounds];
 	CGRect rect = CGRectZero;
 
-	
-	//if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)		
-		rect = screenRect;
-	
-	/*else if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-		rect.size = CGSizeMake( screenRect.size.height, screenRect.size.width );*/
+    rect = screenRect;	
 	
 	CCDirector *director = [CCDirector sharedDirector];
 	EAGLView *glView = [director openGLView];

@@ -30,7 +30,7 @@
         //button for starting a new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         
-        
+        //creates a menu with the two buttons
         CCMenu *menu = [CCMenu menuWithItems: resumeGame, startNew, nil];
         
         menu.position = ccp(160, 200);
@@ -43,10 +43,12 @@
     return self;
 }
 
+//called by the new game button
 - (void)newGame:(id)sender{
 	[SceneManager goNewGame];
 }
 
+//called by the resume game button
 - (void)resumeGame:(id)sender{
 	[SceneManager goResumeGame: score WithTime: time];
 }

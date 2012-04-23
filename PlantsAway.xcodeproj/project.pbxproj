@@ -16,6 +16,7 @@
 		010D181C153FE614002D5A80 /* mom.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1818153FE614002D5A80 /* mom.png */; };
 		010D181D153FE614002D5A80 /* hoodlum2.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1819153FE614002D5A80 /* hoodlum2.png */; };
 		E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E743ADE21544EBBD006E0811 /* GamePausedLayer.m */; };
+		E743ADE51544FE1B006E0811 /* README in Resources */ = {isa = PBXBuildFile; fileRef = E743ADE41544FE1B006E0811 /* README */; };
 		E761C1DB15439A550019E404 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DA15439A550019E404 /* pause.png */; };
 		E761C1DD1544CCC90019E404 /* hourglass.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DC1544CCC90019E404 /* hourglass.jpg */; };
 		E761C1E61544D1880019E404 /* GameEndLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E761C1E51544D1880019E404 /* GameEndLayer.m */; };
@@ -178,6 +179,7 @@
 		010D1819153FE614002D5A80 /* hoodlum2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hoodlum2.png; sourceTree = "<group>"; };
 		E743ADE11544EBBD006E0811 /* GamePausedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePausedLayer.h; sourceTree = "<group>"; };
 		E743ADE21544EBBD006E0811 /* GamePausedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePausedLayer.m; sourceTree = "<group>"; };
+		E743ADE41544FE1B006E0811 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		E761C1DA15439A550019E404 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
 		E761C1DC1544CCC90019E404 /* hourglass.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hourglass.jpg; sourceTree = "<group>"; };
 		E761C1E41544D1880019E404 /* GameEndLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEndLayer.h; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				E7CF4EB2153E480700BE422E /* RootViewController.m */,
 				E7CF4EB4153E480700BE422E /* MainLayer.h */,
 				E7CF4EB5153E480700BE422E /* MainLayer.m */,
+				E743ADE41544FE1B006E0811 /* README */,
 				E7CF4EB7153E480700BE422E /* GameConfig.h */,
 				E7CF4D01153E480300BE422E /* Resources */,
 				E7CF4D15153E480300BE422E /* libs */,
@@ -1101,6 +1104,7 @@
 				010D181D153FE614002D5A80 /* hoodlum2.png in Resources */,
 				E761C1DB15439A550019E404 /* pause.png in Resources */,
 				E761C1DD1544CCC90019E404 /* hourglass.jpg in Resources */,
+				E743ADE51544FE1B006E0811 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
