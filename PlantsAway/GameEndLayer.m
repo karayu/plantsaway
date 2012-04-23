@@ -16,37 +16,31 @@
     GameEndLayer *gameEndLayer;
 }
 
-//@synthesize gameEndLayer;
+@synthesize score;
 
 -(id) init
 {
 	//always call "super" init
 	if( (self=[super init])) 
     {
-		
         //Create and add the score label as a child.
-        scoreLabel = [CCLabelTTF labelWithString:@"Congratulations!  Your score was 0 points" fontName:@"Marker Felt" fontSize:24];
-        scoreLabel.position = ccp(160, 440 ); 
+
+        
+        gameEndLabel = [CCLabelTTF labelWithString:@"Congratulations!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
+        gameEndLabel.position = ccp(160, 400 ); 
+        [self addChild:gameEndLabel];
+        
+        
+        scoreLabel = [CCLabelTTF labelWithString: [NSString stringWithFormat:@"Your score was %d", score] fontName:@"Marker Felt" fontSize:24 ];
+        scoreLabel.position = ccp(160, 150);
         [self addChild:scoreLabel];
-        
-        //Create and add pause button as a child
-        CCMenuItem *pauseMenuItem = [CCMenuItemImage 
-                                     itemFromNormalImage: @"pause.png" selectedImage:@"pause.png" 
-                                     target:self selector:@selector(pauseTapped)];
-        pauseMenuItem.position = ccp(350, 530);
-        
-        
-        //CCLabel *titleCenterTop = [CCLabel labelWithString:@"How to build a..." fontName:@"Marker Felt" fontSize:26];
-        //CCLabel *titleCenterBottom = [CCLabel labelWithString:@"Part 1" fontName:@"Marker Felt" fontSize:48];
-        
+      
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
-        startNew.position = ccp(350, 530);
-        [self addChild:startNew];
-        
+   
     
         CCMenu *menu = [CCMenu menuWithItems:startNew, nil];
         
-        menu.position = ccp(160, 200);
+        menu.position = ccp(160, 50);
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
         
@@ -54,12 +48,34 @@
 
     }
     return self;
+}
+
+
+- (void) setScoreText {
+    if ( self.score < 50 )
+    {
+        [gameEndLabel setString: @"Well, that was VERY disappointing! You could try again, but if I were you, I'd just give up"];
+        gameEndLabel.position = ccp(160, 300 ); 
+    }
+    else if (self.score <100) {
+        [gameEndLabel setString:@"Pretty sure my 120 year old grandmother could do better.  Hope this teaches you to respect your elders"];
+        gameEndLabel.position = ccp(160, 300 ); 
+
+    }
+    else if (self.score <200) {
+        [gameEndLabel setString:@"That was aight"];
+    }
+    else {
+        [gameEndLabel setString:@"Congratulations!"];
+    }
+    
+    [scoreLabel setString:[NSString stringWithFormat:@"Your score was %d", score]];
 
 }
 
 
 - (void)newGame:(id)sender{
-	[SceneManager goMenu];
+	[SceneManager goNewGame];
 }
 
 - (void)onCredits:(id)sender{

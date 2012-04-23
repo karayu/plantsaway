@@ -10,6 +10,7 @@
 //Import the interfaces
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
+#import "SceneManager.h"
 
 CCSprite *oldLady;
 CCSprite *plant;
@@ -164,7 +165,7 @@ eachShape(void *ptr, void* unused)
 
 -(void) gameOver
 {
-    
+    [SceneManager goEndGame: score];
 }
 
 //on "dealloc" you need to release all your retained objects
@@ -180,7 +181,7 @@ eachShape(void *ptr, void* unused)
 
 - (void) pauseTapped
 {
-    
+    [SceneManager goPause];
 }
 
 -(void) onEnter

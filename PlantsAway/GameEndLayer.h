@@ -16,8 +16,13 @@
 
 @interface GameEndLayer : CCLayer
 {
+    CCLabelTTF *gameEndLabel;
     CCLabelTTF *scoreLabel;
 }
+
+
+@property int score;
+- (void) setScoreText;
 
 
 @end

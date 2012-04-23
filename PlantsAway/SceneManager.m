@@ -13,6 +13,7 @@
 //Importing Chipmunk headers
 #import "chipmunk.h"
 #import "GameEndLayer.h"
+#import "MainLayer.h"
 
 
 //source: http://www.iphonegametutorials.com/2010/09/07/cocos2d-menu-tutorial/
@@ -24,9 +25,26 @@
 @implementation SceneManager
 
 +(void) goMenu{
-	CCLayer *layer = [GameEndLayer node];
+
+}
+
++(void) goPause{
+
+}
+
++(void) goEndGame: (int) score {
+    GameEndLayer *layer =  [GameEndLayer node];
+    layer.score = score;
+    [layer setScoreText];
 	[SceneManager go: layer];
 }
+
++(void) goNewGame {
+    CCLayer *layer = [MainLayer node];
+	[SceneManager go: layer];
+}
+
+
 
 +(void) go: (CCLayer *) layer{
 	CCDirector *director = [CCDirector sharedDirector];

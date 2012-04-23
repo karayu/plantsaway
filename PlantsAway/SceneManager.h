@@ -14,6 +14,11 @@
 }
 
 +(void) goMenu;
++(void) goPause;
++(void) goEndGame: (int) score;
++(void) goNewGame;
+
+
 
 
 @end
