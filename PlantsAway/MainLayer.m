@@ -10,6 +10,7 @@
 //Import the interfaces
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
+#import "SceneManager.h"
 
 CCSprite *oldLady;
 CCSprite *plant;
@@ -42,7 +43,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, goodSpeed, badSpeed, goodStart, badStart;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, goodSpeed, badSpeed, goodStart, badStart, score, time;
 
 +(CCScene *) scene
 {
@@ -86,7 +87,7 @@ eachShape(void *ptr, void* unused)
         [self addChild:pauseMenu];
         [pauseMenu setScale:0.7];
 
-        //hour glass
+        //create and add hour glass
         hourGlass = [CCSprite spriteWithFile: @"hourglass.jpg"];
         hourGlass.position = ccp( 20, 440 );
         [self addChild:hourGlass];
@@ -149,10 +150,8 @@ eachShape(void *ptr, void* unused)
         //our finger is not currrently on the plant
         self.plantActive = NO;  
         
-        //make touch and shake enabled
+        //make touch enabled
 		self.isTouchEnabled = YES;
-		self.isAccelerometerEnabled = YES;
-		
 
 		cpInitChipmunk();
         [self schedule:@selector(nextFrameGoodTarget:)];		
@@ -166,30 +165,21 @@ eachShape(void *ptr, void* unused)
 {
     time = time - dt/2;
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+    
+    if (time == 0) {
+        [self gameOver];
+    }
 }
 
-
-//on "dealloc" you need to release all your retained objects
-- (void) dealloc
+-(void) gameOver
 {
-	//in case you have something to dealloc, do it in this method
-	cpSpaceFree(space);
-	space = NULL;
-	
-	//don't forget to call "super dealloc"
-	[super dealloc];
+    [SceneManager goEndGame: score];
 }
+
 
 - (void) pauseTapped
 {
-    
-}
-
--(void) onEnter
-{
-	[super onEnter];
-	
-	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 60)];
+    [SceneManager goPause: score WithTime: time];
 }
 
 - (void) nextFrameGoodTarget:(ccTime)dt 
@@ -218,11 +208,7 @@ eachShape(void *ptr, void* unused)
         {
             goodCollision = NO;
             goodTarget.rotation = 0;
-
             [self prepareGoodTarget];
-            
-            NSLog(@"goodSpeed: %d", self.goodSpeed);
-            NSLog(@"goodStart: %d", self.goodStart);
             
             goodTarget.position = ccp( self.goodStart, goodTarget.position.y );
 
@@ -257,9 +243,6 @@ eachShape(void *ptr, void* unused)
             badCollision = NO;
             badTarget.rotation = 0;
             [self prepareBadTarget];
-
-            NSLog(@"badSpeed: %d", self.badSpeed);
-            NSLog(@"badStart: %d", self.badStart);
             
             badTarget.position = ccp( self.badStart, badTarget.position.y );
         }    
@@ -277,6 +260,18 @@ eachShape(void *ptr, void* unused)
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
+
+- (void) updateScore
+{
+    NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
+    [scoreLabel setString:(NSString *)currentScore];
+}
+
+- (void) updateTime
+{
+    [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+}
+
 
 //determines random speed
 -(int)initializeSpeed
@@ -397,21 +392,4 @@ eachShape(void *ptr, void* unused)
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
-//senses whether or not phone is moved/tilted/etc
-- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
-{	
-	static float prevX=0, prevY=0;
-	
-    #define kFilterFactor 0.05f
-	
-	float accelX = (float) acceleration.x * kFilterFactor + (1- kFilterFactor)*prevX;
-	float accelY = (float) acceleration.y * kFilterFactor + (1- kFilterFactor)*prevY;
-	
-	prevX = accelX;
-	prevY = accelY;
-	
-	CGPoint v = ccp( accelX, accelY);
-	
-	space->gravity = ccpMult(v, 200);
-}
 @end
