@@ -51,6 +51,7 @@
 -(void)nextFrameBadTarget:(ccTime)dt;
 -(void)nextFrameGoodTarget:(ccTime)dt; 
 -(void)updateTime;
+-(void)updateScore;
 -(void)tick:(ccTime)dt;
 
 
