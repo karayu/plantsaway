@@ -6,11 +6,7 @@
 //  Copyright __MyCompanyName__ 2012. All rights reserved.
 //
 
-
-//When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
-
-//Importing Chipmunk headers
 #import "chipmunk.h"
 
 //MainLayer for gameplay
@@ -37,7 +33,6 @@
 //-(void) addNewSpriteX:(float)x y:(float)y;
 @property int score;
 @property int time;
-
 
 @property BOOL plantActive;
 @property BOOL swipedUp;

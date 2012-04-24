@@ -12,8 +12,6 @@
 
 
 @implementation GameEndLayer
-{
-}
 
 @synthesize score;
 

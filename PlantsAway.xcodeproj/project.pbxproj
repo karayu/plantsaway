@@ -16,6 +16,7 @@
 		010D181C153FE614002D5A80 /* mom.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1818153FE614002D5A80 /* mom.png */; };
 		010D181D153FE614002D5A80 /* hoodlum2.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1819153FE614002D5A80 /* hoodlum2.png */; };
 		010D18381544EC20002D5A80 /* Sprites.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D18371544EC1F002D5A80 /* Sprites.m */; };
+		010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D185215464E5B002D5A80 /* HighScoresLayer.m */; };
 		E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E743ADE21544EBBD006E0811 /* GamePausedLayer.m */; };
 		E743ADE51544FE1B006E0811 /* README in Resources */ = {isa = PBXBuildFile; fileRef = E743ADE41544FE1B006E0811 /* README */; };
 		E761C1DB15439A550019E404 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DA15439A550019E404 /* pause.png */; };
@@ -180,6 +181,8 @@
 		010D1819153FE614002D5A80 /* hoodlum2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hoodlum2.png; sourceTree = "<group>"; };
 		010D18361544EC1F002D5A80 /* Sprites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sprites.h; sourceTree = "<group>"; };
 		010D18371544EC1F002D5A80 /* Sprites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sprites.m; sourceTree = "<group>"; };
+		010D185115464E5B002D5A80 /* HighScoresLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoresLayer.h; sourceTree = "<group>"; };
+		010D185215464E5B002D5A80 /* HighScoresLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoresLayer.m; sourceTree = "<group>"; };
 		E743ADE11544EBBD006E0811 /* GamePausedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePausedLayer.h; sourceTree = "<group>"; };
 		E743ADE21544EBBD006E0811 /* GamePausedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePausedLayer.m; sourceTree = "<group>"; };
 		E743ADE41544FE1B006E0811 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -568,6 +571,8 @@
 				010D17F0153F2811002D5A80 /* images */,
 				E7CF4EAE153E480700BE422E /* AppDelegate.h */,
 				E7CF4EAF153E480700BE422E /* AppDelegate.m */,
+				010D185115464E5B002D5A80 /* HighScoresLayer.h */,
+				010D185215464E5B002D5A80 /* HighScoresLayer.m */,
 				E761C1E41544D1880019E404 /* GameEndLayer.h */,
 				E761C1E51544D1880019E404 /* GameEndLayer.m */,
 				E743ADE11544EBBD006E0811 /* GamePausedLayer.h */,
@@ -1251,6 +1256,7 @@
 				E761C1E91544D6970019E404 /* SceneManager.m in Sources */,
 				010D18381544EC20002D5A80 /* Sprites.m in Sources */,
 				E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */,
+				010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,12 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface SceneManager : NSObject
-{
-    
-}
 
 +(void) goResumeGame: (int) score WithTime: (int) time;
 +(void) goEndGame: (int) score;
++(void) goHighScores;
 +(void) goNewGame;
 +(void) goPause: (int) score WithTime: (int) time;
 

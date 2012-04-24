@@ -10,15 +10,18 @@
 #import "cocos2d.h"
 #import "chipmunk.h"
 
-@interface GameEndLayer : CCLayer
+@interface HighScoresLayer : CCLayer
 {
-    CCLabelTTF *gameEndLabel;
-    CCLabelTTF *scoreLabel;
+    CCLabelTTF *highScoresLabel;
 }
 
 
+@property (strong) NSString *deviceID;
+@property (strong) NSMutableData *receivedData;
 @property int score;
-- (void) setScoreText;
+@property int time;
+
+-(void)findDeviceID;
 
 
 @end
