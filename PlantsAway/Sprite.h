@@ -22,7 +22,6 @@
 
 -(void)initializeSprite: (BOOL) type;
 -(BOOL)prepareTarget;
--(void)calculateHit;
 -(void)initializeSpeed;
 -(void)leftOrRight;
 -(void)setTexture;
@@ -34,7 +33,6 @@
 @property (readwrite) BOOL collision;
 @property int speed;
 @property (nonatomic) int start;
-@property int score;
 @property BOOL good;
 
 @end

@@ -10,7 +10,7 @@
 
 @implementation Sprite
 
-@synthesize score, collision, start, speed, good;
+@synthesize collision, start, speed, good;
 
 
 -(id) init
@@ -105,26 +105,6 @@
         self.start = 500;
 
     }
-}
-
-
-
-
-//calculates points of hit
--(void)calculateHit
-{
-    if (self.collision)
-    {
-        if (self.good == YES)
-        {
-            self.score = self.score - 10;
-        }
-        else 
-        {
-            self.score = self.score + 10;
-        }
-    }
-    
 }
 
 

@@ -110,10 +110,10 @@ eachShape(void *ptr, void* unused)
         //initiate images for all sprite positions
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
+        
+        //initial images for the targets
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
-        //hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
-        //momTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom2.png"]];*/
         
         //initiate oldLady
         oldLady = [CCSprite spriteWithTexture:oldLadyTexture1];
@@ -126,41 +126,22 @@ eachShape(void *ptr, void* unused)
         plant.position = ccp( 160, 300 );
         [self addChild:plant];
         [plant setScale:0.5];
-
-        //initialize good & bad target speed & position
-        //[goodTarget setTexture];
-        //[badTarget setTexture];
-
         
+        //create targets
         goodTarget = [Sprite spriteWithTexture:momTexture1];
         badTarget = [Sprite spriteWithTexture:hoodlumTexture1];
         
-        //goodTarget = [[Sprite alloc] init];
-        //badTarget = [[Sprite alloc] init];
-        
-        //initializes goodtarget with good = YES
+        //initializes targets with orientations, speed, good or not
         [goodTarget initializeSprite:YES];
         [badTarget initializeSprite:NO];
 
-        [goodTarget setTexture];
-        [badTarget setTexture];
-        
-        //[self setTargetTexture:goodTarget];
-        //[self setTargetTexture:badTarget];
-        
-        //initialize mommy and baby
-        //goodTarget.position = ccp( goodTarget.start, 50 );
+        //add mommy and baby
         [self addChild:goodTarget];
         [goodTarget setScale:0.75];
         
-        //initialize hoodlum
-        //badTarget.position = ccp( badTarget.start, 50 );
+        //add hoodlum
         [self addChild:badTarget];
         [badTarget setScale:0.75];
-        
-        //initialize bools: currently no intersection of sprites
-        //goodCollision = NO;
-        //badCollision = NO;
         
         //our finger is not currrently on the plant
         self.plantActive = NO;  
@@ -169,119 +150,100 @@ eachShape(void *ptr, void* unused)
 		self.isTouchEnabled = YES;
 
 		cpInitChipmunk();
+        
         [self schedule:@selector(nextFrameGoodTarget:)];		
         [self schedule:@selector(nextFrameBadTarget:)];	
     }
 	return self;
 }
 
-
+//Countdown timer. updates the time left and if you run out of time, ends game
 -(void) tick: (ccTime) dt
 {
     time = time - dt/2;
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
     
+    //end game if reached end of your time
     if (time == 0) {
         [self gameOver];
     }
 }
 
+//Switches over the the GameEndLayer (passes the score). Called when player runs out of time
 -(void) gameOver
 {
     [SceneManager goEndGame: score];
 }
 
+//Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
 - (void) pauseTapped
 {
     [SceneManager goPause: score WithTime: time];
 }
 
+//Thread for good target. Mom + baby either move along or gets hit by granny
 - (void) nextFrameGoodTarget:(ccTime)dt 
 {
-    
-    //detect intersection of mom and plant
-    if (CGRectIntersectsRect(goodTarget.boundingBox, plant.boundingBox))
-    {
-        //rotate to show that target was hit
-        goodTarget.rotation = -90;
-        
-        //call this only once upon a collision (sets goodCollision to true upon the first hit)
-        if (!goodTarget.collision)
-        {
-            goodTarget.collision = YES;
-            [self calculateHit];
-            
-        }
-    }
-    else 
-    {
-        //if target has not yet been hit, continue to move normally across screen
-        [goodTarget move:dt];
-        
-        //if target was just hit or went offscreen, move to either left or right side and begin cycle again
-        if (goodTarget.collision || [goodTarget offScreen])
-        {
-            goodTarget.collision = NO;
-            goodTarget.rotation = 0;
-            
-            //creates new target orientation, position, speed, etc
-            [goodTarget prepareTarget];
-        }    
-    }
+    [self moveOrDie: goodTarget InTime: dt];
 }
 
+//Thread for bad target. Skateboarder either move along or gets hit by granny
 - (void) nextFrameBadTarget:(ccTime)dt 
 {
+    [self moveOrDie: badTarget InTime: dt];
+}
+
+//function for target to either keep moving (if they haven't been hit) or die if they have been hit
+-(void) moveOrDie: (Sprite *) target InTime: (ccTime) dt
+{
     //detect intersection of hoodlum and plant
-    if (CGRectIntersectsRect(badTarget.boundingBox, plant.boundingBox))
+    if (CGRectIntersectsRect(target.boundingBox, plant.boundingBox))
     {
         //rotate to show that target was hit
-        badTarget.rotation = 65;
+        target.rotation = 65;
         
         //call this only once upon a collision (sets badCollision to true upon first hit)
-        if (!badTarget.collision)
+        if (!target.collision)
         {
-            badTarget.collision = YES;
-            [self calculateHit];
+            target.collision = YES;
+            [self calculateHit: target.good];
             
         }
     }
     else 
     {
-        //if target has not yet been hit, continue to move normally across screen
-        [badTarget move: dt ];
-        
         //if target was just hit or went offscreen, move to either left or right side and begin cycle again
-        if (badTarget.collision || [badTarget offScreen]) 
+        if (target.collision || [target offScreen]) 
         {
-            badTarget.collision = NO;
-            badTarget.rotation = 0;
+            target.collision = NO;
+            target.rotation = 0;
             
             //creates new target orientation, position, speed, etc
-            [badTarget prepareTarget];
-
-        }    
+            [target prepareTarget];
+            
+        }
+        else {
+            //if target has not yet been hit, continue to move normally across screen
+            [target move: dt ];
+        }
     }
 }
 
-//calculates points of hit
-- (void) calculateHit
+
+//Calculates points of hit and updates the score. Passes in whether the target hit was a good target or not
+- (void) calculateHit: (BOOL) good
 {
-    if (goodTarget.collision)
+    //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
+    if (good)
         score = score - 10;
-    
-    if (badTarget.collision)
+    else 
         score = score + 10;
-        
+            
+    //update the score label with current score
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
 
-- (void) updateScore
-{
-    NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
-    [scoreLabel setString:(NSString *)currentScore];
-}
 
 - (void) updateTime
 {

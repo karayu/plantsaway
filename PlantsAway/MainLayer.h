@@ -24,10 +24,8 @@
     CCTexture2D *oldLadyTexture2;
     
     CCTexture2D *hoodlumTexture1;
-    CCTexture2D *hoodlumTexture2;
     
     CCTexture2D *momTexture1;
-    CCTexture2D *momTexture2;
 }
 
 //returns a CCScene that contains the HelloWorldLayer as the only child
@@ -44,10 +42,7 @@
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
 
-- (void) updateScore;
 - (void) updateTime;
-
-
 
 
 @end

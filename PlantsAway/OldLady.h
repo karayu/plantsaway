@@ -17,6 +17,6 @@
 extern int speed;
 
 //returns time it takes for movement to new position
-- (int) timeToPosition;
+- (int)timeToPosition :(int)newPosition :(int)oldPosition;
 
 @end
