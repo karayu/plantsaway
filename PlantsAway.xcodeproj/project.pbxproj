@@ -166,7 +166,6 @@
 		E7CF4EB9153E480700BE422E /* grossini_dance_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = E7CF4EB8153E480700BE422E /* grossini_dance_atlas.png */; };
 		E7CF4EC5153E48B900BE422E /* OldLady.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC0153E48B800BE422E /* OldLady.m */; };
 		E7CF4EC6153E48B900BE422E /* Plant.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC2153E48B800BE422E /* Plant.m */; };
-		E7CF4EC7153E48B900BE422E /* MovingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CF4EC4153E48B900BE422E /* MovingTarget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -489,8 +488,6 @@
 		E7CF4EC0153E48B800BE422E /* OldLady.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldLady.m; sourceTree = "<group>"; };
 		E7CF4EC1153E48B800BE422E /* Plant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plant.h; sourceTree = "<group>"; };
 		E7CF4EC2153E48B800BE422E /* Plant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plant.m; sourceTree = "<group>"; };
-		E7CF4EC3153E48B900BE422E /* MovingTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingTarget.h; sourceTree = "<group>"; };
-		E7CF4EC4153E48B900BE422E /* MovingTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingTarget.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1031,8 +1028,6 @@
 				E7CF4EC0153E48B800BE422E /* OldLady.m */,
 				E7CF4EC1153E48B800BE422E /* Plant.h */,
 				E7CF4EC2153E48B800BE422E /* Plant.m */,
-				E7CF4EC3153E48B900BE422E /* MovingTarget.h */,
-				E7CF4EC4153E48B900BE422E /* MovingTarget.m */,
 				010D18361544EC1F002D5A80 /* Sprite.h */,
 				010D18371544EC1F002D5A80 /* Sprite.m */,
 			);
@@ -1246,7 +1241,6 @@
 				E7CF4EB6153E480700BE422E /* MainLayer.m in Sources */,
 				E7CF4EC5153E48B900BE422E /* OldLady.m in Sources */,
 				E7CF4EC6153E48B900BE422E /* Plant.m in Sources */,
-				E7CF4EC7153E48B900BE422E /* MovingTarget.m in Sources */,
 				E761C1E61544D1880019E404 /* GameEndLayer.m in Sources */,
 				E761C1E91544D6970019E404 /* SceneManager.m in Sources */,
 				010D18381544EC20002D5A80 /* Sprite.m in Sources */,
