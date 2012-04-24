@@ -14,8 +14,7 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData, score, time;
-
+@synthesize deviceID, receivedData;
 -(id)init
 {
 	//always call "super" init
@@ -61,7 +60,7 @@
 //go back to pause menu
 -(void)pauseMenu: (id)sender
 {
-	[SceneManager goPause:score WithTime: time];
+	[SceneManager goPause];
 }
 
 //gets this device's unique ID

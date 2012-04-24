@@ -12,8 +12,6 @@
 
 @implementation InstructionsLayer
 
-@synthesize score, time;
-
 -(id)init
 {
 	//always call "super" init
@@ -44,7 +42,7 @@
 //go back to pause menu
 -(void)pauseMenu:(id)sender
 {
-	[SceneManager goPause:score WithTime: time];
+	[SceneManager goPause];
 }
 
 
