@@ -19,7 +19,6 @@
     CCTexture2D *momTexture2;
 }
 
-
 -(void)initializeSprite: (BOOL) type;
 -(BOOL)prepareTarget;
 -(void)calculateHit;
@@ -28,8 +27,6 @@
 -(void)setTexture;
 -(void)move: (ccTime) time;
 -(BOOL)offScreen;
-
-
 
 @property (readwrite) BOOL collision;
 @property int speed;

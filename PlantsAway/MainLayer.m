@@ -104,7 +104,7 @@ eachShape(void *ptr, void* unused)
         background.position = ccp(160, 187  ); //187
         [self addChild:background];
         [background setScale:0.24];
-        
+
         //initiate image for old lady
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         

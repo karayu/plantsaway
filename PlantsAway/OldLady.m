@@ -22,6 +22,7 @@ int speed = 30;
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
 
+        //initialize position and scale
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
     }
@@ -39,11 +40,13 @@ int speed = 30;
         return (oldPosition - newPosition)/speed;
 }
 
+//sets the old lady image to one where she's lifting the plant
 -(void) lift
 {
     self.texture = oldLadyTexture2;
 }
 
+//restores old lady image back to normal
 -(void) backToNormal
 {
     self.texture = oldLadyTexture1;
