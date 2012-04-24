@@ -24,6 +24,20 @@
 
 @implementation SceneManager
 
+static int timeLeft = 100;
+static int currentScore = 100;
+
+//returns to pause menu (called by high scores or instructions)
++(void)goPause
+{
+    //creates a game paused layer that know the score and time left
+    GamePausedLayer *layer = [GamePausedLayer node];
+    layer.score = currentScore;
+    layer.time = timeLeft;
+    
+    [SceneManager go: layer];
+}
+
 //pauses game while keeping track of the score and time left. called from the pause button in main layer
 +(void)goPause:(int)score WithTime:(int)time 
 {
@@ -31,6 +45,9 @@
     GamePausedLayer *layer = [GamePausedLayer node];
     layer.score = score;
     layer.time = time;
+    
+    timeLeft = time;
+    currentScore = score;
     [SceneManager go: layer];
 }
 
@@ -41,6 +58,16 @@
     GameEndLayer *layer =  [GameEndLayer node];
     layer.score = score;
     [layer setScoreText];
+	[SceneManager go: layer];
+}
+
++(void)goResumeGame
+{
+    MainLayer *layer =  [MainLayer node];
+    layer.score = currentScore;
+    layer.time = timeLeft;
+    [layer updateScore];
+    [layer updateTime];
 	[SceneManager go: layer];
 }
 

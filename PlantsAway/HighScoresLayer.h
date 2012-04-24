@@ -15,9 +15,6 @@
     CCLabelTTF *highScoresLabel;
 }
 
-//variables to return to pause menu & eventually resume game
-@property int score;
-@property int time;
 
 //variables for NSURL connection
 @property (strong) NSString *deviceID;
