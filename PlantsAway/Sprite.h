@@ -22,9 +22,6 @@
 
 -(void)initializeSprite: (BOOL) type;
 -(BOOL)prepareTarget;
--(void)initializeSpeed;
--(void)leftOrRight;
--(void)setTexture;
 -(void)move: (ccTime) time;
 -(BOOL)offScreen;
 

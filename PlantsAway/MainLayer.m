@@ -81,14 +81,14 @@ eachShape(void *ptr, void* unused)
         
         //Create and add pause button as a child
         CCMenuItem *pauseMenuItem = [CCMenuItemImage 
-                                    itemFromNormalImage: @"pause.png" selectedImage:@"pause.png" 
-                                    target:self selector:@selector(pauseTapped)];
+                                     itemFromNormalImage: @"pause.png" selectedImage:@"pause.png" 
+                                     target:self selector:@selector(pauseTapped)];
         pauseMenuItem.position = ccp(350, 530);
         CCMenu *pauseMenu = [CCMenu menuWithItems:pauseMenuItem, nil];
         pauseMenu.position = CGPointZero;
         [self addChild:pauseMenu];
         [pauseMenu setScale:0.7];
-
+        
         //create and add hour glass
         hourGlass = [CCSprite spriteWithFile: @"hourglass.jpg"];
         hourGlass.position = ccp( 20, 440 );
@@ -101,16 +101,15 @@ eachShape(void *ptr, void* unused)
         [self addChild:timeLabel];
         [self schedule: @selector(tick:) interval:1.0];
         time = 100; 
-
+        
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
         background.position = ccp(160, 187  ); //187
         [self addChild:background];
         [background setScale:0.24];
-            
+        
         //initiate images for all sprite positions
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
-        //oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
         
         //initial images for the targets
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
@@ -134,7 +133,7 @@ eachShape(void *ptr, void* unused)
         //initializes targets with orientations, speed, good or not
         [goodTarget initializeSprite:YES];
         [badTarget initializeSprite:NO];
-
+        
         //add mommy and baby
         [self addChild:goodTarget];
         [goodTarget setScale:0.75];
@@ -148,7 +147,7 @@ eachShape(void *ptr, void* unused)
         
         //make touch enabled
 		self.isTouchEnabled = YES;
-
+        
 		cpInitChipmunk();
         
         [self schedule:@selector(nextFrameGoodTarget:)];		
@@ -238,7 +237,7 @@ eachShape(void *ptr, void* unused)
         score = score - 10;
     else 
         score = score + 10;
-            
+    
     //update the score label with current score
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
@@ -285,7 +284,6 @@ eachShape(void *ptr, void* unused)
             plant.position = location;
             
             //change oldLady's texture to show her lifting the plant
-            //oldLady.texture = oldLadyTexture2;
             [oldLady lift];
             
             //sets swipedUp bool to true
@@ -303,7 +301,6 @@ eachShape(void *ptr, void* unused)
     //return oldLady to original view and show movement to touch location
     //[oldLady stopAllActions]; //necessary?
     [oldLady backToNormal];
-    //oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
