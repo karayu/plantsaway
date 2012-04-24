@@ -38,15 +38,8 @@
 @property int score;
 @property int time;
 
-
 @property BOOL plantActive;
 @property BOOL swipedUp;
-@property BOOL goodCollision;
-@property BOOL badCollision;
-@property int goodSpeed;
-@property int badSpeed;
-@property int goodStart;
-@property int badStart;
 
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
