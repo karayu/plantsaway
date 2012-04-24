@@ -3,11 +3,10 @@
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/17/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
 #import "cocos2d.h"
-
 #import "AppDelegate.h"
 #import "GameConfig.h"
 #import "MainLayer.h"

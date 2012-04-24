@@ -3,11 +3,9 @@
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/17/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
-
-//Import the interfaces
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
 #import "SceneManager.h"
@@ -49,10 +47,10 @@ eachShape(void *ptr, void* unused)
 
 +(CCScene *) scene
 {
-	//'scene' is an autorelease object.
+	//initialize scene
 	CCScene *scene = [CCScene node];
 	
-	//'layer' is an autorelease object.
+	//initialize layer
 	MainLayer *layer = [MainLayer node];
 	
 	//add layer as a child to scene
@@ -64,12 +62,11 @@ eachShape(void *ptr, void* unused)
 
 
 //on "init" you need to initialize your instance
--(id) init
+-(id)init
 {
 	//always call "super" init
-	if( (self=[super init])) 
+	if((self=[super init])) 
     {
-		
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
@@ -107,8 +104,8 @@ eachShape(void *ptr, void* unused)
         background.position = ccp(160, 187  ); //187
         [self addChild:background];
         [background setScale:0.24];
-        
-        //initiate images for all sprite positions
+
+        //initiate image for old lady
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         
         //initial images for the targets
@@ -157,7 +154,7 @@ eachShape(void *ptr, void* unused)
 }
 
 //Countdown timer. updates the time left and if you run out of time, ends game
--(void) tick: (ccTime) dt
+-(void)tick:(ccTime)dt
 {
     time = time - dt/2;
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
@@ -169,31 +166,31 @@ eachShape(void *ptr, void* unused)
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
--(void) gameOver
+-(void)gameOver
 {
     [SceneManager goEndGame: score];
 }
 
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
-- (void) pauseTapped
+-(void)pauseTapped
 {
     [SceneManager goPause: score WithTime: time];
 }
 
 //Thread for good target. Mom + baby either move along or gets hit by granny
-- (void) nextFrameGoodTarget:(ccTime)dt 
+-(void)nextFrameGoodTarget:(ccTime)dt 
 {
-    [self moveOrDie: goodTarget InTime: dt];
+    [self moveOrDie:goodTarget InTime:dt];
 }
 
 //Thread for bad target. Skateboarder either move along or gets hit by granny
-- (void) nextFrameBadTarget:(ccTime)dt 
+-(void)nextFrameBadTarget:(ccTime)dt 
 {
-    [self moveOrDie: badTarget InTime: dt];
+    [self moveOrDie:badTarget InTime:dt];
 }
 
 //function for target to either keep moving (if they haven't been hit) or die if they have been hit
--(void) moveOrDie: (Sprite *) target InTime: (ccTime) dt
+-(void)moveOrDie:(Sprite *)target InTime:(ccTime)dt
 {
     //detect intersection of hoodlum and plant
     if (CGRectIntersectsRect(target.boundingBox, plant.boundingBox))
@@ -230,7 +227,7 @@ eachShape(void *ptr, void* unused)
 
 
 //Calculates points of hit and updates the score. Passes in whether the target hit was a good target or not
-- (void) calculateHit: (BOOL) good
+-(void)calculateHit:(BOOL)good
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
@@ -243,15 +240,17 @@ eachShape(void *ptr, void* unused)
     [scoreLabel setString:(NSString *)currentScore];
 }
 
-
-- (void) updateTime
+//updates the time label
+-(void)updateTime
 {
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
 }
 
 
+#pragma mark touch methods
+
 //initiates actions whenever user touches screen
-- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
+-(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     //when user touches screen, if plant has just been launched it returns to oldLady to prepare for RELAUNCH!
     if (plant.position.y < 0)
@@ -292,14 +291,13 @@ eachShape(void *ptr, void* unused)
     }
 }
 
-- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+-(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
     //set location for oldLady to wherever touch ended
     CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
     oldLadyLocation.y = 300;
     
     //return oldLady to original view and show movement to touch location
-    //[oldLady stopAllActions]; //necessary?
     [oldLady backToNormal];
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
@@ -318,7 +316,7 @@ eachShape(void *ptr, void* unused)
 }
 
 //registers finger touch sensors
--(void) registerWithTouchDispatcher
+-(void)registerWithTouchDispatcher
 {
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }

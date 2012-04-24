@@ -15,6 +15,9 @@
 		010D181B153FE614002D5A80 /* mom2.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1817153FE614002D5A80 /* mom2.png */; };
 		010D181C153FE614002D5A80 /* mom.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1818153FE614002D5A80 /* mom.png */; };
 		010D181D153FE614002D5A80 /* hoodlum2.png in Resources */ = {isa = PBXBuildFile; fileRef = 010D1819153FE614002D5A80 /* hoodlum2.png */; };
+		010D18381544EC20002D5A80 /* Sprites.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D18371544EC1F002D5A80 /* Sprites.m */; };
+		010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D185215464E5B002D5A80 /* HighScoresLayer.m */; };
+		010D185715466102002D5A80 /* InstructionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D185615466101002D5A80 /* InstructionsLayer.m */; };
 		010D18381544EC20002D5A80 /* Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D18371544EC1F002D5A80 /* Sprite.m */; };
 		E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E743ADE21544EBBD006E0811 /* GamePausedLayer.m */; };
 		E743ADE51544FE1B006E0811 /* README in Resources */ = {isa = PBXBuildFile; fileRef = E743ADE41544FE1B006E0811 /* README */; };
@@ -176,6 +179,12 @@
 		010D1817153FE614002D5A80 /* mom2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom2.png; sourceTree = "<group>"; };
 		010D1818153FE614002D5A80 /* mom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom.png; sourceTree = "<group>"; };
 		010D1819153FE614002D5A80 /* hoodlum2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hoodlum2.png; sourceTree = "<group>"; };
+		010D18361544EC1F002D5A80 /* Sprites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sprites.h; sourceTree = "<group>"; };
+		010D18371544EC1F002D5A80 /* Sprites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sprites.m; sourceTree = "<group>"; };
+		010D185115464E5B002D5A80 /* HighScoresLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoresLayer.h; sourceTree = "<group>"; };
+		010D185215464E5B002D5A80 /* HighScoresLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoresLayer.m; sourceTree = "<group>"; };
+		010D185515466101002D5A80 /* InstructionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsLayer.h; sourceTree = "<group>"; };
+		010D185615466101002D5A80 /* InstructionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsLayer.m; sourceTree = "<group>"; };
 		010D18361544EC1F002D5A80 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sprite.h; sourceTree = "<group>"; };
 		010D18371544EC1F002D5A80 /* Sprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sprite.m; sourceTree = "<group>"; };
 		E743ADE11544EBBD006E0811 /* GamePausedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePausedLayer.h; sourceTree = "<group>"; };
@@ -512,8 +521,8 @@
 				E761C1DA15439A550019E404 /* pause.png */,
 				010D1816153FE614002D5A80 /* hoodlum.png */,
 				010D1819153FE614002D5A80 /* hoodlum2.png */,
-				010D1817153FE614002D5A80 /* mom2.png */,
 				010D1818153FE614002D5A80 /* mom.png */,
+				010D1817153FE614002D5A80 /* mom2.png */,
 				E761C1DC1544CCC90019E404 /* hourglass.jpg */,
 				010D1803153FBEFB002D5A80 /* bg.png */,
 				010D1801153FBE0D002D5A80 /* flower.png */,
@@ -562,6 +571,10 @@
 				010D17F0153F2811002D5A80 /* images */,
 				E7CF4EAE153E480700BE422E /* AppDelegate.h */,
 				E7CF4EAF153E480700BE422E /* AppDelegate.m */,
+				010D185115464E5B002D5A80 /* HighScoresLayer.h */,
+				010D185215464E5B002D5A80 /* HighScoresLayer.m */,
+				010D185515466101002D5A80 /* InstructionsLayer.h */,
+				010D185615466101002D5A80 /* InstructionsLayer.m */,
 				E761C1E41544D1880019E404 /* GameEndLayer.h */,
 				E761C1E51544D1880019E404 /* GameEndLayer.m */,
 				E743ADE11544EBBD006E0811 /* GamePausedLayer.h */,
@@ -1023,6 +1036,8 @@
 			children = (
 				E7CF4EBF153E48B800BE422E /* OldLady.h */,
 				E7CF4EC0153E48B800BE422E /* OldLady.m */,
+				E7CF4EC3153E48B900BE422E /* MovingTarget.h */,
+				E7CF4EC4153E48B900BE422E /* MovingTarget.m */,
 				010D18361544EC1F002D5A80 /* Sprite.h */,
 				010D18371544EC1F002D5A80 /* Sprite.m */,
 			);
@@ -1239,6 +1254,8 @@
 				E761C1E91544D6970019E404 /* SceneManager.m in Sources */,
 				010D18381544EC20002D5A80 /* Sprite.m in Sources */,
 				E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */,
+				010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */,
+				010D185715466102002D5A80 /* InstructionsLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

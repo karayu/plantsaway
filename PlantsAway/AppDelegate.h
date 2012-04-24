@@ -3,14 +3,15 @@
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/17/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @class RootViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate> 
+{
 	UIWindow			*window;
 	RootViewController	*viewController;
 }
