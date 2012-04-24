@@ -12,8 +12,9 @@
 #import "CCTouchDispatcher.h"
 #import "SceneManager.h"
 #import "Sprite.h"
+#import "OldLady.h"
 
-CCSprite *oldLady;
+OldLady *oldLady;
 CCSprite *plant;
 CCSprite *hourGlass;
 Sprite *goodTarget;
@@ -109,17 +110,16 @@ eachShape(void *ptr, void* unused)
             
         //initiate images for all sprite positions
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
-        oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
+        //oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
         
         //initial images for the targets
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
         
         //initiate oldLady
-        oldLady = [CCSprite spriteWithTexture:oldLadyTexture1];
-        oldLady.position = ccp( 160, 300 );
+        oldLady = [OldLady spriteWithTexture:oldLadyTexture1];
+        [OldLady initialize];
         [self addChild:oldLady];
-        [oldLady setScale:0.5];
         
         //initiate her plant
         plant = [CCSprite spriteWithFile: @"flower.png"];
@@ -285,7 +285,8 @@ eachShape(void *ptr, void* unused)
             plant.position = location;
             
             //change oldLady's texture to show her lifting the plant
-            oldLady.texture = oldLadyTexture2;
+            //oldLady.texture = oldLadyTexture2;
+            [oldLady lift];
             
             //sets swipedUp bool to true
             self.swipedUp = YES;
@@ -301,7 +302,8 @@ eachShape(void *ptr, void* unused)
     
     //return oldLady to original view and show movement to touch location
     //[oldLady stopAllActions]; //necessary?
-    oldLady.texture = oldLadyTexture1;
+    [oldLady backToNormal];
+    //oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location

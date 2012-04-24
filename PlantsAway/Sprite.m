@@ -17,6 +17,7 @@
 {
     if( (self=[super init])) 
     {
+        //initialize all the images we'll need
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
         hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
@@ -43,6 +44,7 @@
 //prepares the target by setting speed, orientations and the right image.  called by initializeSprite
 -(BOOL)prepareTarget
 {
+    
     [self initializeSpeed];
     [self leftOrRight];
     [self setTexture];
