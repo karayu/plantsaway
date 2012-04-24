@@ -7,8 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
+#import "chipmunk.h"
 
-@interface OldLady : NSObject
+@interface OldLady : CCSprite
+{
+    CCTexture2D *oldLadyTexture1;
+    CCTexture2D *oldLadyTexture2;
+}
 
 //the properties that define OldLady's new location
 @property int time;
@@ -17,6 +23,11 @@
 extern int speed;
 
 //returns time it takes for movement to new position
-- (int) timeToPosition;
+- (int)timeToPosition :(int)newPosition :(int)oldPosition;
+-(void) lift;
+-(void) backToNormal;
+
+
+
 
 @end
