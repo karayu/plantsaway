@@ -3,11 +3,9 @@
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/17/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
-
-//Import the interfaces
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
 #import "SceneManager.h"
@@ -49,10 +47,10 @@ eachShape(void *ptr, void* unused)
 
 +(CCScene *) scene
 {
-	//'scene' is an autorelease object.
+	//initialize scene
 	CCScene *scene = [CCScene node];
 	
-	//'layer' is an autorelease object.
+	//initialize layer
 	MainLayer *layer = [MainLayer node];
 	
 	//add layer as a child to scene
@@ -64,12 +62,11 @@ eachShape(void *ptr, void* unused)
 
 
 //on "init" you need to initialize your instance
--(id) init
+-(id)init
 {
 	//always call "super" init
-	if( (self=[super init])) 
+	if((self=[super init])) 
     {
-		
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
@@ -81,14 +78,14 @@ eachShape(void *ptr, void* unused)
         
         //Create and add pause button as a child
         CCMenuItem *pauseMenuItem = [CCMenuItemImage 
-                                    itemFromNormalImage: @"pause.png" selectedImage:@"pause.png" 
-                                    target:self selector:@selector(pauseTapped)];
+                                     itemFromNormalImage: @"pause.png" selectedImage:@"pause.png" 
+                                     target:self selector:@selector(pauseTapped)];
         pauseMenuItem.position = ccp(350, 530);
         CCMenu *pauseMenu = [CCMenu menuWithItems:pauseMenuItem, nil];
         pauseMenu.position = CGPointZero;
         [self addChild:pauseMenu];
         [pauseMenu setScale:0.7];
-
+        
         //create and add hour glass
         hourGlass = [CCSprite spriteWithFile: @"hourglass.jpg"];
         hourGlass.position = ccp( 20, 440 );
@@ -101,16 +98,15 @@ eachShape(void *ptr, void* unused)
         [self addChild:timeLabel];
         [self schedule: @selector(tick:) interval:1.0];
         time = 100; 
-
+        
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
         background.position = ccp(160, 187  ); //187
         [self addChild:background];
         [background setScale:0.24];
-            
-        //initiate images for all sprite positions
+        
+        //initiate image for old lady
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
-        //oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
         
         //initial images for the targets
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
@@ -134,7 +130,7 @@ eachShape(void *ptr, void* unused)
         //initializes targets with orientations, speed, good or not
         [goodTarget initializeSprite:YES];
         [badTarget initializeSprite:NO];
-
+        
         //add mommy and baby
         [self addChild:goodTarget];
         [goodTarget setScale:0.75];
@@ -148,7 +144,7 @@ eachShape(void *ptr, void* unused)
         
         //make touch enabled
 		self.isTouchEnabled = YES;
-
+        
 		cpInitChipmunk();
         
         [self schedule:@selector(nextFrameGoodTarget:)];		
@@ -158,7 +154,7 @@ eachShape(void *ptr, void* unused)
 }
 
 //Countdown timer. updates the time left and if you run out of time, ends game
--(void) tick: (ccTime) dt
+-(void)tick:(ccTime)dt
 {
     time = time - dt/2;
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
@@ -170,31 +166,31 @@ eachShape(void *ptr, void* unused)
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
--(void) gameOver
+-(void)gameOver
 {
     [SceneManager goEndGame: score];
 }
 
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
-- (void) pauseTapped
+-(void)pauseTapped
 {
     [SceneManager goPause: score WithTime: time];
 }
 
 //Thread for good target. Mom + baby either move along or gets hit by granny
-- (void) nextFrameGoodTarget:(ccTime)dt 
+-(void)nextFrameGoodTarget:(ccTime)dt 
 {
-    [self moveOrDie: goodTarget InTime: dt];
+    [self moveOrDie:goodTarget InTime:dt];
 }
 
 //Thread for bad target. Skateboarder either move along or gets hit by granny
-- (void) nextFrameBadTarget:(ccTime)dt 
+-(void)nextFrameBadTarget:(ccTime)dt 
 {
-    [self moveOrDie: badTarget InTime: dt];
+    [self moveOrDie:badTarget InTime:dt];
 }
 
 //function for target to either keep moving (if they haven't been hit) or die if they have been hit
--(void) moveOrDie: (Sprite *) target InTime: (ccTime) dt
+-(void)moveOrDie:(Sprite *)target InTime:(ccTime)dt
 {
     //detect intersection of hoodlum and plant
     if (CGRectIntersectsRect(target.boundingBox, plant.boundingBox))
@@ -231,28 +227,30 @@ eachShape(void *ptr, void* unused)
 
 
 //Calculates points of hit and updates the score. Passes in whether the target hit was a good target or not
-- (void) calculateHit: (BOOL) good
+-(void)calculateHit:(BOOL)good
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
         score = score - 10;
     else 
         score = score + 10;
-            
+    
     //update the score label with current score
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
 
-
-- (void) updateTime
+//updates the time label
+-(void)updateTime
 {
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
 }
 
 
+#pragma mark touch methods
+
 //initiates actions whenever user touches screen
-- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
+-(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     //when user touches screen, if plant has just been launched it returns to oldLady to prepare for RELAUNCH!
     if (plant.position.y < 0)
@@ -285,7 +283,6 @@ eachShape(void *ptr, void* unused)
             plant.position = location;
             
             //change oldLady's texture to show her lifting the plant
-            //oldLady.texture = oldLadyTexture2;
             [oldLady lift];
             
             //sets swipedUp bool to true
@@ -294,16 +291,14 @@ eachShape(void *ptr, void* unused)
     }
 }
 
-- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+-(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
     //set location for oldLady to wherever touch ended
     CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
     oldLadyLocation.y = 300;
     
     //return oldLady to original view and show movement to touch location
-    //[oldLady stopAllActions]; //necessary?
     [oldLady backToNormal];
-    //oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
@@ -321,7 +316,7 @@ eachShape(void *ptr, void* unused)
 }
 
 //registers finger touch sensors
--(void) registerWithTouchDispatcher
+-(void)registerWithTouchDispatcher
 {
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
