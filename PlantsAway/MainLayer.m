@@ -235,7 +235,12 @@ eachShape(void *ptr, void* unused)
     else 
         score = score + 10;
     
-    //update the score label with current score
+    [self updateScore];
+}
+
+//update the score label with current score
+-(void) updateScore
+{
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
