@@ -14,6 +14,7 @@
 #import "GameEndLayer.h"
 #import "GamePausedLayer.h"
 #import "HighScoresLayer.h"
+#import "InstructionsLayer.h"
 #import "MainLayer.h"
 
 
@@ -60,6 +61,13 @@
 +(void)goNewGame 
 {
     MainLayer *layer = [MainLayer node];
+	[SceneManager go: layer];
+}
+
+//shows high scores layer
++(void)goInstructions 
+{
+    InstructionsLayer *layer =  [InstructionsLayer node];
 	[SceneManager go: layer];
 }
 

@@ -20,8 +20,8 @@
 	if( (self=[super init])) 
     {
         //Create and add the title for the layer
-        gamePausedLabel = [CCLabelTTF labelWithString:@"Game Paused" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:35 ];
-        gamePausedLabel.position = ccp(160, 300 ); 
+        gamePausedLabel = [CCLabelTTF labelWithString:@"Game Paused" dimensions:CGSizeMake(300, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:42 ];
+        gamePausedLabel.position = ccp(160, 350 ); 
         [self addChild:gamePausedLabel];
         
         //button for resuming game
@@ -30,11 +30,14 @@
         //button for starting a new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         
-        //button for starting a new game
+        //button for viewing high scores
         CCMenuItemFont *highScores = [CCMenuItemFont itemFromString:@"High Scores" target:self selector: @selector(highScores:)];
         
+        //button for viewing gameplay instructions
+        CCMenuItemFont *instructions = [CCMenuItemFont itemFromString:@"Instructions" target:self selector: @selector(viewInstructions:)];
+        
         //creates a menu with the two buttons
-        CCMenu *menu = [CCMenu menuWithItems: resumeGame, startNew, highScores, nil];
+        CCMenu *menu = [CCMenu menuWithItems: resumeGame, instructions, startNew, highScores, nil];
         
         menu.position = ccp(160, 200);
         [menu alignItemsVerticallyWithPadding: 40.0f];
@@ -56,6 +59,12 @@
 - (void)highScores:(id)sender
 {
 	[SceneManager goHighScores];
+}
+
+//called by the instructions button
+- (void)viewInstructions:(id)sender
+{
+	[SceneManager goInstructions];
 }
 
 //called by the resume game button

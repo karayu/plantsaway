@@ -1,5 +1,5 @@
 //
-//  GameEndLayer.h
+//  HighScoresLayer.h
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/22/12.
