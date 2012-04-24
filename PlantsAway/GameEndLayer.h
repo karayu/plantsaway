@@ -16,9 +16,12 @@
     CCLabelTTF *scoreLabel;
 }
 
-
+//variables to show user their score
 @property int score;
-- (void) setScoreText;
+
+//functionality for game end layer
+-(void)setScoreText;
+-(void)newGame:(id)sender;
 
 
 @end

@@ -9,12 +9,13 @@
 #import "MainLayer.h"
 #import "CCTouchDispatcher.h"
 #import "SceneManager.h"
+#import "Sprite.h"
 
 CCSprite *oldLady;
 CCSprite *plant;
 CCSprite *hourGlass;
-CCSprite *goodTarget;
-CCSprite *badTarget;
+Sprite *goodTarget;
+Sprite *badTarget;
 
 enum 
 {
@@ -41,7 +42,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, goodCollision, badCollision, goodSpeed, badSpeed, goodStart, badStart, score, time;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, score, time;
 
 +(CCScene *) scene
 {
@@ -108,9 +109,9 @@ eachShape(void *ptr, void* unused)
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
-        hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
+        //hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
-        momTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom2.png"]];
+        //momTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom2.png"]];*/
         
         //initiate oldLady
         oldLady = [CCSprite spriteWithTexture:oldLadyTexture1];
@@ -125,25 +126,39 @@ eachShape(void *ptr, void* unused)
         [plant setScale:0.5];
 
         //initialize good & bad target speed & position
-        goodTarget = [CCSprite spriteWithTexture:momTexture1];
-        badTarget = [CCSprite spriteWithTexture:hoodlumTexture1];
+        //[goodTarget setTexture];
+        //[badTarget setTexture];
 
-        [self prepareGoodTarget];
-        [self prepareBadTarget];
+        
+        goodTarget = [Sprite spriteWithTexture:momTexture1];
+        badTarget = [Sprite spriteWithTexture:hoodlumTexture1];
+        
+        //goodTarget = [[Sprite alloc] init];
+        //badTarget = [[Sprite alloc] init];
+        
+        //initializes goodtarget with good = YES
+        [goodTarget initializeSprite:YES];
+        [badTarget initializeSprite:NO];
+
+        [goodTarget setTexture];
+        [badTarget setTexture];
+        
+        //[self setTargetTexture:goodTarget];
+        //[self setTargetTexture:badTarget];
         
         //initialize mommy and baby
-        goodTarget.position = ccp( self.goodStart, 50 );
+        //goodTarget.position = ccp( goodTarget.start, 50 );
         [self addChild:goodTarget];
         [goodTarget setScale:0.75];
         
         //initialize hoodlum
-        badTarget.position = ccp( self.badStart, 50 );
+        //badTarget.position = ccp( badTarget.start, 50 );
         [self addChild:badTarget];
         [badTarget setScale:0.75];
         
         //initialize bools: currently no intersection of sprites
-        goodCollision = NO;
-        badCollision = NO;
+        //goodCollision = NO;
+        //badCollision = NO;
         
         //our finger is not currrently on the plant
         self.plantActive = NO;  
@@ -174,7 +189,6 @@ eachShape(void *ptr, void* unused)
     [SceneManager goEndGame: score];
 }
 
-
 - (void) pauseTapped
 {
     [SceneManager goPause: score WithTime: time];
@@ -182,6 +196,7 @@ eachShape(void *ptr, void* unused)
 
 - (void) nextFrameGoodTarget:(ccTime)dt 
 {
+    
     //detect intersection of mom and plant
     if (CGRectIntersectsRect(goodTarget.boundingBox, plant.boundingBox))
     {
@@ -189,27 +204,25 @@ eachShape(void *ptr, void* unused)
         goodTarget.rotation = -90;
         
         //call this only once upon a collision (sets goodCollision to true upon the first hit)
-        if (!goodCollision)
+        if (!goodTarget.collision)
         {
-            goodCollision = YES;
-            [self calculateHit];
-            
+            goodTarget.collision = YES;
+            [self calculateHit];    
         }
     }
     else 
     {
         //if target has not yet been hit, continue to move normally across screen
-        goodTarget.position = ccp( goodTarget.position.x + self.goodSpeed*dt, goodTarget.position.y );
+        [goodTarget move:dt];
         
         //if target was just hit or went offscreen, move to either left or right side and begin cycle again
-        if (goodCollision || (goodTarget.position.x > 480+32) || (goodTarget.position.x < -32)) 
+        if (goodTarget.collision || [goodTarget offScreen])
         {
-            goodCollision = NO;
+            goodTarget.collision = NO;
             goodTarget.rotation = 0;
-            [self prepareGoodTarget];
             
-            goodTarget.position = ccp( self.goodStart, goodTarget.position.y );
-
+            //creates new target orientation, position, speed, etc
+            [goodTarget prepareTarget];
         }    
     }
 }
@@ -223,9 +236,9 @@ eachShape(void *ptr, void* unused)
         badTarget.rotation = 65;
         
         //call this only once upon a collision (sets badCollision to true upon first hit)
-        if (!badCollision)
+        if (!badTarget.collision)
         {
-            badCollision = YES;
+            badTarget.collision = YES;
             [self calculateHit];
             
         }
@@ -233,16 +246,17 @@ eachShape(void *ptr, void* unused)
     else 
     {
         //if target has not yet been hit, continue to move normally across screen
-        badTarget.position = ccp( badTarget.position.x + self.badSpeed*dt, badTarget.position.y );
+        [badTarget move:dt];
         
         //if target was just hit or went offscreen, move to either left or right side and begin cycle again
-        if (badCollision || (badTarget.position.x > 480+32) || (badTarget.position.x < -32)) 
+        if (badTarget.collision || [badTarget offScreen]) 
         {
-            badCollision = NO;
+            badTarget.collision = NO;
             badTarget.rotation = 0;
-            [self prepareBadTarget];
             
-            badTarget.position = ccp( self.badStart, badTarget.position.y );
+            //creates new target orientation, position, speed, etc
+            [badTarget prepareTarget];
+
         }    
     }
 }
@@ -250,14 +264,20 @@ eachShape(void *ptr, void* unused)
 //calculates points of hit
 - (void) calculateHit
 {
-    if (goodCollision)
+    if (goodTarget.collision)
+    {
         score = score - 10;
-    if (badCollision)
+    }
+        
+    if (badTarget.collision)
+    {
         score = score + 10;
+    }
         
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
 }
+
 
 - (void) updateScore
 {
@@ -270,52 +290,6 @@ eachShape(void *ptr, void* unused)
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
 }
 
-
-//determines random speed
--(int)initializeSpeed
-{
-    int randomNumber = arc4random() % 100;
-    randomNumber += 10;
-    return randomNumber;
-}
-
-//determines random left or right location
--(int)leftOrRight
-{
-    int randomNumber = arc4random() % 2;
-    NSLog(@"rand num: %d", randomNumber);
-    if (randomNumber == 1)
-        return -12;
-    return 500;
-}
-
--(void)prepareGoodTarget
-{
-    self.goodSpeed = [self initializeSpeed];
-    self.goodStart = [self leftOrRight];
-    if (self.goodStart == 500)
-    {
-        self.goodSpeed = -self.goodSpeed;
-        goodTarget.texture = momTexture1;
-    }
-    else
-        goodTarget.texture = momTexture2;
-
-}
-
--(void)prepareBadTarget
-{
-    self.badSpeed = [self initializeSpeed];
-    self.badStart = [self leftOrRight];
-    if (self.badStart == 500)
-    {
-        self.badSpeed = -self.badSpeed;
-        badTarget.texture = hoodlumTexture1;
-    }
-    else
-        badTarget.texture = hoodlumTexture2;
-
-}
 
 //initiates actions whenever user touches screen
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
@@ -366,7 +340,6 @@ eachShape(void *ptr, void* unused)
     oldLadyLocation.y = 300;
     
     //return oldLady to original view and show movement to touch location
-    //[oldLady stopAllActions]; //necessary?
     oldLady.texture = oldLadyTexture1;
     [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
     

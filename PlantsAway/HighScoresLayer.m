@@ -16,14 +16,14 @@
 
 @synthesize deviceID, receivedData, score, time;
 
--(id) init
+-(id)init
 {
 	//always call "super" init
 	if( (self=[super init])) 
     {
         //create a dummy label to take up space for now
         highScoresLabel = [CCLabelTTF labelWithString:@"HIGH SCORES WILL GO HERE!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
-        highScoresLabel.position = ccp(160, 200 ); 
+        highScoresLabel.position = ccp( 160, 200 ); 
         [self addChild:highScoresLabel];
         
         //button for returning to pause menu
@@ -31,12 +31,12 @@
         
         //create back button menu to return to pause menu
         CCMenu *menu = [CCMenu menuWithItems:goBack, nil];
-        menu.position = ccp(160, 50);
+        menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
         
-        //create the NSURL request
-        NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com/"]
+        //create the NSURL request - this will soon be a connection to our own web service
+        NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]
                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
                                               timeoutInterval:60.0];
         
@@ -45,7 +45,7 @@
         
         if (theConnection) 
         {
-            //create the NSMutableData to hold the received data; receivedData is an instance variable declared elsewhere.
+            //create the NSMutableData to hold the received data
             self.receivedData = [[NSMutableData alloc] init];
         } 
         else
@@ -59,7 +59,7 @@
 }
 
 //go back to pause menu
-- (void)pauseMenu:(id)sender
+-(void)pauseMenu: (id)sender
 {
 	[SceneManager goPause:score WithTime: time];
 }
@@ -74,54 +74,35 @@
 
 #pragma mark NSURLConnection methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    // This method is called when the server has determined that it
-    // has enough information to create the NSURLResponse.
-	
-    // It can be called multiple times, for example in the case of a
-    // redirect, so each time we reset the data.
-	
-    // receivedData is an instance variable declared elsewhere.
-    
+    // This method is called when the server has determined that it has enough information to create the NSURLResponse.
     [self.receivedData setLength:0];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    // Append the new data to receivedData.
-    // receivedData is an instance variable declared elsewhere.
-    
+    // Append the new data to receivedData.    
     [self.receivedData appendData:data];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {    
-    // inform the user
+    // inform the user that connection failed
     UIAlertView *didFailWithErrorMessage = [[UIAlertView alloc] initWithTitle: @"NSURLConnection " message: @"didFailWithError"  delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
     [didFailWithErrorMessage show];
 	
-    //inform the user
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+    //info on failed connection NSLog'd:
+    NSLog(@"Connection failed! Error - %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    // do something with the data    
-    NSString *dataString = [[NSString alloc] initWithData: self.receivedData encoding:NSASCIIStringEncoding];
-    
-    //alert the user
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{    
+    //alert the user that NSURL connection is working
     NSString *message = [[NSString alloc] initWithFormat:@"Succeeded! Received %d bytes of data",[self.receivedData length]];
-    NSLog(message);
-    
-    NSString *messageTwo = [[NSString alloc] initWithFormat:@"Succeeded! Received %d bytes of data",dataString];
-    NSLog(messageTwo);
     
     UIAlertView *finishedLoadingMessage = [[UIAlertView alloc] initWithTitle: @"NSURLConnection " message:message  delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
     [finishedLoadingMessage show];
-                            
 }
 
 

@@ -15,8 +15,11 @@
     CCLabelTTF *instructionsLabel;
 }
 
+//variables to return to pause menu & eventually resume game
 @property int score;
 @property int time;
 
+//functionality to return to pause menu
+- (void)pauseMenu:(id)sender;
 
 @end
