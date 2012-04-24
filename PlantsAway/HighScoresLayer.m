@@ -3,7 +3,7 @@
 //  PlantsAway
 //
 //  Created by Brooke Griffin on 4/23/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 //  sources for NSURL help: 
 //  Apple Dev & http://cagt.bu.edu/w/images/8/8b/URL_Connection_example.txt

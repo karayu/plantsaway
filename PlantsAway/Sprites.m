@@ -3,7 +3,7 @@
 //  PlantsAway
 //
 //  Created by Brooke Griffin on 4/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
 #import "Sprites.h"

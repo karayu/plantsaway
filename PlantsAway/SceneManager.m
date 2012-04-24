@@ -3,14 +3,12 @@
 //  PlantsAway
 //
 //  Created by Kara Yu on 4/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Epic. All rights reserved.
 //
 
-#import "SceneManager.h"
 #import "cocos2d.h"
-
-//Importing Chipmunk headers
 #import "chipmunk.h"
+#import "SceneManager.h"
 #import "GameEndLayer.h"
 #import "GamePausedLayer.h"
 #import "HighScoresLayer.h"
@@ -23,8 +21,8 @@
 +(CCScene *) wrap: (CCLayer *)layer;
 @end
 
-@implementation SceneManager
 
+@implementation SceneManager
 
 //pauses game while keeping track of the score and time left. called from the pause button in main layer
 +(void)goPause: (int)score WithTime: (int)time 
@@ -91,6 +89,7 @@
 	}
 }
 
+//renders the new layer
 +(CCScene *)wrap: (CCLayer *)layer
 {
 	CCScene *newScene = [CCScene node];
