@@ -18,6 +18,7 @@
 //variables to return to pause menu & eventually resume game
 @property int score;
 @property int time;
+@property int boost;
 
 //functionality to allow user to view other layers
 -(void)newGame:(id)sender;

@@ -39,12 +39,13 @@ static int currentScore = 100;
 }
 
 //pauses game while keeping track of the score and time left. called from the pause button in main layer
-+(void)goPause:(int)score WithTime:(int)time 
++(void)goPause:(int)score WithBoost:(int)boost WithTime:(int)time 
 {
     //creates a game paused layer that know the score and time left
     GamePausedLayer *layer = [GamePausedLayer node];
     layer.score = score;
     layer.time = time;
+    layer.boost = boost;
     
     timeLeft = time;
     currentScore = score;
@@ -61,6 +62,7 @@ static int currentScore = 100;
 	[SceneManager go: layer];
 }
 
+//resumes game when user has paused
 +(void)goResumeGame
 {
     MainLayer *layer =  [MainLayer node];
@@ -72,20 +74,22 @@ static int currentScore = 100;
 }
 
 //resumes game play by restoring the score and time left after pause layer.  called by pause layer
-+(void)goResumeGame: (int)score WithTime: (int)time 
++(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time 
 {
     MainLayer *layer =  [MainLayer node];
     layer.score = score;
     layer.time = time;
+    layer.boost = boost;
     [layer updateScore];
     [layer updateTime];
 	[SceneManager go: layer];
 }
 
 //creates a new game
-+(void)goNewGame 
++(void)goNewGame: (int)boost
 {
     MainLayer *layer = [MainLayer node];
+    layer.boost = boost;
 	[SceneManager go: layer];
 }
 

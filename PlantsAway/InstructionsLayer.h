@@ -13,10 +13,11 @@
 @interface InstructionsLayer : CCLayer
 {
     CCLabelTTF *instructionsLabel;
+    CCLabelTTF *headerLabel;
 }
 
-
 //functionality to return to pause menu
-- (void)pauseMenu:(id)sender;
+- (void)startGame:(id)sender;
+
 
 @end

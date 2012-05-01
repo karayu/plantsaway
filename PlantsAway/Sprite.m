@@ -21,7 +21,6 @@
         hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
         momTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom2.png"]];
-        
     }
     
     return self;

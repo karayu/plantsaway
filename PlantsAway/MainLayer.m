@@ -43,7 +43,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, score, time;
+@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, score, time, boost;
 
 +(CCScene *) scene
 {
@@ -160,7 +160,8 @@ eachShape(void *ptr, void* unused)
     [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
     
     //end game if reached end of your time
-    if (time == 0) {
+    if (time == 0) 
+    {
         [self gameOver];
     }
 }
@@ -174,7 +175,7 @@ eachShape(void *ptr, void* unused)
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
 -(void)pauseTapped
 {
-    [SceneManager goPause: score WithTime: time];
+    [SceneManager goPause: score WithBoost: boost WithTime: time];
 }
 
 //Thread for good target. Mom + baby either move along or gets hit by granny
@@ -304,7 +305,7 @@ eachShape(void *ptr, void* unused)
     
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
-    [oldLady runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
+    [oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
@@ -313,7 +314,7 @@ eachShape(void *ptr, void* unused)
     if (self.plantActive && self.swipedUp)
         [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
     else if (plant.position.y == oldLadyLocation.y)
-        [plant runAction: [CCMoveTo actionWithDuration:2 position:oldLadyLocation]];
+        [plant runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
     
     //finger is no longer touching plant, finger is no longer swiping up
     self.plantActive = NO;

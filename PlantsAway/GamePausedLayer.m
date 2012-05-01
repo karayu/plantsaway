@@ -12,7 +12,7 @@
 
 @implementation GamePausedLayer
 
-@synthesize score, time;
+@synthesize score, time, boost;
 
 -(id)init
 {
@@ -42,7 +42,7 @@
 //called by the new game button
 -(void)newGame:(id)sender
 {
-	[SceneManager goNewGame];
+	[SceneManager goNewGame:boost];
 }
 
 //called by the high scores button
@@ -60,7 +60,7 @@
 //called by the resume game button
 -(void)resumeGame:(id)sender
 {
-	[SceneManager goResumeGame: score WithTime: time];
+	[SceneManager goResumeGame:score WithBoost:boost WithTime:time];
 }
 
 

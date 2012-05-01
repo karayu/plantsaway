@@ -19,13 +19,11 @@
 
     CCTexture2D *oldLadyTexture1;
     CCTexture2D *oldLadyTexture2;
-    
     CCTexture2D *hoodlumTexture1;
-    
     CCTexture2D *momTexture1;
 }
 
-//returns a CCScene that contains the HelloWorldLayer as the only child
+//returns a CCScene that contains the MainLayer as the only child
 +(CCScene *) scene;
 
 //gameplay variables
@@ -33,6 +31,9 @@
 @property int time;
 @property BOOL plantActive;
 @property BOOL swipedUp;
+
+//the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
+@property int boost;
 
 //gameplay methods
 -(void)pauseTapped;
