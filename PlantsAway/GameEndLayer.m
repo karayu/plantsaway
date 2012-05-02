@@ -61,7 +61,7 @@
 //called by new score button
 - (void)newGame:(id)sender
 {
-	[SceneManager goNewGame];
+	[SceneManager goInstructions];
 }
 
 @end

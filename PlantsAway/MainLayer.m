@@ -44,7 +44,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, swipedUp, startTouchPosition, endTouchPosition, score, time, boost;
+@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost;
 
 +(CCScene *) scene
 {
@@ -261,7 +261,7 @@ eachShape(void *ptr, void* unused)
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     //when user touches screen, if plant has just been launched it returns to oldLady to prepare for RELAUNCH!
-    if (plant.position.y < 0)
+    if (plant.position.y == -50)
         plant.position = oldLady.position;
     
     //gets location of finger touch
@@ -269,35 +269,39 @@ eachShape(void *ptr, void* unused)
     
     //if finger is touching plant, set plant to active
     if (CGRectContainsPoint(plant.boundingBox, self.startTouchPosition)) 
+    {
+        //plant is NOW ACTIVE!
         self.plantActive = YES;
-    
+        
+        //reposition plant
+        int newPlantY = oldLady.position.y + 30;
+        CGPoint location = ccp(oldLady.position.x, newPlantY);
+        plant.position = location;
+        
+        //change oldLady's texture to show her lifting the plant
+        [oldLady lift]; 
+    }
+        
     return YES;
 }
 
-
+/*
 -(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     //only animate oldLady lift if plant is currently being pulled up or down
     if(self.plantActive) 
     {
-        //while finger is still on screen, get new touch location
-        self.endTouchPosition = [self convertTouchToNodeSpace: touch];
+        //reposition plant
+        int newPlantY = oldLady.position.y + 30;
+        CGPoint location = ccp(oldLady.position.x, newPlantY);
+        plant.position = location;
         
-        //if endTouch is higher than startTouch, shows oldLady lifting plant above her head
-        if (self.endTouchPosition.y > self.startTouchPosition.y)
-        {            
-            int newPlantY = oldLady.position.y + 30;
-            CGPoint location = ccp(oldLady.position.x, newPlantY);
-            plant.position = location;
-            
-            //change oldLady's texture to show her lifting the plant
-            [oldLady lift];
-            
-            //sets swipedUp bool to true
-            self.swipedUp = YES;
-        }
+        //change oldLady's texture to show her lifting the plant
+        [oldLady lift];
+
     }
 }
+*/
 
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
@@ -313,14 +317,19 @@ eachShape(void *ptr, void* unused)
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
     
     //decide whether or not plant will stay with oldLady or be launched to the passersby!
-    if (self.plantActive && self.swipedUp)
-        [plant runAction: [CCMoveTo actionWithDuration:2 position:plantDestination]]; 
+    if (self.plantActive && plant.position.y >= oldLadyLocation.y)
+    {
+        id action = [CCMoveTo actionWithDuration:2 position:plantDestination]; 
+        id ease = [CCEaseIn actionWithAction:action rate:2];
+        [plant runAction: ease];
+    }
     else if (plant.position.y == oldLadyLocation.y)
+    {
         [plant runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
+    }
     
-    //finger is no longer touching plant, finger is no longer swiping up
+    //finger is no longer touching plant
     self.plantActive = NO;
-    self.swipedUp = NO;
 }
 
 //registers finger touch sensors

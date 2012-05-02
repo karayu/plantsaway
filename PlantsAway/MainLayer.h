@@ -30,7 +30,6 @@
 @property int score;
 @property int time;
 @property BOOL plantActive;
-@property BOOL swipedUp;
 
 //the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
 @property int boost;
