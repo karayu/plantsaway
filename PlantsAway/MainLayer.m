@@ -11,6 +11,7 @@
 #import "SceneManager.h"
 #import "Sprite.h"
 #import "OldLady.h"
+#import "InstructionsLayer.h"
 
 OldLady *oldLady;
 CCSprite *plant;
@@ -51,8 +52,9 @@ eachShape(void *ptr, void* unused)
 	CCScene *scene = [CCScene node];
 	
 	//initialize layer
-	MainLayer *layer = [MainLayer node];
-	
+	//MainLayer *layer = [MainLayer node];
+    InstructionsLayer *layer =  [InstructionsLayer node];
+    
 	//add layer as a child to scene
 	[scene addChild: layer];
 	

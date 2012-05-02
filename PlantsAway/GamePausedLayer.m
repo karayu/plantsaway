@@ -28,10 +28,9 @@
         CCMenuItemFont *resumeGame = [CCMenuItemFont itemFromString:@"Resume Game" target:self selector: @selector(resumeGame:)];
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         CCMenuItemFont *highScores = [CCMenuItemFont itemFromString:@"High Scores" target:self selector: @selector(highScores:)];
-        CCMenuItemFont *instructions = [CCMenuItemFont itemFromString:@"Instructions" target:self selector: @selector(viewInstructions:)];
         
         //creates a menu with the buttons listed above
-        CCMenu *menu = [CCMenu menuWithItems: resumeGame, instructions, startNew, highScores, nil];
+        CCMenu *menu = [CCMenu menuWithItems: resumeGame, startNew, highScores, nil];
         menu.position = ccp( 160, 200 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 2];
@@ -42,19 +41,13 @@
 //called by the new game button
 -(void)newGame:(id)sender
 {
-	[SceneManager goNewGame:boost];
+	[SceneManager goInstructions];
 }
 
 //called by the high scores button
 -(void)highScores:(id)sender
 {
 	[SceneManager goHighScores];
-}
-
-//called by the instructions button
--(void)viewInstructions:(id)sender
-{
-	[SceneManager goInstructions];
 }
 
 //called by the resume game button

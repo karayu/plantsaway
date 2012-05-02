@@ -23,7 +23,6 @@
 //functionality to allow user to view other layers
 -(void)newGame:(id)sender;
 -(void)highScores:(id)sender;
--(void)viewInstructions:(id)sender;
 -(void)resumeGame:(id)sender;
 
 @end
