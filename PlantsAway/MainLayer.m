@@ -101,7 +101,6 @@ eachShape(void *ptr, void* unused)
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
-        [self schedule: @selector(tick:) interval:1.0];
         time = 100; 
         
         //initiate the background
@@ -146,10 +145,13 @@ eachShape(void *ptr, void* unused)
         
 		cpInitChipmunk();
         
+        //schedulers for targets moving and plant resurrection
         [self schedule:@selector(nextFrameGoodTarget:)];		
         [self schedule:@selector(nextFrameBadTarget:)];	
-        [self schedule:@selector(restorePlant:)];	
-
+        [self schedule:@selector(restorePlant:)];
+        
+        //scheduler for time countdown, and upleveling
+        [self schedule: @selector(tick:) interval:1.0];
     }
 	return self;
 }
@@ -195,8 +197,8 @@ eachShape(void *ptr, void* unused)
         [self gameOver];
     }
     
-    //alert the user that they've gone up a level with every 40 points they score
-    if (score == level*IncreLevel)
+    //alert the user that they've gone up a level with every IncreLevel points they score
+    if (score > level*IncreLevel)
     {
         //source:http://www.cocos2d-iphone.org/forum/topic/1080
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
@@ -245,7 +247,7 @@ eachShape(void *ptr, void* unused)
     if (plant.position.y == -50 && !oldLadyMoving)
         plant.position = oldLady.position;
     
-    //if plant gets ressurected in the wrong spot, fix it
+    //if plant gets resurrected in the wrong spot, fix it
     if (plant.position.y == oldLady.position.y)
         plant.position = oldLady.position;
 }
@@ -316,9 +318,10 @@ eachShape(void *ptr, void* unused)
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
-        score = score - (IncreScore*plantType);  //adjust the points by the type of plant
+        score = score - (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
     else 
-        score = score + (IncreScore*plantType);  //adjust the points by the type of plant
+        score = score + (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
+
     
     [self updateScore];
 }

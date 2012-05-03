@@ -9,7 +9,7 @@
 #import "CCLayer.h"
 #import "cocos2d.h"
 
-
+//delegate for this layer
 //source: http://playsnackgames.com/blog/2011/09/cocos2d-tutorial-creating-a-reusable-pause-layer/
 @interface PauseLayerProtocol: CCNode 
 -(void)pauseLayerDidPause;
@@ -24,15 +24,10 @@
 
 }
 
-//returns a CCScene that contains the MainLayer as the only child
+//returns a CCScene that contains a GamePausedLayer as the only child
 +(CCScene *) scene;
 
-//variables to return to pause menu & eventually resume game
-@property int score;
-@property int time;
-@property int boost;
-
-//functionality to allow user to view other layers
+//functionality to allow user to view other layers (goes through SceneManager)
 -(void)newGame:(id)sender;
 -(void)highScores:(id)sender;
 -(void)resumeGame:(id)sender;

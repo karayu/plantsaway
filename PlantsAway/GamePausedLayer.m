@@ -12,7 +12,6 @@
 
 @implementation GamePausedLayer
 
-@synthesize score, time, boost;
 
 
 +(CCScene *) scene
@@ -66,12 +65,10 @@
 	[SceneManager goHighScores];
 }
 
-
 //called by the resume game button
 -(void)resumeGame:(id)sender
 {    
     [SceneManager goResumeGame];
 }
-
 
 @end
