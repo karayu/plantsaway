@@ -27,8 +27,8 @@ int speed;
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
         
-        initSpeed = 50;
-        speed = 50;
+        initSpeed = 100;
+        speed = 100;
     }
     
     return self;

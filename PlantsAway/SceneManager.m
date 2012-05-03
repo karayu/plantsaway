@@ -48,17 +48,6 @@
 
 }
 
-//resumes game play by restoring the score and time left after pause layer.  called by pause layer
-/*+(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time 
-{
-    MainLayer *layer =  [MainLayer node];
-    layer.score = score;
-    layer.time = time;
-    layer.boost = boost;
-    [layer updateScore];
-    [layer updateTime];
-	[SceneManager go: layer];
-}*/
 
 //creates a new game
 +(void)goNewGame :(int)boost :(int)plant

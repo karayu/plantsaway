@@ -44,7 +44,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType, oldLadyMoving;
+@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *) scene
@@ -52,9 +52,6 @@ eachShape(void *ptr, void* unused)
 	//initialize scene
 	CCScene *scene = [CCScene node];
 	
-	//initialize layer
-	//MainLayer *layer = [MainLayer node];
-    
 	//add layer as a child to scene
 	[scene addChild: self];
 	
@@ -69,6 +66,9 @@ eachShape(void *ptr, void* unused)
 	//always call "super" init
 	if((self=[super init])) 
     {
+        //initialize level
+        level = 1; 
+        
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
@@ -192,6 +192,16 @@ eachShape(void *ptr, void* unused)
         [self gameOver];
     }
     
+    /*if (score > 30)
+    {
+        level = level +1;
+        time = 100;
+        oldLady.initSpeed = MAX(oldLady.initSpeed - 20, 20);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've survived level %d", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
+        [alert show];
+        [[CCDirector sharedDirector] pause];
+    }*/
 
 }
 
