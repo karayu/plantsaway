@@ -23,8 +23,9 @@
     CCTexture2D *momTexture1;
 }
 
-//returns a CCScene that contains the MainLayer as the only child
-+(CCScene *) scene;
+//returns a CCScene that contains the itself(MainLayer) as the only child
+-(CCScene *) scene;
+
 
 //gameplay variables
 @property int score;

@@ -24,32 +24,11 @@
 
 @implementation SceneManager
 
-static int timeLeft = 100;
-static int currentScore = 100;
-
-//returns to pause menu (called by high scores or instructions)
-+(void)goPause
-{
-    //creates a game paused layer that know the score and time left
-    GamePausedLayer *layer = [GamePausedLayer node];
-    layer.score = currentScore;
-    layer.time = timeLeft;
-    
-    [SceneManager go: layer];
-}
 
 //pauses game while keeping track of the score and time left. called from the pause button in main layer
-+(void)goPause:(int)score WithBoost:(int)boost WithTime:(int)time 
++(void)goPause
 {
-    //creates a game paused layer that know the score and time left
-    GamePausedLayer *layer = [GamePausedLayer node];
-    layer.score = score;
-    layer.time = time;
-    layer.boost = boost;
-    
-    timeLeft = time;
-    currentScore = score;
-    [SceneManager go: layer];
+    [[CCDirector sharedDirector] pushScene: [GamePausedLayer scene]];
 }
 
 //ends the game and tells the user the score. called when time runs out
@@ -65,16 +44,12 @@ static int currentScore = 100;
 //resumes game when user has paused
 +(void)goResumeGame
 {
-    MainLayer *layer =  [MainLayer node];
-    layer.score = currentScore;
-    layer.time = timeLeft;
-    [layer updateScore];
-    [layer updateTime];
-	[SceneManager go: layer];
+    [[CCDirector sharedDirector] popScene];
+
 }
 
 //resumes game play by restoring the score and time left after pause layer.  called by pause layer
-+(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time 
+/*+(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time 
 {
     MainLayer *layer =  [MainLayer node];
     layer.score = score;
@@ -83,14 +58,15 @@ static int currentScore = 100;
     [layer updateScore];
     [layer updateTime];
 	[SceneManager go: layer];
-}
+}*/
 
 //creates a new game
 +(void)goNewGame: (int)boost
 {
     MainLayer *layer = [MainLayer node];
     layer.boost = boost;
-	[SceneManager go: layer];
+    
+    [[CCDirector sharedDirector] replaceScene: [layer scene]];
 }
 
 //shows high scores layer
@@ -103,8 +79,8 @@ static int currentScore = 100;
 //shows high scores layer
 +(void)goHighScores 
 {
-    HighScoresLayer *layer =  [HighScoresLayer node];
-	[SceneManager go: layer];
+    //adds the high scores layer scene to the scene stack
+    [[CCDirector sharedDirector] pushScene: [HighScoresLayer scene]];
 }
 
 //source: http://www.iphonegametutorials.com/2010/09/07/cocos2d-menu-tutorial/

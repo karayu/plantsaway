@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "GameConfig.h"
 #import "MainLayer.h"
+#import "InstructionsLayer.h"
 #import "RootViewController.h"
 
 
@@ -108,7 +109,9 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [MainLayer scene]];
+    [[CCDirector sharedDirector] runWithScene: [InstructionsLayer scene]];
+
+	//[[CCDirector sharedDirector] runWithScene: [MainLayer scene]];
 }
 
 

@@ -16,6 +16,9 @@
     CCLabelTTF *headerLabel;
 }
 
+//returns a CCScene that contains the MainLayer as the only child
++(CCScene *) scene;
+
 //functionality to return to pause menu
 - (void)startGame:(id)sender;
 
