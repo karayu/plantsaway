@@ -29,6 +29,7 @@
 		01F587FE1550FC7200891485 /* shrub.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FC1550FC7200891485 /* shrub.png */; };
 		01F587FF1550FC7200891485 /* leaf.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FD1550FC7200891485 /* leaf.png */; };
 		01F588581552537100891485 /* rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F588571552537100891485 /* rect.png */; };
+		E70BC4AA15529E79009DE436 /* HighScores.m in Sources */ = {isa = PBXBuildFile; fileRef = E70BC4A915529E79009DE436 /* HighScores.m */; };
 		E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E743ADE21544EBBD006E0811 /* GamePausedLayer.m */; };
 		E743ADE51544FE1B006E0811 /* README in Resources */ = {isa = PBXBuildFile; fileRef = E743ADE41544FE1B006E0811 /* README */; };
 		E761C1DB15439A550019E404 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DA15439A550019E404 /* pause.png */; };
@@ -207,6 +208,8 @@
 		01F587FC1550FC7200891485 /* shrub.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shrub.png; sourceTree = "<group>"; };
 		01F587FD1550FC7200891485 /* leaf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf.png; sourceTree = "<group>"; };
 		01F588571552537100891485 /* rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rect.png; sourceTree = "<group>"; };
+		E70BC4A815529E79009DE436 /* HighScores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScores.h; sourceTree = "<group>"; };
+		E70BC4A915529E79009DE436 /* HighScores.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScores.m; sourceTree = "<group>"; };
 		E743ADE11544EBBD006E0811 /* GamePausedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePausedLayer.h; sourceTree = "<group>"; };
 		E743ADE21544EBBD006E0811 /* GamePausedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePausedLayer.m; sourceTree = "<group>"; };
 		E743ADE41544FE1B006E0811 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };

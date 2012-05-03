@@ -21,12 +21,11 @@
 -(CCScene *) scene;
 
 //the scores
-@property (strong) NSMutableArray *scores;
+@property (strong) HighScores *highScores;
 
 //functionality of high scores layer
 -(void)goBack: (id)sender;
-
-
+- (void)showScores;
 
 
 @end
