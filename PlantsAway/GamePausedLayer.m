@@ -13,7 +13,6 @@
 @implementation GamePausedLayer
 
 
-
 +(CCScene *) scene
 {
 	//initialize scene

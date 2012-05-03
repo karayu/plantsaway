@@ -29,7 +29,6 @@
 	return scene;
 }
 
-
 -(id)init
 {
     if((self=[super init]))

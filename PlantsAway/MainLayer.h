@@ -21,7 +21,6 @@
     CCTexture2D *oldLadyTexture2;
     CCTexture2D *hoodlumTexture1;
     CCTexture2D *momTexture1;
-    
 }
 
 //returns a CCScene that contains the itself(MainLayer) as the only child
@@ -41,7 +40,7 @@ extern int IncreLevel;  //the score gap between different levels
 @property int plantType; //the plant can be 1 (tiny) 2(regular) or 3(big)
 
 //gameplay methods
--(void) initBoost: (int)booster;
+-(void)initBoost: (int)booster;
 -(void)pauseTapped;
 -(void)gameOver;
 -(void)calculateHit:(BOOL)good;
@@ -52,7 +51,7 @@ extern int IncreLevel;  //the score gap between different levels
 @property CGPoint endTouchPosition;
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event;
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event;
--(void) registerWithTouchDispatcher;
+-(void)registerWithTouchDispatcher;
 
 //time methods
 -(void)nextFrameBadTarget:(ccTime)dt;

@@ -32,12 +32,11 @@ eachShape(void *ptr, void* unused)
 {
 	cpShape *shape = (cpShape*) ptr;
 	CCSprite *sprite = shape->data;
-	if( sprite ) {
+	if( sprite ) 
+    {
 		cpBody *body = shape->body;
 		
-		//TIP: cocos2d and chipmunk uses the same struct to store its position
 		//chipmunk uses: cpVect, and cocos2d uses CGPoint but in reality the are the same
-		//since v0.7.1 you can mix them if you want.		
 		[sprite setPosition: body->p];
 		
 		[sprite setRotation: (float) CC_RADIANS_TO_DEGREES( -body->a )];
@@ -50,7 +49,7 @@ eachShape(void *ptr, void* unused)
 @synthesize plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
--(CCScene *) scene
+-(CCScene *)scene
 {
 	//initialize scene
 	CCScene *scene = [CCScene node];
@@ -156,15 +155,16 @@ eachShape(void *ptr, void* unused)
 	return self;
 }
 
--(void) initBoost: (int)booster
+-(void)initBoost:(int)booster
 {
     self.boost = booster;
     [oldLady setBoost: booster];
 }
 
-//set plant
+//set up plant at beginning of game play
 -(void)setUpPlant:(int)plantNumber
 {
+    //declare plant type based on user's selection
     self.plantType = plantNumber;
     
     //initiate her plant based on selecte plantType on initial screen (InstructionsLayer)
@@ -180,6 +180,8 @@ eachShape(void *ptr, void* unused)
             plant = [CCSprite spriteWithFile: @"shrub.png"];
             break;
     }
+    
+    //add plant to layer
     plant.position = ccp( 160, 300 );
     [self addChild:plant];
     [plant setScale:0.5];
@@ -204,22 +206,19 @@ eachShape(void *ptr, void* unused)
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
         [alert show];
         [[CCDirector sharedDirector] pause];
-        
-        
     }
-    
 }
 
 //action after dismissing alert telling you that you've gone up a level. Increment level, reset time and decrease speed to make it harder for the next level
 //http://www.cocos2d-iphone.org/forum/topic/1080
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex 
 {    
+    //increase user's level, reset time to 100, decrease speed
     level = level +1;
     time = 100;
     oldLady.speed = MAX(oldLady.speed - 20, 20);
     
-    NSLog(@"old lady speed is: %f", oldLady.speed);
-    
+    //resume game
 	[[CCDirector sharedDirector] resume];
 }
 
@@ -228,18 +227,24 @@ eachShape(void *ptr, void* unused)
 {
     
     //listen to see if old lady is moving. source: http://www.cocos2d-iphone.org/forum/topic/9211
-    if ([oldLady numberOfRunningActions] > 0) {
+    if ([oldLady numberOfRunningActions] > 0) 
+    {
         CCAction *action = [oldLady getActionByTag:1];
-        if (nil != action) {
-            if ([action isDone]){
+        if (nil != action) 
+        {
+            if ([action isDone])
+            {
                 oldLadyMoving = NO;
             }
-            else if (![action isDone]) {
+            //if the action is not complete, she is still in motion
+            else if (![action isDone]) 
+            {
                 oldLadyMoving = YES;
             }
         }
     }
-    else {
+    else 
+    {
         oldLadyMoving = NO;
     }
     
@@ -290,7 +295,6 @@ eachShape(void *ptr, void* unused)
         {
             target.collision = YES;
             [self calculateHit: target.good];
-            
         }
     }
     else 
@@ -305,29 +309,29 @@ eachShape(void *ptr, void* unused)
             [target prepareTarget];
             
         }
-        else {
+        else 
+        {
             //if target has not yet been hit, continue to move normally across screen
             [target move: dt ];
         }
     }
 }
 
-
-//Calculates points of hit and updates the score. Passes in whether the target hit was a good target or not
+//Calculates points of hit based on plant type and target type
 -(void)calculateHit:(BOOL)good
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
-        score = score - (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
+        score = score - (IncreScore*(4-plantType)); 
     else 
-        score = score + (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
+        score = score + (IncreScore*(4-plantType));
     
     
     [self updateScore];
 }
 
 //update the score label with current score
--(void) updateScore
+-(void)updateScore
 {
     NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
     [scoreLabel setString:(NSString *)currentScore];
@@ -365,8 +369,6 @@ eachShape(void *ptr, void* unused)
     
     return YES;
 }
-
-
 
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
