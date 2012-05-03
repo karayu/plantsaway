@@ -14,10 +14,11 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData, highScores, fullFilePath;
+@synthesize highScores, fullFilePath;
 
 //global constant
 NSString *HighScoreFileName = @"scores";
+int MaxHighScores = 10;
 
 
 +(CCScene *) scene
@@ -79,34 +80,17 @@ NSString *HighScoreFileName = @"scores";
 
 
 
--(void) connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSLog(@"connectionDidFinishLoading"); //nothing showing here
-    NSString *message = [[NSString alloc] initWithFormat:@"Succeeded! Received %d bytes of data",[self.receivedData length]];
-    NSLog(@"%@", message);
-    
-    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fullName = [NSString stringWithFormat:@"quotes.csv"];
-    
-    fullFilePath = [NSString stringWithFormat:@"%@/%@",docDir,fullName];
-    [self.receivedData writeToFile:fullFilePath atomically:YES];
-    [self writeToFile];
-    
-} 
-
-
-
 //load the plist of high scores
 - (void)loadScores
 {    
     //sees if we can find the plist and load it
 
-    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: [self.fullFilePath stringByAppendingString: @".plist"]];
+    self.highScores = [[NSMutableArray alloc] initWithContentsOfFile: [self.fullFilePath stringByAppendingString: @".plist"]];
     
     //otherwise, initialize an empty high scores array
     if (! self.highScores) 
     {
-        self.highScores = [[NSMutableDictionary alloc] init];
+        self.highScores = [[NSMutableArray alloc] init];
         
     }
 }
@@ -114,11 +98,7 @@ NSString *HighScoreFileName = @"scores";
 
 //saves the scores to the plist
 - (void)saveScores
-{
-    [self.highScores setObject: [NSString stringWithFormat:@"%d", 200] forKey:@"Anne"];
-    [self.highScores setObject: [NSString stringWithFormat:@"%d", 150] forKey:@"Chad"];
-
-    
+{    
     [self.highScores writeToFile: [self.fullFilePath stringByAppendingString: @".plist"] atomically:YES];
 }
 
@@ -128,57 +108,31 @@ NSString *HighScoreFileName = @"scores";
 -(void)goBack: (id)sender
 {
     [[CCDirector sharedDirector] popScene];
-
-	//[SceneManager goPause];
 }
 
-//gets this device's unique ID
--(void)findDeviceID
+//depending on how high the score is, adds the high score to the high scores table, in the right position
+//taken from Project 2
+- (BOOL)addHighScore: (int)score
 {
-    UIDevice *device = [UIDevice currentDevice];
-    NSString *uniqueIdentifier = [device uniqueIdentifier];
-    self.deviceID = uniqueIdentifier;
-}
-
--(void)writeToFile
-{
-
-}
-
-
-#pragma mark NSURLConnection methods
-
-/*-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    // This method is called when the server has determined that it has enough information to create the NSURLResponse.
-    [self.receivedData setLength:0];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    // Append the new data to receivedData.    
-    [self.receivedData appendData:data];
-}
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{    
-    // inform the user that connection failed
-    UIAlertView *didFailWithErrorMessage = [[UIAlertView alloc] initWithTitle: @"NSURLConnection " message: @"didFailWithError"  delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-    [didFailWithErrorMessage show];
-	
-    //info on failed connection NSLog'd:
-    NSLog(@"Connection failed! Error - %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{    
-    //alert the user that NSURL connection is working
-    NSString *message = [[NSString alloc] initWithFormat:@"Succeeded! Received %d bytes of data",[self.receivedData length]];
+    NSNumber *newScore = [[NSNumber alloc] init];
+    newScore = [NSNumber numberWithInt:score];
     
-    UIAlertView *finishedLoadingMessage = [[UIAlertView alloc] initWithTitle: @"NSURLConnection " message:message  delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-    [finishedLoadingMessage show];
+    //add score to the high scores array
+    [self.highScores addObject: newScore];
+    
+    //sort the high scores array... descending - http://stackoverflow.com/questions/3749657/nsmutablearray-arraywitharray-vs-initwitharray
+    NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
+    NSArray *sorted = [self.highScores sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
+    self.highScores = [[NSMutableArray alloc] initWithArray:sorted];
+    
+    //if we have too many scores, delete the smallest one
+    if ((int)[self.highScores count] > MaxHighScores ) 
+    {
+        [self.highScores removeLastObject];
+        
+    }
+    return YES;
 }
 
-*/
 
 @end

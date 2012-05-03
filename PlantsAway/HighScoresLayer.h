@@ -15,28 +15,25 @@
     CCLabelTTF *highScoresLabel;
 }
 
+//returns the scene containing a highscores layer
 +(CCScene *) scene;
 
-//high score file name
+//high score file name and max # of scores
 extern NSString *HighScoreFileName;
+extern int MaxHighScores;
 
-
-//variables for NSURL connection
-@property (strong) NSString *deviceID;
+//filename and highscores array
 @property (strong) NSString *fullFilePath;
-@property (strong) NSMutableData *receivedData;
-@property (strong) NSMutableDictionary *highScores;
+@property (strong) NSMutableArray *highScores;
 
 //functionality of high scores layer
--(void)findDeviceID;
 -(void)goBack: (id)sender;
 
-//-(void)pauseMenu:(id)sender;
 
-//NSURL functionality
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
--(void)connectionDidFinishLoading:(NSURLConnection *)connection;
+//score saving and loading
+- (void)loadScores;
+- (void)saveScores;
+- (BOOL)addHighScore: (int)score;
+
 
 @end
