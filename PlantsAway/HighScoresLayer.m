@@ -51,6 +51,8 @@
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
         
+        [self loadDatafromURL];
+        /*
         //create the NSURL request - this will soon be a connection to our own web service
         NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]
                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -69,10 +71,53 @@
             //inform the user that the connection failed
             UIAlertView *connectFailMessage = [[UIAlertView alloc] initWithTitle:@"NSURLConnection " message:@"Failed in init"  delegate: self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [connectFailMessage show];
-        }
+        }*/
     }
     return self;
 }
+
+
+
+-(void) connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"connectionDidFinishLoading"); //nothing showing here
+    NSString *message = [[NSString alloc] initWithFormat:@"Succeeded! Received %d bytes of data",[self.receivedData length]];
+    NSLog(@"%@", message);
+    
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fullName = [NSString stringWithFormat:@"quotes.csv"];
+    
+    NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@",docDir,fullName];
+    [self.receivedData writeToFile:fullFilePath atomically:YES];
+    
+} 
+
+-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"data2: %@", myString);
+    
+    if (self.receivedData)
+        [self.receivedData appendData:data];
+    else 
+        self.receivedData = [[NSMutableData alloc] initWithData:data];
+}
+
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
+{
+    NSLog(@"%@", [error description]);
+}
+
+- (void)loadDatafromURL
+{    
+    NSString *urlString = @"http://hcs.harvard.edu/~organizations/soap/test.csv";
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection connectionWithRequest:request delegate:self];
+}
+
+
+
 
 //go back to pause menu
 -(void)goBack: (id)sender
@@ -92,7 +137,7 @@
 
 #pragma mark NSURLConnection methods
 
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+/*-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     // This method is called when the server has determined that it has enough information to create the NSURLResponse.
     [self.receivedData setLength:0];
@@ -123,6 +168,6 @@
     [finishedLoadingMessage show];
 }
 
-
+*/
 
 @end
