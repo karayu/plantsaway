@@ -17,6 +17,9 @@
 
 +(CCScene *) scene;
 
+//high score file name
+extern NSString *HighScoreFileName;
+
 
 //variables for NSURL connection
 @property (strong) NSString *deviceID;

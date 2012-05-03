@@ -198,7 +198,7 @@ eachShape(void *ptr, void* unused)
     }
     
     //alert the user that they've gone up a level with every IncreLevel points they score
-    if (score > level*IncreLevel)
+    if (score >= level*IncreLevel)
     {
         //source:http://www.cocos2d-iphone.org/forum/topic/1080
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];

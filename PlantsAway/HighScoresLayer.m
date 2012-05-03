@@ -16,6 +16,9 @@
 
 @synthesize deviceID, receivedData, highScores, fullFilePath;
 
+//global constant
+NSString *HighScoreFileName = @"scores";
+
 
 +(CCScene *) scene
 {
@@ -50,6 +53,7 @@
         menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
+                
         
         [self showScores];
     }
