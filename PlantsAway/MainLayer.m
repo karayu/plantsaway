@@ -44,7 +44,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType;
+@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *) scene

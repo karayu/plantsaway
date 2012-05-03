@@ -27,8 +27,8 @@ int speed = 30;
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
         
-        initSpeed = 30;
-        speed = 30;
+        initSpeed = 50;
+        speed = 50;
     }
     
     return self;
@@ -38,6 +38,7 @@ int speed = 30;
 {
     speed = initSpeed*boost;
 }
+
 
 //calculates the updated position based on new position, old position, and velocity
 - (int)timeToPosition :(int)newPosition From:(int)oldPosition

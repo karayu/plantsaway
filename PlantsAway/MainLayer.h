@@ -40,6 +40,7 @@
 //the plant can be 1 (tiny) 2(regular) or 3(big)
 @property int plantType;
 
+
 //gameplay methods
 -(void)pauseTapped;
 -(void)gameOver;
