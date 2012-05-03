@@ -10,8 +10,10 @@
 
 @implementation OldLady
 
-@synthesize time, initSpeed, speed;
+@synthesize time, speed;
 
+//set oldLady's constant speed
+int initSpeed = 80.0;
 
 -(id) init
 {
@@ -24,12 +26,7 @@
         //initialize position and scale
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
-        
-        //set initial speed and regular speed
-        initSpeed = 80.0;
-        speed = 80.0;
     }
-    
     return self;
 }
 

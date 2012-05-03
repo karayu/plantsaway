@@ -19,10 +19,11 @@ extern int MaxHighScores;
 @property (strong) NSString *fullFilePath;
 @property (strong) NSMutableArray *scores;
 
+
 //score saving and loading
 - (void)loadScores;
 - (void)saveScores;
-- (BOOL)addHighScore:(int)score;
+- (BOOL)addHighScore: (int)score;
 
 
 @end

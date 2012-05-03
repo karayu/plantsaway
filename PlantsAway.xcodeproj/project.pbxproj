@@ -18,13 +18,14 @@
 		010D18381544EC20002D5A80 /* Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D18371544EC1F002D5A80 /* Sprite.m */; };
 		010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D185215464E5B002D5A80 /* HighScoresLayer.m */; };
 		010D185715466102002D5A80 /* InstructionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 010D185615466101002D5A80 /* InstructionsLayer.m */; };
+		01900CA215529FE700E3F0CD /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01900CA115529FE700E3F0CD /* app_icon.png */; };
+		01900CA51552A0AD00E3F0CD /* HighScores.m in Sources */ = {isa = PBXBuildFile; fileRef = 01900CA41552A0AD00E3F0CD /* HighScores.m */; };
 		01F587F2155078B100891485 /* boost0_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587EE155078B100891485 /* boost0_selected.png */; };
 		01F587F3155078B100891485 /* boost1_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587EF155078B100891485 /* boost1_selected.png */; };
 		01F587F4155078B100891485 /* boost1.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587F0155078B100891485 /* boost1.png */; };
 		01F587F5155078B100891485 /* boost0.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587F1155078B100891485 /* boost0.png */; };
 		01F587F81550834E00891485 /* boost2_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587F61550834E00891485 /* boost2_selected.png */; };
 		01F587F91550834E00891485 /* boost2.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587F71550834E00891485 /* boost2.png */; };
-		01F587FB1550EBD100891485 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FA1550EBD100891485 /* app_icon.png */; };
 		01F587FE1550FC7200891485 /* shrub.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FC1550FC7200891485 /* shrub.png */; };
 		01F587FF1550FC7200891485 /* leaf.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FD1550FC7200891485 /* leaf.png */; };
 		01F588581552537100891485 /* rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F588571552537100891485 /* rect.png */; };
@@ -194,13 +195,15 @@
 		010D185215464E5B002D5A80 /* HighScoresLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoresLayer.m; sourceTree = "<group>"; };
 		010D185515466101002D5A80 /* InstructionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsLayer.h; sourceTree = "<group>"; };
 		010D185615466101002D5A80 /* InstructionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsLayer.m; sourceTree = "<group>"; };
+		01900CA115529FE700E3F0CD /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
+		01900CA31552A0AD00E3F0CD /* HighScores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScores.h; sourceTree = "<group>"; };
+		01900CA41552A0AD00E3F0CD /* HighScores.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScores.m; sourceTree = "<group>"; };
 		01F587EE155078B100891485 /* boost0_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost0_selected.png; sourceTree = "<group>"; };
 		01F587EF155078B100891485 /* boost1_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost1_selected.png; sourceTree = "<group>"; };
 		01F587F0155078B100891485 /* boost1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost1.png; sourceTree = "<group>"; };
 		01F587F1155078B100891485 /* boost0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost0.png; sourceTree = "<group>"; };
 		01F587F61550834E00891485 /* boost2_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost2_selected.png; sourceTree = "<group>"; };
 		01F587F71550834E00891485 /* boost2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boost2.png; sourceTree = "<group>"; };
-		01F587FA1550EBD100891485 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = app_icon.png; path = ../app_icon.png; sourceTree = "<group>"; };
 		01F587FC1550FC7200891485 /* shrub.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shrub.png; sourceTree = "<group>"; };
 		01F587FD1550FC7200891485 /* leaf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf.png; sourceTree = "<group>"; };
 		01F588571552537100891485 /* rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rect.png; sourceTree = "<group>"; };
@@ -535,7 +538,7 @@
 		010D17F0153F2811002D5A80 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				01F587FA1550EBD100891485 /* app_icon.png */,
+				01900CA115529FE700E3F0CD /* app_icon.png */,
 				01F588571552537100891485 /* rect.png */,
 				01F587FC1550FC7200891485 /* shrub.png */,
 				01F587FD1550FC7200891485 /* leaf.png */,
@@ -1061,6 +1064,8 @@
 		E7CF4EC8153E48D400BE422E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				01900CA31552A0AD00E3F0CD /* HighScores.h */,
+				01900CA41552A0AD00E3F0CD /* HighScores.m */,
 				E7CF4EBF153E48B800BE422E /* OldLady.h */,
 				E7CF4EC0153E48B800BE422E /* OldLady.m */,
 				010D18361544EC1F002D5A80 /* Sprite.h */,
@@ -1146,10 +1151,10 @@
 				01F587F5155078B100891485 /* boost0.png in Resources */,
 				01F587F81550834E00891485 /* boost2_selected.png in Resources */,
 				01F587F91550834E00891485 /* boost2.png in Resources */,
-				01F587FB1550EBD100891485 /* app_icon.png in Resources */,
 				01F587FE1550FC7200891485 /* shrub.png in Resources */,
 				01F587FF1550FC7200891485 /* leaf.png in Resources */,
 				01F588581552537100891485 /* rect.png in Resources */,
+				01900CA215529FE700E3F0CD /* app_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,6 +1296,7 @@
 				E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */,
 				010D185315464E5B002D5A80 /* HighScoresLayer.m in Sources */,
 				010D185715466102002D5A80 /* InstructionsLayer.m in Sources */,
+				01900CA51552A0AD00E3F0CD /* HighScores.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

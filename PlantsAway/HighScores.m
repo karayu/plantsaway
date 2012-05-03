@@ -40,7 +40,6 @@ int MaxHighScores = 10;
     return self;
 }
 
-
 //load the plist of high scores
 - (void)loadScores
 {    
@@ -56,17 +55,13 @@ int MaxHighScores = 10;
     }
 }
 
-
 //saves the scores to the plist
 - (void)saveScores
 {    
     [self.scores writeToFile: [self.fullFilePath stringByAppendingString: @".plist"] atomically:YES];
 }
 
-
-
-//depending on how high the score is, adds the high score to the high scores table, in the right position
-//saves it to file
+//depending on how high the score is, adds the high score to the high scores table, in the right position & saves it to file
 //taken from Project 2
 - (BOOL)addHighScore: (int)score
 {

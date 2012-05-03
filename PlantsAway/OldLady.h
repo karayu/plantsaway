@@ -16,9 +16,11 @@
     CCTexture2D *oldLadyTexture2;
 }
 
+//global constant (initial speed)
+extern int initSpeed;
+
 //the properties that define OldLady's new location
 @property float time;
-@property float initSpeed;
 @property float speed;
 
 //returns time it takes for movement to new position
