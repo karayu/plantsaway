@@ -4,13 +4,10 @@ It features an old lady that sits on a rooftop waiting for people to come by.
 She dislikes skateboarders immensely and tries to rid the world of them by dropping plants on them. 
 She likes women with babies and regrets dropping the plants on them.
 
-For the Alpha, we kept the game to simple game play with different scenes for the game ending and game pause. 
-In the release, we will have more levels, a web-services high scores table, more plants and boosts (like the old lady walking faster) 
+For the Release, we have added infinite levels (in which old Lady gets slower with each level, making it more difficult to maintain high scores), a high scores table, multiple plants to choose from, and fun boosts for our oldLady.
 
-A few things to note:
-    * We implemented this game using the Cocos2D framework: http://www.cocos2d-iphone.org/
-    * High Scores does not currently work.  We have set up the basics for establishing NSURLConnections but have not actually connected to our own server yet to store and retrieve the high scores.  We will be using the user's device ID as their unique identifier.
-    * When the user goes to the Pause menu, the "Resume Game" link does not actually resume their game.  It establishes a new game with their given amount of time left (from whenever they paused the game) and sets the score to whatever their score was when clicking Pause.  We can hopefully adjust this so it genuinely freezes game play and returns to it when the user pauses for the release.
-    * Cocos2D works with Layers that act like Photoshop layers (note how our program is broken down into various layers like GamePausedLayer, HighScoresLayer, etc) that act as BOTH controllers and view files.  While still generally using the MVC architeture, Cocos2D uses no xib file so the visual aspect of gameplay is implemented in these layers, which also define the functionality for the objects in each layer (as a controller).
-    * MainLayer contains the primary functionality for gameplay
-    * SORRY ABOUT ALL THE MODEL FILES -- we have not yet decided exactly how we want to divide up functions into classes so for now we have quite a bit of file clutter because of that.  Currently the main classes being used are Sprite & OldLady (in the folder "Model").
+A few NEW things to note:
+    * High Scores is working, but not with the originally intended web services.  After many hours of reading about NSURLConnections and hacking away at our code, we decided it wasn't worth the amount of time we were putting into it when we could be working on other aspects of the game.  The current high scores table is a local table of the individual user's highest scores.
+    * Boosts control the speed of the oldLady, which is more for fun than anything (it does not affect scorekeeping)
+    * Different plants each have a different point value associated with them.  The smaller the plant, the more points it is worth (i.e. for hitting targets with greater accuracy).
+    * The levels (with checkpoints at every 50pts added to the score) allow for longer gameplay and higher scores.  Each time the user reaches a level checkpoint, her time is reset to 100 and oldLady becomes a little bit slower.  Eventually, oldLady will become so slow that the user can barely still keep scoring... or even moving.  It's quite funny.  

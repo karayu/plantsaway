@@ -37,16 +37,11 @@ extern int IncreLevel;  //the score gap between different levels
 @property int level;
 @property BOOL plantActive; //whether user clicked on plant
 @property BOOL oldLadyMoving; //whether the old lady is currently moving 
-
-//the boost can be 1000 (infinite speed = teleportation), 2 (2x speed), or 1 (1x speed, no boost)
-@property int boost;
-
-//the plant can be 1 (tiny) 2(regular) or 3(big)
-@property int plantType;
-
--(void) initBoost: (int)booster;
+@property int boost; //the boost can be 1000 (teleportation), 2 (2x speed), or 1 (1x speed, no boost)
+@property int plantType; //the plant can be 1 (tiny) 2(regular) or 3(big)
 
 //gameplay methods
+-(void) initBoost: (int)booster;
 -(void)pauseTapped;
 -(void)gameOver;
 -(void)calculateHit:(BOOL)good;

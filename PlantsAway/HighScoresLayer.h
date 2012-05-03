@@ -25,18 +25,9 @@ extern NSString *HighScoreFileName;
 @property (strong) NSString *deviceID;
 @property (strong) NSString *fullFilePath;
 @property (strong) NSMutableData *receivedData;
-@property (strong) NSMutableDictionary *highScores;
+@property (strong) NSMutableArray *highScores;
 
 //functionality of high scores layer
--(void)findDeviceID;
 -(void)goBack: (id)sender;
-
-//-(void)pauseMenu:(id)sender;
-
-//NSURL functionality
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
--(void)connectionDidFinishLoading:(NSURLConnection *)connection;
 
 @end
