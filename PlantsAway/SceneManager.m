@@ -86,10 +86,11 @@ static int currentScore = 100;
 }
 
 //creates a new game
-+(void)goNewGame: (int)boost
++(void)goNewGame :(int)boost :(int)plant
 {
     MainLayer *layer = [MainLayer node];
     layer.boost = boost;
+    [layer setUpPlant:plant];
 	[SceneManager go: layer];
 }
 

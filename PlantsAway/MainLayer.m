@@ -44,7 +44,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost;
+@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType;
 
 +(CCScene *) scene
 {
@@ -96,14 +96,14 @@ eachShape(void *ptr, void* unused)
         
         //count down timer for gameplay
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
-        timeLabel.position = ccp(50, 440 ); //Middle of the screen...
+        timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
         [self schedule: @selector(tick:) interval:1.0];
         time = 100; 
         
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
-        background.position = ccp(160, 187  ); //187
+        background.position = ccp( 160, 187 );
         [self addChild:background];
         [background setScale:0.24];
 
@@ -118,12 +118,6 @@ eachShape(void *ptr, void* unused)
         oldLady = [OldLady spriteWithTexture:oldLadyTexture1];
         [OldLady initialize];
         [self addChild:oldLady];
-        
-        //initiate her plant
-        plant = [CCSprite spriteWithFile: @"flower.png"];
-        plant.position = ccp( 160, 300 );
-        [self addChild:plant];
-        [plant setScale:0.5];
         
         //create targets
         goodTarget = [Sprite spriteWithTexture:momTexture1];
@@ -153,6 +147,30 @@ eachShape(void *ptr, void* unused)
         [self schedule:@selector(nextFrameBadTarget:)];	
     }
 	return self;
+}
+
+//set plant
+-(void)setUpPlant:(int)plantNumber
+{
+    self.plantType = plantNumber;
+    NSLog(@"plantType:%d", plantType);
+    NSLog(@"self.plantType:%d", self.plantType);
+    //initiate her plant based on selecte plantType on initial screen (InstructionsLayer)
+    switch (plantType)
+    {
+        case 1:
+            plant = [CCSprite spriteWithFile: @"leaf.png"];
+            break;
+        case 2:
+            plant = [CCSprite spriteWithFile: @"flower.png"];
+            break;
+        case 3:
+            plant = [CCSprite spriteWithFile: @"shrub.png"];
+            break;
+    }
+    plant.position = ccp( 160, 300 );
+    [self addChild:plant];
+    [plant setScale:0.5];
 }
 
 //Countdown timer. updates the time left and if you run out of time, ends game

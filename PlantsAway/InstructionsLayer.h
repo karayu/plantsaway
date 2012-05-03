@@ -16,6 +16,9 @@
     CCLabelTTF *headerLabel;
 }
 
+//plantChosen boolean
+@property int plantChosen;
+
 //functionality to return to pause menu
 - (void)startGame:(id)sender;
 
