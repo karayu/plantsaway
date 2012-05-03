@@ -14,18 +14,15 @@
 
 @implementation HighScoresLayer
 
-@synthesize scores;
+@synthesize highScores;
 
-+(CCScene *) scene
+-(CCScene *) scene
 {
 	//initialize scene
 	CCScene *scene = [CCScene node];
-	
-	//initialize layer
-    HighScoresLayer *layer =  [HighScoresLayer node];
-    
+	    
 	//add layer as a child to scene
-	[scene addChild: layer];
+	[scene addChild: self];
 	
 	//return the scene
 	return scene;
@@ -36,9 +33,9 @@
 	//always call "super" init
 	if( (self=[super init])) 
     {
-        //create high scores header label
-        highScoresLabel = [CCLabelTTF labelWithString:@"High Scores:" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
-        highScoresLabel.position = ccp( 160, 360 ); 
+        //create a dummy label to take up space for now
+        highScoresLabel = [CCLabelTTF labelWithString:@"HIGH SCORES!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
+        highScoresLabel.position = ccp( 160, 340 ); 
         [self addChild:highScoresLabel];
         
         //button for returning to pause menu
@@ -49,9 +46,45 @@
         menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
+        
+        self.highScores = [[HighScores alloc] init];
+        [self.highScores loadScores];
 
     }
     return self;
+}
+
+
+
+//load the plist of high scores
+- (void)showScores
+{    
+  
+    //y-position
+    int position = 360;
+    
+    //check if high scores exist
+    if ([self.highScores.scores count] > 0)
+    {
+        
+        for (NSNumber *score in self.highScores.scores) 
+        {
+            //create label to display each score
+            CCLabelTTF *newScore = [CCLabelTTF labelWithString:[score stringValue] fontName:@"Marker Felt" fontSize:20];
+            newScore.position = ccp( 160, position );
+            [self addChild:newScore];
+            
+            //decrease down for next score
+            position -= 30;
+        }
+    }
+    else 
+    {
+        //create a dummy label to take up space if there are no high scores
+        CCLabelTTF *notify = [CCLabelTTF labelWithString:@"No high scores yet!!!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:28 ];
+        notify.position = ccp( 160, 200 ); 
+        [self addChild:notify];
+    }
 }
 
 //go back to pause menu

@@ -12,12 +12,15 @@
 #import "Sprite.h"
 #import "OldLady.h"
 #import "InstructionsLayer.h"
+#import "HighScores.h"
 
 OldLady *oldLady;
 CCSprite *plant;
 CCSprite *hourGlass;
 Sprite *goodTarget;
 Sprite *badTarget;
+HighScores *highScores;
+
 
 int IncreScore = 10;
 int IncreLevel = 40;
@@ -75,6 +78,10 @@ eachShape(void *ptr, void* unused)
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
         
+        //set up highscores table
+        highScores = [[HighScores alloc] init];
+        [highScores loadScores];
+        
         //Create and add the score label as a child.
         scoreLabel = [CCLabelTTF labelWithString:currentScore fontName:@"Marker Felt" fontSize:24];
         scoreLabel.position = ccp(160, 440 ); 
@@ -100,7 +107,7 @@ eachShape(void *ptr, void* unused)
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
-        time = 100; 
+        time = 20; 
         
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
@@ -260,6 +267,7 @@ eachShape(void *ptr, void* unused)
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
 -(void)gameOver
 {
+    [highScores addHighScore:score];
     [SceneManager goEndGame: score];
 }
 
