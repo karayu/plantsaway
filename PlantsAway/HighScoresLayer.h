@@ -30,4 +30,11 @@ extern int MaxHighScores;
 //functionality of high scores layer
 -(void)goBack: (id)sender;
 
+
+//score saving and loading
+- (void)loadScores;
+- (void)saveScores;
+- (BOOL)addHighScore: (int)score;
+
+
 @end

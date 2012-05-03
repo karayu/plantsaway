@@ -124,4 +124,29 @@ int MaxHighScores = 10;
     [[CCDirector sharedDirector] popScene];
 }
 
+//depending on how high the score is, adds the high score to the high scores table, in the right position
+//taken from Project 2
+- (BOOL)addHighScore: (int)score
+{
+    NSNumber *newScore = [[NSNumber alloc] init];
+    newScore = [NSNumber numberWithInt:score];
+    
+    //add score to the high scores array
+    [self.highScores addObject: newScore];
+    
+    //sort the high scores array... descending - http://stackoverflow.com/questions/3749657/nsmutablearray-arraywitharray-vs-initwitharray
+    NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
+    NSArray *sorted = [self.highScores sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
+    self.highScores = [[NSMutableArray alloc] initWithArray:sorted];
+    
+    //if we have too many scores, delete the smallest one
+    if ((int)[self.highScores count] > MaxHighScores ) 
+    {
+        [self.highScores removeLastObject];
+        
+    }
+    return YES;
+}
+
+
 @end
