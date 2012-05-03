@@ -59,7 +59,6 @@
 //load the plist of high scores
 - (void)showScores
 {    
-  
     //y-position
     int position = 360;
     

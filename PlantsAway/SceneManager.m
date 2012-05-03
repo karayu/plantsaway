@@ -74,8 +74,7 @@
     HighScoresLayer *layer = [HighScoresLayer node];
     [layer showScores];
     //adds the high scores layer scene to the scene stack
-    [[CCDirector sharedDirector] pushScene: [layer
-                                             scene]];
+    [[CCDirector sharedDirector] pushScene: [layer scene]];
 }
 
 //source: http://www.iphonegametutorials.com/2010/09/07/cocos2d-menu-tutorial/

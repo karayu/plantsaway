@@ -107,7 +107,7 @@ eachShape(void *ptr, void* unused)
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
-        time = 20; 
+        time = 100; 
         
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
