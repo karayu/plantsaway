@@ -153,8 +153,7 @@ eachShape(void *ptr, void* unused)
 -(void)setUpPlant:(int)plantNumber
 {
     self.plantType = plantNumber;
-    NSLog(@"plantType:%d", plantType);
-    NSLog(@"self.plantType:%d", self.plantType);
+
     //initiate her plant based on selecte plantType on initial screen (InstructionsLayer)
     switch (plantType)
     {
