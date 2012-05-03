@@ -80,19 +80,19 @@
 //go back to pause menu
 -(void)startTeleport:(id)sender
 {
-	[SceneManager goNewGame:0];
+	[SceneManager goNewGame:1000];
 }
 
 //go back to pause menu
 -(void)startDouble:(id)sender
 {
-	[SceneManager goNewGame:1];
+	[SceneManager goNewGame:2];
 }
 
 //go back to pause menu
 -(void)startNone:(id)sender
 {
-	[SceneManager goNewGame:2];
+	[SceneManager goNewGame:1];
 }
 
 

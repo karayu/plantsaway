@@ -64,7 +64,7 @@
 +(void)goNewGame: (int)boost
 {
     MainLayer *layer = [MainLayer node];
-    layer.boost = boost;
+    [layer initBoost:boost];
     
     [[CCDirector sharedDirector] replaceScene: [layer scene]];
 }

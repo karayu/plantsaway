@@ -10,9 +10,10 @@
 
 @implementation OldLady
 
-@synthesize time;
+@synthesize time, initSpeed;
 
 //define constants
+int initSpeed = 30;
 int speed = 30;
 
 -(id) init
@@ -25,14 +26,26 @@ int speed = 30;
         //initialize position and scale
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
+        
+        initSpeed = 30;
+        speed = 30;
     }
     
     return self;
 }
 
-//calculates the updated position based on new position, old position, and velocity
-- (int)timeToPosition :(int)newPosition :(int)oldPosition
+-(void) setBoost: (int) boost
 {
+    speed = initSpeed*boost;
+}
+
+
+//calculates the updated position based on new position, old position, and velocity
+- (int)timeToPosition :(int)newPosition From:(int)oldPosition
+{
+    if (speed > 1000) 
+        return 0;
+    
     //determine which direction OldLady is moving in before making calculations 
     if (newPosition > oldPosition)
         return (newPosition - oldPosition)/speed;
