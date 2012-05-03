@@ -15,13 +15,13 @@
 -(void)pauseLayerDidPause;
 -(void)pauseLayerDidUnpause;
 @end
-    
+
 
 @interface GamePausedLayer : CCLayer
 {
     CCLabelTTF *gamePausedLabel;
     PauseLayerProtocol *delegate;
-
+    
 }
 
 //returns a CCScene that contains a GamePausedLayer as the only child

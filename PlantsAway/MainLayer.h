@@ -16,7 +16,7 @@
 	cpSpace *space;
     CCLabelTTF *scoreLabel;
     CCLabelTTF *timeLabel;
-
+    
     CCTexture2D *oldLadyTexture1;
     CCTexture2D *oldLadyTexture2;
     CCTexture2D *hoodlumTexture1;
@@ -37,8 +37,6 @@ extern int IncreLevel;  //the score gap between different levels
 @property int level;
 @property BOOL plantActive; //whether user clicked on plant
 @property BOOL oldLadyMoving; //whether the old lady is currently moving 
-
-//@property (nonatomic, strong) CCAction *ladyMoving;
 
 //the boost can be 1000 (infinite speed = teleportation), 2 (2x speed), or 1 (1x speed, no boost)
 @property int boost;

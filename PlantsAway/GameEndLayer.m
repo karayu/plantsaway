@@ -29,7 +29,7 @@
         scoreLabel = [CCLabelTTF labelWithString: [NSString string] fontName:@"Marker Felt" fontSize:24 ];
         scoreLabel.position = ccp( 160, 150 );
         [self addChild:scoreLabel];
-      
+        
         //button to start new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         

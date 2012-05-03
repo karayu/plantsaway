@@ -108,7 +108,7 @@ eachShape(void *ptr, void* unused)
         background.position = ccp( 160, 187 );
         [self addChild:background];
         [background setScale:0.24];
-
+        
         //initiate image for old lady
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         
@@ -166,7 +166,7 @@ eachShape(void *ptr, void* unused)
 -(void)setUpPlant:(int)plantNumber
 {
     self.plantType = plantNumber;
-
+    
     //initiate her plant based on selecte plantType on initial screen (InstructionsLayer)
     switch (plantType)
     {
@@ -204,12 +204,12 @@ eachShape(void *ptr, void* unused)
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
         [alert show];
         [[CCDirector sharedDirector] pause];
-
+        
         
     }
-
+    
 }
-	
+
 //action after dismissing alert telling you that you've gone up a level. Increment level, reset time and decrease speed to make it harder for the next level
 //http://www.cocos2d-iphone.org/forum/topic/1080
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex 
@@ -219,14 +219,14 @@ eachShape(void *ptr, void* unused)
     oldLady.speed = MAX(oldLady.speed - 20, 20);
     
     NSLog(@"old lady speed is: %f", oldLady.speed);
-        
+    
 	[[CCDirector sharedDirector] resume];
 }
 
 //listener for restoring the plant to the old lady. Tests whether plant has fallen to the end and the old lady has stopped moving.  Old lady can only get get plant back when she stops moving
 -(void)restorePlant: (ccTime)dt
 {
-
+    
     //listen to see if old lady is moving. source: http://www.cocos2d-iphone.org/forum/topic/9211
     if ([oldLady numberOfRunningActions] > 0) {
         CCAction *action = [oldLady getActionByTag:1];
@@ -321,7 +321,7 @@ eachShape(void *ptr, void* unused)
         score = score - (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
     else 
         score = score + (IncreScore*(4-plantType));  //adjust the points by the type of plant. (shrub gives least pts)
-
+    
     
     [self updateScore];
 }
@@ -362,7 +362,7 @@ eachShape(void *ptr, void* unused)
         //change oldLady's texture to show her lifting the plant
         [oldLady lift]; 
     }
-        
+    
     return YES;
 }
 
