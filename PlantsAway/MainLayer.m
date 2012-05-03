@@ -311,7 +311,9 @@ eachShape(void *ptr, void* unused)
     
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
-    [oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
+    
+    
+    //[oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
