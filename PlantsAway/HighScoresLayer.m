@@ -116,6 +116,11 @@
     [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
+//saves the scores to the plist
+- (void)saveScores
+{
+    //[self.highScores writeToFile: [self.filePath stringByAppendingString: @".plist"] atomically:YES];
+}
 
 
 

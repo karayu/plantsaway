@@ -28,30 +28,32 @@
 //pauses game while keeping track of the score and time left. called from the pause button in main layer
 +(void)goPause
 {
+    //pushes a pause scene to the stack, pops when we unpause
     [[CCDirector sharedDirector] pushScene: [GamePausedLayer scene]];
 }
 
 //ends the game and tells the user the score. called when time runs out
 +(void)goEndGame:(int)score 
 {
-    //create a game end layer
+    //create a game end layer and switch to it
     GameEndLayer *layer =  [GameEndLayer node];
     layer.score = score;
     [layer setScoreText];
 	[SceneManager go: layer];
 }
 
-//resumes game when user has paused
+//resumes game when user has paused. Called from GamePausedLayer
 +(void)goResumeGame
 {
+    //the pause scene is the one at the top, pop it to continue where we were
     [[CCDirector sharedDirector] popScene];
-
 }
 
 
-//creates a new game
+//creates a new game with the specified boost and plant
 +(void)goNewGame :(int)boost :(int)plant
 {
+    //create a new game and initialize boost and plant  
     MainLayer *layer = [MainLayer node];
     [layer initBoost: boost];
     [layer setUpPlant:plant];

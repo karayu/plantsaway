@@ -33,7 +33,7 @@
         //button to start new game
         CCMenuItemFont *startNew = [CCMenuItemFont itemFromString:@"New Game" target:self selector: @selector(newGame:)];
         
-        //show menu of new game button
+        //show menu with new game button
         CCMenu *menu = [CCMenu menuWithItems:startNew, nil];
         menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];

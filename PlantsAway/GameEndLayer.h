@@ -12,15 +12,18 @@
 
 @interface GameEndLayer : CCLayer
 {
+    //labels used in the view
     CCLabelTTF *gameEndLabel;
     CCLabelTTF *scoreLabel;
 }
 
-//variables to show user their score
+//user's score
 @property int score;
 
-//functionality for game end layer
+//sets text to congratulate or disparage user depending on score
 -(void)setScoreText;
+
+//starts a new game
 -(void)newGame:(id)sender;
 
 

@@ -29,76 +29,7 @@
 	return scene;
 }
 
-//-(id)init
-/*-(id)init
-{
-	//always call "super" init
-	if((self=[super init])) 
-    {
-        //create instructions as string
-        NSString *instructions = [[NSString alloc] init];
-        instructions = @"As a cranky old lady, you want to hit as many hoodlums as you can with your many potted plants. Tap your finger wherever you want the old lady to move and tap the plant to drop it. You get points for hitting the hoodlums but lose points for striking innocent passersby!";
-        
-        //create and add the instructions label to the layer
-        instructionsLabel = [CCLabelTTF labelWithString:instructions dimensions:CGSizeMake(300, 300) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:18 ];
-        instructionsLabel.position = ccp( 160, 290 ); 
-        [self addChild:instructionsLabel];
 
-        //create and add the instructions label to the layer
-        headerLabel = [CCLabelTTF labelWithString:@"Choose your boost:" dimensions:CGSizeMake(300, 100) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
-        headerLabel.position = ccp( 160, 180 );
-        [self addChild:headerLabel];
-        
-        //button for returning to pause menu
-        //CCMenuItemFont *goBack = [CCMenuItemFont itemFromString:@"back" target:self selector: @selector(pauseMenu:)];
-        
-        CCMenuItem *plant1 = [CCMenuItemImage itemFromNormalImage:@"leaf.png" 
-                                                         selectedImage:@"leaf.png"];
-        
-        CCMenuItem *plant2 = [CCMenuItemImage itemFromNormalImage:@"flower.png"
-                                                         selectedImage: @"flower.png"];
-        
-        CCMenuItem *plant3 = [CCMenuItemImage itemFromNormalImage:@"shrub.png"
-                                                         selectedImage: @"shrub.png"];
-        
-        //create toggle menu for plants
-        CCMenuItemToggle *toggleMenu = [CCMenuItemToggle itemWithTarget:self selector:@selector(startDouble:) items: plant1,plant2,plant3,nil];
-        CCMenu *plantMenu = [CCMenu menuWithItems:toggleMenu, nil];
-        [plantMenu alignItemsVertically];
-        plantMenu.position = ccp( 160, 300 );
-        plantMenu.tag = 1;
-        [self addChild:plantMenu  z:1];
-        
-        //create teleportation button
-        CCMenuItemImage *teleportation = [CCMenuItemImage itemFromNormalImage:@"boost0.png"
-                                                             selectedImage: @"boost0_selected.png"
-                                                                    target:self
-                                                                  selector:@selector(startTeleport:)];
-        //create double speed button
-        CCMenuItemImage *doubleSpeed = [CCMenuItemImage itemFromNormalImage:@"boost1.png"
-                                                                selectedImage: @"boost1_selected.png"
-                                                                       target:self
-                                                                     selector:@selector(startDouble:)];
-        
-        //create no boost menu button
-        CCMenuItemImage *noBoost = [CCMenuItemImage itemFromNormalImage:@"boost2.png"
-                                                              selectedImage: @"boost2_selected.png"
-                                                                     target:self
-                                                                   selector:@selector(startNone:)];
-        
-        
-        //create back button menu to return to pause menu
-        CCMenu *menu = [CCMenu menuWithItems:doubleSpeed,teleportation,noBoost,nil];
-        menu.position = ccp( 160, 100 );
-        [menu alignItemsVerticallyWithPadding: 12.0f];
-        [self addChild:menu z: 1];
-    }
-    
-    return self;
-}*/
-
-
-//NOT REAL INIT
 -(id)init
 {
     if((self=[super init]))
@@ -138,7 +69,7 @@
                                         selectedImage: @"shrub_selected.png"
                                                target:self
                                              selector:@selector(chooseMyPlant:)];                              
-    
+        
         //set tags for items
         plant1.tag = 1;
         plant2.tag = 2;
@@ -193,7 +124,7 @@
     //get the tagged number per plant
     CCMenuItem *item = (CCMenuItem *)sender;
     self.plantChosen = item.tag;
-
+    
     //change opacity display based on plant selection
     switch(item.tag)
     {

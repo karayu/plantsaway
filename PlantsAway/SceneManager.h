@@ -8,20 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+//manages most switching between scenes
 @interface SceneManager : NSObject
 
-extern int speed;
-
-
-
-//functionality to manage viewing different layers
-+(void)goResumeGame;
-+(void)goEndGame:(int)score;
-+(void)goHighScores;
-+(void)goInstructions;
-+(void)goNewGame:(int)boost :(int)plantType;
-+(void)goPause:(int)score WithBoost:(int)boost WithTime:(int)time;
+//class methods so everyone can call them
 +(void)goPause;
++(void)goEndGame:(int)score;
++(void)goResumeGame;
++(void)goNewGame:(int)boost :(int)plantType;
++(void)goInstructions;
++(void)goHighScores;
 
+//switching and showing layers
++(void)go:(CCLayer *)layer;
++(CCScene *)wrap:(CCLayer *)layer;
 
 @end

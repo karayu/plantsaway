@@ -12,6 +12,7 @@
 
 @interface InstructionsLayer : CCLayer
 {
+    //components for view
     CCLabelTTF *instructionsLabel;
     CCLabelTTF *headerLabel;
     CCMenuItemImage *plant1;
@@ -19,13 +20,23 @@
     CCMenuItemImage *plant3;
 }
 
-//returns a CCScene that contains the MainLayer as the only child
-+(CCScene *) scene;
+
 //plantChosen boolean
 @property int plantChosen;
 
-//functionality to return to pause menu
-- (void)startGame:(id)sender;
+//returns a CCScene that contains an InstructionsLayer as the only child
++(CCScene *) scene;
+
+//allows user to choose plant
+-(void)chooseMyPlant:(id)sender;
+
+//alerts user if they haven't chosen a plant
+-(void)alertPlantNeeded;
+
+//starts the game, passes the plant chosen
+-(void)initializeGame:(id)sender;
+
+
 
 
 @end
