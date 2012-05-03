@@ -69,6 +69,9 @@ NSString *HighScoreFileName = @"scores";
             [self loadScores];
         }
         
+        [self saveScores];
+        
+        [self loadScores];
 
     }
     return self;
@@ -100,12 +103,14 @@ NSString *HighScoreFileName = @"scores";
 - (void)loadScores
 {    
     //sees if we can find the plist and load it
-    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: self.fullFilePath];
+
+    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: [self.fullFilePath stringByAppendingString: @".plist"]];
     
     //otherwise, initialize an empty high scores array
     if (! self.highScores) 
     {
         self.highScores = [[NSMutableDictionary alloc] init];
+        
     }
     
     //button for returning to pause menu
