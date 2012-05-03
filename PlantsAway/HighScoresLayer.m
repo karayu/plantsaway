@@ -14,10 +14,11 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData, highScores, fullFilePath;
+@synthesize highScores, fullFilePath;
 
 //global constant
 NSString *HighScoreFileName = @"scores";
+int MaxHighScores = 10;
 
 
 +(CCScene *) scene

@@ -15,14 +15,14 @@
     CCLabelTTF *highScoresLabel;
 }
 
+//returns the scene containing a highscores layer
 +(CCScene *) scene;
 
-//high score file name
+//high score file name and max # of scores
 extern NSString *HighScoreFileName;
+extern int MaxHighScores;
 
-
-//variables for NSURL connection
-@property (strong) NSString *deviceID;
+//filename and highscores array
 @property (strong) NSString *fullFilePath;
 @property (strong) NSMutableData *receivedData;
 @property (strong) NSMutableArray *highScores;
