@@ -55,7 +55,21 @@ NSString *HighScoreFileName = @"scores";
         [self addChild:menu z: 1];
                 
         
-        [self showScores];
+        //figures out where high scores list is kept
+        if (! self.fullFilePath)
+        {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *docDir = [paths objectAtIndex: 0];
+            self.fullFilePath = [docDir stringByAppendingPathComponent: HighScoreFileName];
+        }
+        
+        //initializes high scores list
+        if (!self.highScores)
+        {
+            [self loadScores];
+        }
+        
+
     }
     return self;
 }
@@ -79,6 +93,29 @@ NSString *HighScoreFileName = @"scores";
         NSLog(@"Error: %@",error);
         [error release];
     }
+}
+
+
+//load the plist of high scores
+- (void)loadScores
+{    
+    //sees if we can find the plist and load it
+    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: self.fullFilePath];
+    
+    //otherwise, initialize an empty high scores array
+    if (! self.highScores) 
+    {
+        self.highScores = [[NSMutableDictionary alloc] init];
+    }
+    
+    //button for returning to pause menu
+    CCMenuItemFont *score.i = [CCMenuItemFont itemFromString:@"back"];
+    
+    //create menu to display scores
+    CCMenu *menu = [CCMenu menuWithItems:goBack, nil];
+    menu.position = ccp( 300, 50 );
+    [menu alignItemsVerticallyWithPadding: 1.0f];
+    [self addChild:menu z: 1];
 }
 
 
