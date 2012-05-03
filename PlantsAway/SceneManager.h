@@ -16,7 +16,8 @@
 +(void)goEndGame:(int)score;
 +(void)goHighScores;
 +(void)goInstructions;
-+(void)goNewGame:(int)boost;
++(void)goNewGame:(int)boost :(int)plantType;
++(void)goPause:(int)score WithBoost:(int)boost WithTime:(int)time;
 +(void)goPause;
 
 

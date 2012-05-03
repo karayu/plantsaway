@@ -39,13 +39,15 @@
 //the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
 @property int boost;
 
--(void) initBoost:(int)booster;
+//the plant can be 1 (tiny) 2(regular) or 3(big)
+@property int plantType;
 
 
 //gameplay methods
 -(void)pauseTapped;
 -(void)gameOver;
 -(void)calculateHit:(BOOL)good;
+-(void)setUpPlant:(int)plantNumber;
 
 //touch methods and properties
 @property CGPoint startTouchPosition;

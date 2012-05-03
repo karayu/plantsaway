@@ -61,10 +61,11 @@
 }*/
 
 //creates a new game
-+(void)goNewGame: (int)boost
++(void)goNewGame :(int)boost :(int)plant
 {
     MainLayer *layer = [MainLayer node];
-    [layer initBoost:boost];
+    [layer initBoost: boost];
+    [layer setUpPlant:plant];
     
     [[CCDirector sharedDirector] replaceScene: [layer scene]];
 }

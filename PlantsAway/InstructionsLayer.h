@@ -14,10 +14,15 @@
 {
     CCLabelTTF *instructionsLabel;
     CCLabelTTF *headerLabel;
+    CCMenuItemImage *plant1;
+    CCMenuItemImage *plant2;
+    CCMenuItemImage *plant3;
 }
 
 //returns a CCScene that contains the MainLayer as the only child
 +(CCScene *) scene;
+//plantChosen boolean
+@property int plantChosen;
 
 //functionality to return to pause menu
 - (void)startGame:(id)sender;

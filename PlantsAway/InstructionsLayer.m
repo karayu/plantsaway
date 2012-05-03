@@ -12,6 +12,7 @@
 
 @implementation InstructionsLayer
 
+@synthesize plantChosen;
 
 +(CCScene *) scene
 {
@@ -28,14 +29,15 @@
 	return scene;
 }
 
--(id)init
+//-(id)init
+/*-(id)init
 {
 	//always call "super" init
 	if((self=[super init])) 
     {
         //create instructions as string
         NSString *instructions = [[NSString alloc] init];
-        instructions = @"As a cranky old lady, you want to hit as many hoodlums as you can with your many potted plants.  Tap your finger wherever you want the old lady to move and swipe upward to slingshot the plant downward.  You get points for hitting the hoodlums but lose points for striking innocent passersby!";
+        instructions = @"As a cranky old lady, you want to hit as many hoodlums as you can with your many potted plants. Tap your finger wherever you want the old lady to move and tap the plant to drop it. You get points for hitting the hoodlums but lose points for striking innocent passersby!";
         
         //create and add the instructions label to the layer
         instructionsLabel = [CCLabelTTF labelWithString:instructions dimensions:CGSizeMake(300, 300) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:18 ];
@@ -50,22 +52,40 @@
         //button for returning to pause menu
         //CCMenuItemFont *goBack = [CCMenuItemFont itemFromString:@"back" target:self selector: @selector(pauseMenu:)];
         
-        // Create some menu items
+        CCMenuItem *plant1 = [CCMenuItemImage itemFromNormalImage:@"leaf.png" 
+                                                         selectedImage:@"leaf.png"];
+        
+        CCMenuItem *plant2 = [CCMenuItemImage itemFromNormalImage:@"flower.png"
+                                                         selectedImage: @"flower.png"];
+        
+        CCMenuItem *plant3 = [CCMenuItemImage itemFromNormalImage:@"shrub.png"
+                                                         selectedImage: @"shrub.png"];
+        
+        //create toggle menu for plants
+        CCMenuItemToggle *toggleMenu = [CCMenuItemToggle itemWithTarget:self selector:@selector(startDouble:) items: plant1,plant2,plant3,nil];
+        CCMenu *plantMenu = [CCMenu menuWithItems:toggleMenu, nil];
+        [plantMenu alignItemsVertically];
+        plantMenu.position = ccp( 160, 300 );
+        plantMenu.tag = 1;
+        [self addChild:plantMenu  z:1];
+        
+        //create teleportation button
         CCMenuItemImage *teleportation = [CCMenuItemImage itemFromNormalImage:@"boost0.png"
                                                              selectedImage: @"boost0_selected.png"
                                                                     target:self
                                                                   selector:@selector(startTeleport:)];
-        // Create some menu items
+        //create double speed button
         CCMenuItemImage *doubleSpeed = [CCMenuItemImage itemFromNormalImage:@"boost1.png"
                                                                 selectedImage: @"boost1_selected.png"
                                                                        target:self
                                                                      selector:@selector(startDouble:)];
         
-        // Create some menu items
+        //create no boost menu button
         CCMenuItemImage *noBoost = [CCMenuItemImage itemFromNormalImage:@"boost2.png"
                                                               selectedImage: @"boost2_selected.png"
                                                                      target:self
                                                                    selector:@selector(startNone:)];
+        
         
         //create back button menu to return to pause menu
         CCMenu *menu = [CCMenu menuWithItems:doubleSpeed,teleportation,noBoost,nil];
@@ -75,26 +95,142 @@
     }
     
     return self;
-}
+}*/
 
-//go back to pause menu
--(void)startTeleport:(id)sender
+
+//NOT REAL INIT
+-(id)init
 {
-	[SceneManager goNewGame:1000];
+    if((self=[super init]))
+    {
+        //create instructions as string
+        NSString *instructions = [[NSString alloc] init];
+        instructions = @"As a cranky old lady, you want to hit as many hoodlums as you can with your many potted plants. Tap your finger wherever you want the old lady to move and tap the plant to drop it. You get points for hitting the hoodlums but lose points for striking innocent passersby!";
+        
+        //create and add the instructions label to the layer
+        instructionsLabel = [CCLabelTTF labelWithString:instructions dimensions:CGSizeMake(300, 300) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:18 ];
+        instructionsLabel.position = ccp( 160, 300 ); 
+        [self addChild:instructionsLabel];
+        
+        //create and add the instructions label to the layer
+        headerLabel = [CCLabelTTF labelWithString:@"Choose a plant and a boost:" dimensions:CGSizeMake(300, 100) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:24 ];
+        headerLabel.position = ccp( 160, 230 );
+        [self addChild:headerLabel];
+        
+        //draw rectangle background
+        CCSprite *rectangle = [CCSprite spriteWithFile: @"rect.png"];
+        rectangle.position = ccp( 160, 200 );
+        [self addChild:rectangle];
+        [rectangle setScale:0.34];
+        
+        //create plant menu items
+        plant1 = [CCMenuItemImage itemFromNormalImage:@"leaf.png" 
+                                        selectedImage:@"leaf_selected.png"
+                                               target:self
+                                             selector:@selector(chooseMyPlant:)];
+        
+        plant2 = [CCMenuItemImage itemFromNormalImage:@"flower.png"
+                                        selectedImage: @"flower_selected.png"
+                                               target:self
+                                             selector:@selector(chooseMyPlant:)];
+        
+        plant3 = [CCMenuItemImage itemFromNormalImage:@"shrub.png"
+                                        selectedImage: @"shrub_selected.png"
+                                               target:self
+                                             selector:@selector(chooseMyPlant:)];                              
+    
+        //set tags for items
+        plant1.tag = 1;
+        plant2.tag = 2;
+        plant3.tag = 3;
+        
+        //create menu with these as buttons
+        CCMenu *bottomMenu = [CCMenu menuWithItems:plant1,plant2,plant3,nil];
+        bottomMenu.position = ccp( 160,200 );
+        [bottomMenu alignItemsHorizontally];
+        [self addChild: bottomMenu z: 10];
+        
+        
+        //create teleportation button
+        CCMenuItemImage *teleportation = [CCMenuItemImage itemFromNormalImage:@"boost0.png"
+                                                                selectedImage:@"boost0_selected.png"
+                                                                       target:self
+                                                                     selector:@selector(initializeGame:)];
+        //create double speed button
+        CCMenuItemImage *doubleSpeed = [CCMenuItemImage itemFromNormalImage:@"boost1.png"
+                                                              selectedImage:@"boost1_selected.png"
+                                                                     target:self
+                                                                   selector:@selector(initializeGame:)];
+        
+        //create no boost menu button
+        CCMenuItemImage *noBoost = [CCMenuItemImage itemFromNormalImage:@"boost2.png"
+                                                          selectedImage:@"boost2_selected.png"
+                                                                 target:self
+                                                               selector:@selector(initializeGame:)];
+        //set tags for items
+        teleportation.tag = 1000;
+        doubleSpeed.tag = 2;
+        noBoost.tag = 1;
+        
+        //adjust scale of super big buttons
+        [teleportation setScale:.8];
+        [doubleSpeed setScale:.8];
+        [noBoost setScale:.8];
+        
+        //create back button menu to return to pause menu
+        CCMenu *menu = [CCMenu menuWithItems:doubleSpeed,teleportation,noBoost,nil];
+        menu.position = ccp( 160, 70 );
+        [menu alignItemsVerticallyWithPadding: 6.0f];
+        [self addChild:menu z:1];
+    }
+    
+    return self;
 }
 
-//go back to pause menu
--(void)startDouble:(id)sender
+//choose yer plant!
+-(void)chooseMyPlant:(id)sender
 {
-	[SceneManager goNewGame:2];
+    //get the tagged number per plant
+    CCMenuItem *item = (CCMenuItem *)sender;
+    self.plantChosen = item.tag;
+
+    //change opacity display based on plant selection
+    switch(item.tag)
+    {
+        case 1:
+            plant1.opacity = 255;
+            plant2.opacity = 50;
+            plant3.opacity = 50;
+            break;
+        case 2:
+            plant1.opacity = 50;
+            plant2.opacity = 255;
+            plant3.opacity = 50;
+            break;
+        case 3:
+            plant1.opacity = 50;
+            plant2.opacity = 50;
+            plant3.opacity = 255;
+            break;
+    }
 }
 
-//go back to pause menu
--(void)startNone:(id)sender
+//alert if plant has not been chosen
+-(void)alertPlantNeeded
 {
-	[SceneManager goNewGame:1];
+    UIAlertView *uNeedPlantz = [[UIAlertView alloc] initWithTitle: @"FIRST" message:@"pick a plant!"  delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil];
+    [uNeedPlantz show];
 }
 
+//start game with selected boost and speed
+-(void)initializeGame:(id)sender
+{
+    CCMenuItem *item = (CCMenuItem *)sender;
+	if (self.plantChosen)
+        [SceneManager goNewGame:item.tag :self.plantChosen];
+    else
+        [self alertPlantNeeded];
+}
 
 @end
 
