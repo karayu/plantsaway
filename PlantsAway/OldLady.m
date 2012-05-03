@@ -30,6 +30,11 @@ int speed = 30;
     return self;
 }
 
+-(void) setBoost: (int) boost
+{
+    speed = initSpeed*boost;
+}
+
 //calculates the updated position based on new position, old position, and velocity
 - (int)timeToPosition :(int)newPosition :(int)oldPosition
 {

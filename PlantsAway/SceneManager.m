@@ -64,9 +64,10 @@
 +(void)goNewGame :(int)boost :(int)plant
 {
     MainLayer *layer = [MainLayer node];
-    layer.boost = boost;
+    [layer initBoost: boost];
     [layer setUpPlant:plant];
-	[SceneManager go: layer];
+    
+    [[CCDirector sharedDirector] replaceScene: [layer scene]];
 }
 
 //shows high scores layer

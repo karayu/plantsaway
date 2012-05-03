@@ -149,6 +149,12 @@ eachShape(void *ptr, void* unused)
 	return self;
 }
 
+-(void) initBoost: (int)booster
+{
+    self.boost = booster;
+    [oldLady setBoost: booster];
+}
+
 //set plant
 -(void)setUpPlant:(int)plantNumber
 {

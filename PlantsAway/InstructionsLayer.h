@@ -16,6 +16,8 @@
     CCLabelTTF *headerLabel;
 }
 
+//returns a CCScene that contains the MainLayer as the only child
++(CCScene *) scene;
 //plantChosen boolean
 @property int plantChosen;
 
