@@ -27,6 +27,7 @@
 		01F587FB1550EBD100891485 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FA1550EBD100891485 /* app_icon.png */; };
 		01F587FE1550FC7200891485 /* shrub.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FC1550FC7200891485 /* shrub.png */; };
 		01F587FF1550FC7200891485 /* leaf.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F587FD1550FC7200891485 /* leaf.png */; };
+		E70BC484155254D4009DE436 /* rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E70BC483155254D4009DE436 /* rect.png */; };
 		E743ADE31544EBBD006E0811 /* GamePausedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E743ADE21544EBBD006E0811 /* GamePausedLayer.m */; };
 		E743ADE51544FE1B006E0811 /* README in Resources */ = {isa = PBXBuildFile; fileRef = E743ADE41544FE1B006E0811 /* README */; };
 		E761C1DB15439A550019E404 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DA15439A550019E404 /* pause.png */; };
@@ -202,6 +203,7 @@
 		01F587FA1550EBD100891485 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		01F587FC1550FC7200891485 /* shrub.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shrub.png; sourceTree = "<group>"; };
 		01F587FD1550FC7200891485 /* leaf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf.png; sourceTree = "<group>"; };
+		E70BC483155254D4009DE436 /* rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rect.png; sourceTree = "<group>"; };
 		E743ADE11544EBBD006E0811 /* GamePausedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePausedLayer.h; sourceTree = "<group>"; };
 		E743ADE21544EBBD006E0811 /* GamePausedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePausedLayer.m; sourceTree = "<group>"; };
 		E743ADE41544FE1B006E0811 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 		010D17F0153F2811002D5A80 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E70BC483155254D4009DE436 /* rect.png */,
 				01F587FC1550FC7200891485 /* shrub.png */,
 				01F587FD1550FC7200891485 /* leaf.png */,
 				01F587F71550834E00891485 /* boost2.png */,
@@ -1146,6 +1149,7 @@
 				01F587FB1550EBD100891485 /* app_icon.png in Resources */,
 				01F587FE1550FC7200891485 /* shrub.png in Resources */,
 				01F587FF1550FC7200891485 /* leaf.png in Resources */,
+				E70BC484155254D4009DE436 /* rect.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -192,17 +192,30 @@ eachShape(void *ptr, void* unused)
         [self gameOver];
     }
     
-    /*if (score > 30)
+    //alert the user that they've gone up a level with every 40 points they score
+    if (score == level*40)
     {
-        level = level +1;
-        time = 100;
-        oldLady.initSpeed = MAX(oldLady.initSpeed - 20, 20);
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've survived level %d", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
+        //source:http://www.cocos2d-iphone.org/forum/topic/1080
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
         [alert show];
         [[CCDirector sharedDirector] pause];
-    }*/
 
+        
+    }
+
+}
+	
+//action after dismissing alert telling you that you've gone up a level. Increment level, reset time and decrease speed to make it harder for the next level
+//http://www.cocos2d-iphone.org/forum/topic/1080
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex 
+{    
+    level = level +1;
+    time = 100;
+    oldLady.speed = MAX(oldLady.speed - 20, 20);
+    
+    NSLog(@"old lady speed is: %f", oldLady.speed);
+        
+	[[CCDirector sharedDirector] resume];
 }
 
 //listener for restoring the plant to the old lady. Tests whether plant has fallen to the end and the old lady has stopped moving.  Old lady can only get get plant back when she stops moving
@@ -358,19 +371,11 @@ eachShape(void *ptr, void* unused)
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
     
-    int travelDuration = [oldLady timeToPosition:oldLadyLocation.x From:oldLady.position.x];
-    
-    
-    //id play = [CCCallFunc actionWithTarget:oldLady selector:@selector(onAnimEnd)];
-    //id movetoclick = [CCMoveBy actionWithDuration:travelDuration position:oldLadyLocation];
-    //[oldLady runAction:[CCSequence actions:[movetoclick copy], [play copy], nil]];
+    ccTime travelDuration = [oldLady timeToPosition: (float)oldLadyLocation.x From: (float)oldLady.position.x];
     
     CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
     ladyMoving.tag = 1;
     [oldLady runAction:ladyMoving];
-    // oldLadyMoving = ![ladyMoving isDone];
-    
-    //[oldLady runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
