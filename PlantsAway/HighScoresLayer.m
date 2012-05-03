@@ -14,7 +14,7 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData, highScores;
+@synthesize deviceID, receivedData, highScores, fullFilePath;
 
 
 +(CCScene *) scene
@@ -87,8 +87,9 @@
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fullName = [NSString stringWithFormat:@"quotes.csv"];
     
-    NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@",docDir,fullName];
+    fullFilePath = [NSString stringWithFormat:@"%@/%@",docDir,fullName];
     [self.receivedData writeToFile:fullFilePath atomically:YES];
+    [self writeToFile];
     
 } 
 
@@ -134,6 +135,12 @@
     NSString *uniqueIdentifier = [device uniqueIdentifier];
     self.deviceID = uniqueIdentifier;
 }
+
+-(void)writeToFile
+{
+
+}
+
 
 #pragma mark NSURLConnection methods
 

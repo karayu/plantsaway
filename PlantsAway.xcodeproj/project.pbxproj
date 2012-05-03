@@ -1366,6 +1366,7 @@
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"PlantsAway/libs/Chipmunk/include/chipmunk\"";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "${SDK_DIR}/usr/include/libxml";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

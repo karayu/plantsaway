@@ -20,6 +20,7 @@
 
 //variables for NSURL connection
 @property (strong) NSString *deviceID;
+@property (strong) NSString *fullFilePath;
 @property (strong) NSMutableData *receivedData;
 @property (strong) NSMutableDictionary *highScores;
 
