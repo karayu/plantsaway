@@ -189,6 +189,11 @@ eachShape(void *ptr, void* unused)
     {
         [self gameOver];
     }
+    
+    //resurrect the plant if it's already fallen down all the way
+    if (plant.position.y == -50)
+        plant.position = oldLady.position;
+    
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
@@ -282,11 +287,7 @@ eachShape(void *ptr, void* unused)
 
 //initiates actions whenever user touches screen
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event 
-{
-    //when user touches screen, if plant has just been launched it returns to oldLady to prepare for RELAUNCH!
-    if (plant.position.y == -50)
-        plant.position = oldLady.position;
-    
+{    
     //gets location of finger touch
     self.startTouchPosition = [self convertTouchToNodeSpace:touch];
     
@@ -308,23 +309,7 @@ eachShape(void *ptr, void* unused)
     return YES;
 }
 
-/*
--(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event 
-{
-    //only animate oldLady lift if plant is currently being pulled up or down
-    if(self.plantActive) 
-    {
-        //reposition plant
-        int newPlantY = oldLady.position.y + 30;
-        CGPoint location = ccp(oldLady.position.x, newPlantY);
-        plant.position = location;
-        
-        //change oldLady's texture to show her lifting the plant
-        [oldLady lift];
 
-    }
-}
-*/
 
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
@@ -335,9 +320,15 @@ eachShape(void *ptr, void* unused)
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
     
+    int travelDuration = [oldLady timeToPosition:oldLadyLocation.x From:oldLady.position.x];
     
-    //[oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
     
+    //id play = [CCCallFunc actionWithTarget:oldLady selector:@selector(onAnimEnd)];
+    //id movetoclick = [CCMoveBy actionWithDuration:travelDuration position:oldLadyLocation];
+    //[oldLady runAction:[CCSequence actions:[movetoclick copy], [play copy], nil]];
+    
+    
+    [oldLady runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
     
@@ -350,7 +341,7 @@ eachShape(void *ptr, void* unused)
     }
     else if (plant.position.y == oldLadyLocation.y)
     {
-        [plant runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
+        [plant runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
     }
     
     //finger is no longer touching plant

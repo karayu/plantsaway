@@ -18,12 +18,15 @@
 
 //the properties that define OldLady's new location
 @property int time;
+@property int initSpeed;
 
 //constants (speed)
 extern int speed;
 
+-(void) setBoost: (int) boost;
 //returns time it takes for movement to new position
-- (int)timeToPosition :(int)newPosition :(int)oldPosition;
+-(int)timeToPosition :(int)newPosition From:(int)oldPosition;
+
 -(void) lift;
 -(void) backToNormal;
 

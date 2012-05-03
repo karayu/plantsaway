@@ -31,6 +31,8 @@
 @property int score;
 @property int time;
 @property BOOL plantActive;
+@property BOOL oldLadyMoving;
+
 
 //the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
 @property int boost;
@@ -48,7 +50,7 @@
 @property CGPoint startTouchPosition;
 @property CGPoint endTouchPosition;
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event;
--(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event;
+//-(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event;
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event;
 -(void) registerWithTouchDispatcher;
 

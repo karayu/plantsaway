@@ -9,8 +9,9 @@
 #import "CCLayer.h"
 #import "cocos2d.h"
 
-@interface PauseLayerProtocol: CCNode 
 
+//source: http://playsnackgames.com/blog/2011/09/cocos2d-tutorial-creating-a-reusable-pause-layer/
+@interface PauseLayerProtocol: CCNode 
 -(void)pauseLayerDidPause;
 -(void)pauseLayerDidUnpause;
 @end
@@ -35,7 +36,5 @@
 -(void)newGame:(id)sender;
 -(void)highScores:(id)sender;
 -(void)resumeGame:(id)sender;
--(void)pauseDelegate;
-
 
 @end
