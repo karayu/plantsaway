@@ -16,6 +16,9 @@
 
 @synthesize deviceID, receivedData, highScores, fullFilePath;
 
+//global constant
+NSString *HighScoreFileName = @"scores";
+
 
 +(CCScene *) scene
 {
@@ -50,28 +53,23 @@
         menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
+                
         
-        [self loadDatafromURL];
-        /*
-        //create the NSURL request - this will soon be a connection to our own web service
-        NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]
-                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                              timeoutInterval:60.0];
-        
-        //create the connection with the request and start loading the data
-        NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-        
-        if (theConnection) 
+        //figures out where high scores list is kept
+        if (! self.fullFilePath)
         {
-            //create the NSMutableData to hold the received data
-            self.receivedData = [[NSMutableData alloc] init];
-        } 
-        else
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *docDir = [paths objectAtIndex: 0];
+            self.fullFilePath = [docDir stringByAppendingPathComponent: HighScoreFileName];
+        }
+        
+        //initializes high scores list
+        if (!self.highScores)
         {
-            //inform the user that the connection failed
-            UIAlertView *connectFailMessage = [[UIAlertView alloc] initWithTitle:@"NSURLConnection " message:@"Failed in init"  delegate: self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-            [connectFailMessage show];
-        }*/
+            [self loadScores];
+        }
+        
+
     }
     return self;
 }
@@ -93,29 +91,91 @@
     
 } 
 
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+/*-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"data2: %@", myString);
     
-    if (self.receivedData)
+    NSMutableDictionary *highScores = [[NSMutableDictionary alloc] init];
+    
+    NSCharacterSet *commaSet;
+    NSScanner *theScanner;
+    
+    NSString *username;
+    float score;
+    
+    commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
+    theScanner = [NSScanner scannerWithString:myString];
+    
+    while ([theScanner isAtEnd] == NO)
+    {
+        if ([theScanner scanUpToCharactersFromSet:commaSet
+                                       intoString:&username] &&
+            [theScanner scanString:@"," intoString:NULL] &&
+            [theScanner scanFloat:&score])
+        {
+            NSLog(@"user: %@, score: %f", username, score);
+        }
+    }
+    
+    
+    /*NSString *separatorString = @",";
+    
+    NSScanner *theScanner = [NSScanner scannerWithString:myString];
+    while ([theScanner isAtEnd] == NO) {
+        
+        //[theScanner scanFloat:&aFloat];
+        
+        NSString *name;
+        [theScanner scanUpToString:separatorString intoString:&name];
+        
+        [theScanner scanString:separatorString intoString:NULL];
+        NSString *score;
+        score = [[theScanner string] substringFromIndex:[theScanner scanLocation]];
+    }*/
+    
+    
+    
+    
+    
+    
+    //NSMutableData *data = [[NSMutableData alloc] init];
+
+	// Here, data holds the serialized version of your dictionary
+	// do what you need to do with it before you:
+	//[data release];
+    /*if (self.receivedData)
         [self.receivedData appendData:data];
     else 
-        self.receivedData = [[NSMutableData alloc] initWithData:data];
-}
+        self.receivedData = [[NSMutableData alloc] initWithData:data];*/
+//}
 
-- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
+/*- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
 {
     NSLog(@"%@", [error description]);
-}
+}*/
 
-- (void)loadDatafromURL
+/*- (void)loadDatafromURL
 {    
     NSString *urlString = @"http://hcs.harvard.edu/~organizations/soap/test.csv";
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection connectionWithRequest:request delegate:self];
+}*/
+
+//load the plist of high scores
+- (void)loadScores
+{    
+    //sees if we can find the plist and load it
+    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: self.fullFilePath];
+    
+    //otherwise, initialize an empty high scores array
+    if (! self.highScores) 
+    {
+        self.highScores = [[NSMutableDictionary alloc] init];
+    }
 }
+
 
 //saves the scores to the plist
 - (void)saveScores
