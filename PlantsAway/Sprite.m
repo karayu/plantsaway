@@ -17,6 +17,7 @@
 {
     if( (self=[super init])) 
     {
+        //create textures for the hoodlum and mom depending on direction facing
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
         hoodlumTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum2.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
@@ -35,8 +36,6 @@
     self.collision = NO;
     self.good = type;
     [self prepareTarget];
-
-
 }
 
 //prepares the target by setting speed, orientations and the right image.  called by initializeSprite
@@ -53,14 +52,15 @@
         return YES;
     }
     return NO;
-    
 }
 
 //sets the texture based on good or not and orientation
 - (void) setTexture
 {    
+    //sets mom texture if good
     if (self.good == YES)
     {
+        //texture now is based on orientation: left or right
         if (self.start == 500)
         {
             self.texture = momTexture1;
@@ -70,13 +70,18 @@
             self.texture = momTexture2;
         }
     }
-    else {
+    //hoodlum texture if bad
+    else 
+    {
+        //based on orientation: left/right
         if (self.start == 500)
         {
             self.texture = hoodlumTexture1;
         }
         else
+        {
             self.texture = hoodlumTexture2;
+        }
     }
 }
 

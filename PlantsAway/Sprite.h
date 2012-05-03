@@ -19,7 +19,7 @@
     CCTexture2D *momTexture2;
 }
 
--(void)initializeSprite: (BOOL) type;
+-(void)initializeSprite:(BOOL)type;
 -(BOOL)prepareTarget;
 -(void)calculateHit;
 -(void)initializeSpeed;

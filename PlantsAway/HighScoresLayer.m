@@ -14,12 +14,7 @@
 
 @implementation HighScoresLayer
 
-@synthesize highScores, fullFilePath;
-
-//global constant
-NSString *HighScoreFileName = @"scores";
-int MaxHighScores = 10;
-
+@synthesize scores;
 
 +(CCScene *) scene
 {
@@ -54,98 +49,15 @@ int MaxHighScores = 10;
         menu.position = ccp( 160, 50 );
         [menu alignItemsVerticallyWithPadding: 40.0f];
         [self addChild:menu z: 1];
-                
-        
-        //figures out where high scores list is kept
-        if (! self.fullFilePath)
-        {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *docDir = [paths objectAtIndex: 0];
-            self.fullFilePath = [docDir stringByAppendingPathComponent: HighScoreFileName];
-        }
-        
-        [self saveScores];
-        [self loadScores];
 
     }
     return self;
 }
 
-
-
-//load the plist of high scores
-- (void)loadScores
-{    
-    //see if we can find the plist and load it
-    self.highScores = [[NSMutableArray alloc] initWithContentsOfFile: [self.fullFilePath stringByAppendingString: @".plist"]];
-    
-    //otherwise, initialize an empty high scores array
-    if (!self.highScores) 
-    {
-        self.highScores = [[NSMutableArray alloc] init];
-    }
-    
-    //y-position
-    int position = 360;
-    
-    //check if high scores exist
-    if (self.highScores.count > 0)
-    {
-        
-        for (NSNumber *score in self.highScores) 
-        {
-            //create label to display each score
-            CCLabelTTF *newScore = [CCLabelTTF labelWithString:[score stringValue] fontName:@"Marker Felt" fontSize:16];
-            newScore.position = ccp( 160, position );
-            [self addChild:newScore];
-            
-            //decrease down for next score
-            position -= 30;
-        }
-    }
-    else 
-    {
-        //create a dummy label to take up space if there are no high scores
-        CCLabelTTF *notify = [CCLabelTTF labelWithString:@"No high scores yet!!!" dimensions:CGSizeMake(200, 200) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:28 ];
-        notify.position = ccp( 160, 200 ); 
-        [self addChild:notify];
-    }
-}
-
-//saves the scores to the plist
-- (void)saveScores
-{
-    [self.highScores writeToFile: [self.fullFilePath stringByAppendingString: @".plist"] atomically:YES];
-}
-
 //go back to pause menu
--(void)goBack: (id)sender
+-(void)goBack:(id)sender
 {
     [[CCDirector sharedDirector] popScene];
-}
-
-//depending on how high the score is, adds the high score to the high scores table, in the right position
-//taken from Project 2
-- (BOOL)addHighScore: (int)score
-{
-    NSNumber *newScore = [[NSNumber alloc] init];
-    newScore = [NSNumber numberWithInt:score];
-    
-    //add score to the high scores array
-    [self.highScores addObject: newScore];
-    
-    //sort the high scores array... descending - http://stackoverflow.com/questions/3749657/nsmutablearray-arraywitharray-vs-initwitharray
-    NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
-    NSArray *sorted = [self.highScores sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
-    self.highScores = [[NSMutableArray alloc] initWithArray:sorted];
-    
-    //if we have too many scores, delete the smallest one
-    if ((int)[self.highScores count] > MaxHighScores ) 
-    {
-        [self.highScores removeLastObject];
-        
-    }
-    return YES;
 }
 
 

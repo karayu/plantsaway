@@ -21,14 +21,11 @@
 @property float initSpeed;
 @property float speed;
 
-
-//constants (speed)
-//extern int speed;
-
--(void) setBoost: (int) boost;
 //returns time it takes for movement to new position
 - (ccTime)timeToPosition :(float)newPosition From:(float)oldPosition;
 
+//oldLady functionality
+-(void) setBoost: (int) boost;
 -(void) lift;
 -(void) backToNormal;
 

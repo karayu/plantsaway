@@ -12,12 +12,12 @@
 
 @synthesize time, initSpeed, speed;
 
-//int speed;
 
 -(id) init
 {
     if (self = [super init])
     {
+        //set up oldLady's two textures (normal & lifting plant)
         oldLadyTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old1.png"]];
         oldLadyTexture2=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"old2.png"]];
 
@@ -25,6 +25,7 @@
         self.position = ccp( 160, 300 );
         [self setScale:0.5];
         
+        //set initial speed and regular speed
         initSpeed = 80.0;
         speed = 80.0;
     }
@@ -32,7 +33,8 @@
     return self;
 }
 
--(void) setBoost: (int) boost
+//sets the boost times the constant speed
+-(void)setBoost:(int)boost
 {
     speed = initSpeed*boost;
 }
