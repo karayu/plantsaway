@@ -69,6 +69,9 @@ NSString *HighScoreFileName = @"scores";
             [self loadScores];
         }
         
+        [self saveScores];
+        
+        [self loadScores];
 
     }
     return self;
@@ -91,88 +94,20 @@ NSString *HighScoreFileName = @"scores";
     
 } 
 
-/*-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"data2: %@", myString);
-    
-    NSMutableDictionary *highScores = [[NSMutableDictionary alloc] init];
-    
-    NSCharacterSet *commaSet;
-    NSScanner *theScanner;
-    
-    NSString *username;
-    float score;
-    
-    commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
-    theScanner = [NSScanner scannerWithString:myString];
-    
-    while ([theScanner isAtEnd] == NO)
-    {
-        if ([theScanner scanUpToCharactersFromSet:commaSet
-                                       intoString:&username] &&
-            [theScanner scanString:@"," intoString:NULL] &&
-            [theScanner scanFloat:&score])
-        {
-            NSLog(@"user: %@, score: %f", username, score);
-        }
-    }
-    
-    
-    /*NSString *separatorString = @",";
-    
-    NSScanner *theScanner = [NSScanner scannerWithString:myString];
-    while ([theScanner isAtEnd] == NO) {
-        
-        //[theScanner scanFloat:&aFloat];
-        
-        NSString *name;
-        [theScanner scanUpToString:separatorString intoString:&name];
-        
-        [theScanner scanString:separatorString intoString:NULL];
-        NSString *score;
-        score = [[theScanner string] substringFromIndex:[theScanner scanLocation]];
-    }*/
-    
-    
-    
-    
-    
-    
-    //NSMutableData *data = [[NSMutableData alloc] init];
 
-	// Here, data holds the serialized version of your dictionary
-	// do what you need to do with it before you:
-	//[data release];
-    /*if (self.receivedData)
-        [self.receivedData appendData:data];
-    else 
-        self.receivedData = [[NSMutableData alloc] initWithData:data];*/
-//}
-
-/*- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
-{
-    NSLog(@"%@", [error description]);
-}*/
-
-/*- (void)loadDatafromURL
-{    
-    NSString *urlString = @"http://hcs.harvard.edu/~organizations/soap/test.csv";
-    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection connectionWithRequest:request delegate:self];
-}*/
 
 //load the plist of high scores
 - (void)loadScores
 {    
     //sees if we can find the plist and load it
-    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: self.fullFilePath];
+
+    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile: [self.fullFilePath stringByAppendingString: @".plist"]];
     
     //otherwise, initialize an empty high scores array
     if (! self.highScores) 
     {
         self.highScores = [[NSMutableDictionary alloc] init];
+        
     }
 }
 
@@ -180,7 +115,11 @@ NSString *HighScoreFileName = @"scores";
 //saves the scores to the plist
 - (void)saveScores
 {
-    //[self.highScores writeToFile: [self.filePath stringByAppendingString: @".plist"] atomically:YES];
+    [self.highScores setObject: [NSString stringWithFormat:@"%d", 200] forKey:@"Anne"];
+    [self.highScores setObject: [NSString stringWithFormat:@"%d", 150] forKey:@"Chad"];
+
+    
+    [self.highScores writeToFile: [self.fullFilePath stringByAppendingString: @".plist"] atomically:YES];
 }
 
 
