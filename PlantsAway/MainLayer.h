@@ -27,6 +27,9 @@
 //returns a CCScene that contains the itself(MainLayer) as the only child
 -(CCScene *) scene;
 
+//global constants
+extern int IncreScore;  //default amt to increment score when user scores
+extern int IncreLevel;  //the score gap between different levels
 
 //gameplay variables
 @property int score;
@@ -37,9 +40,8 @@
 
 //@property (nonatomic, strong) CCAction *ladyMoving;
 
-//the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
+//the boost can be 1000 (infinite speed = teleportation), 2 (2x speed), or 1 (1x speed, no boost)
 @property int boost;
-
 
 //the plant can be 1 (tiny) 2(regular) or 3(big)
 @property int plantType;

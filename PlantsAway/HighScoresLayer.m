@@ -14,7 +14,7 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData;
+@synthesize deviceID, receivedData, highScores;
 
 
 +(CCScene *) scene
@@ -122,6 +122,38 @@
     UIAlertView *finishedLoadingMessage = [[UIAlertView alloc] initWithTitle: @"NSURLConnection " message:message  delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
     [finishedLoadingMessage show];
 }
+
+
+//load the plist of high scores
+- (void)loadScores
+{    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex: 0];
+    NSString *filePath = [docDir stringByAppendingPathComponent: @"scores"];
+    
+    
+    //sees if we can find the plist and load it
+    self.highScores = [[NSMutableDictionary alloc] initWithContentsOfFile:[filePath stringByAppendingString:@".plist"]];
+    
+    //otherwise, initialize an empty high scores array
+    if ( [self.highScores count] == 0 ) 
+    {
+        self.highScores = [[NSMutableDictionary alloc] init];
+    }
+}
+
+
+//saves the scores to the plist
+- (void)saveScores
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex: 0];
+    NSString *filePath = [docDir stringByAppendingPathComponent: @"scores"];
+    [self.highScores writeToFile: [filePath stringByAppendingString: @".plist"] atomically:YES];
+}
+
+
 
 
 

@@ -19,6 +19,9 @@ CCSprite *hourGlass;
 Sprite *goodTarget;
 Sprite *badTarget;
 
+int IncreScore = 10;
+int IncreLevel = 40;
+
 enum 
 {
 	kTagBatchNode = 1,
@@ -193,7 +196,7 @@ eachShape(void *ptr, void* unused)
     }
     
     //alert the user that they've gone up a level with every 40 points they score
-    if (score == level*40)
+    if (score == level*IncreLevel)
     {
         //source:http://www.cocos2d-iphone.org/forum/topic/1080
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
@@ -313,9 +316,9 @@ eachShape(void *ptr, void* unused)
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
-        score = score - 10;
+        score = score - (IncreScore*plantType);  //adjust the points by the type of plant
     else 
-        score = score + 10;
+        score = score + (IncreScore*plantType);  //adjust the points by the type of plant
     
     [self updateScore];
 }
