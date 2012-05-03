@@ -15,6 +15,8 @@
     CCLabelTTF *highScoresLabel;
 }
 
++(CCScene *) scene;
+
 
 //variables for NSURL connection
 @property (strong) NSString *deviceID;
@@ -22,7 +24,9 @@
 
 //functionality of high scores layer
 -(void)findDeviceID;
--(void)pauseMenu:(id)sender;
+-(void)goBack: (id)sender;
+
+//-(void)pauseMenu:(id)sender;
 
 //NSURL functionality
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;

@@ -10,11 +10,8 @@
 
 @interface SceneManager : NSObject
 
-//+(int) score;
-//+(int) time;
-
 //functionality to manage viewing different layers
-+(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time;
+//+(void)goResumeGame:(int)score WithBoost:(int)boost WithTime:(int)time;
 +(void)goResumeGame;
 +(void)goEndGame:(int)score;
 +(void)goHighScores;

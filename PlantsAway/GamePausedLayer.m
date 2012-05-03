@@ -14,6 +14,22 @@
 
 @synthesize score, time, boost;
 
+
++(CCScene *) scene
+{
+	//initialize scene
+	CCScene *scene = [CCScene node];
+	
+	//initialize layer
+	GamePausedLayer *layer = [GamePausedLayer node];
+    
+	//add layer as a child to scene
+	[scene addChild: layer];
+	
+	//return the scene
+	return scene;
+}
+
 -(id)init
 {
 	//always call "super" init
@@ -50,10 +66,11 @@
 	[SceneManager goHighScores];
 }
 
+
 //called by the resume game button
 -(void)resumeGame:(id)sender
-{
-	[SceneManager goResumeGame:score WithBoost:boost WithTime:time];
+{    
+    [SceneManager goResumeGame];
 }
 
 

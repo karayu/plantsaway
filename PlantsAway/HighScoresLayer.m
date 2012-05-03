@@ -15,6 +15,23 @@
 @implementation HighScoresLayer
 
 @synthesize deviceID, receivedData;
+
+
++(CCScene *) scene
+{
+	//initialize scene
+	CCScene *scene = [CCScene node];
+	
+	//initialize layer
+    HighScoresLayer *layer =  [HighScoresLayer node];
+    
+	//add layer as a child to scene
+	[scene addChild: layer];
+	
+	//return the scene
+	return scene;
+}
+
 -(id)init
 {
 	//always call "super" init
@@ -26,7 +43,7 @@
         [self addChild:highScoresLabel];
         
         //button for returning to pause menu
-        CCMenuItemFont *goBack = [CCMenuItemFont itemFromString:@"back" target:self selector: @selector(pauseMenu:)];
+        CCMenuItemFont *goBack = [CCMenuItemFont itemFromString:@"back" target:self selector: @selector(goBack:)];
         
         //create back button menu to return to pause menu
         CCMenu *menu = [CCMenu menuWithItems:goBack, nil];
@@ -58,9 +75,11 @@
 }
 
 //go back to pause menu
--(void)pauseMenu: (id)sender
+-(void)goBack: (id)sender
 {
-	[SceneManager goPause];
+    [[CCDirector sharedDirector] popScene];
+
+	//[SceneManager goPause];
 }
 
 //gets this device's unique ID

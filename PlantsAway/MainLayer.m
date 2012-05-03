@@ -46,17 +46,17 @@ eachShape(void *ptr, void* unused)
 
 @synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType;
 
-+(CCScene *) scene
+
+-(CCScene *) scene
 {
 	//initialize scene
 	CCScene *scene = [CCScene node];
 	
 	//initialize layer
 	//MainLayer *layer = [MainLayer node];
-    InstructionsLayer *layer =  [InstructionsLayer node];
     
 	//add layer as a child to scene
-	[scene addChild: layer];
+	[scene addChild: self];
 	
 	//return the scene
 	return scene;
@@ -194,7 +194,7 @@ eachShape(void *ptr, void* unused)
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
 -(void)pauseTapped
 {
-    [SceneManager goPause: score WithBoost: boost WithTime: time];
+    [SceneManager goPause];
 }
 
 //Thread for good target. Mom + baby either move along or gets hit by granny
@@ -328,7 +328,9 @@ eachShape(void *ptr, void* unused)
     
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
-    [oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
+    
+    
+    //[oldLady runAction: [CCMoveTo actionWithDuration:self.boost position:oldLadyLocation]];
     
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
