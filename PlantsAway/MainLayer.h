@@ -21,6 +21,7 @@
     CCTexture2D *oldLadyTexture2;
     CCTexture2D *hoodlumTexture1;
     CCTexture2D *momTexture1;
+    
 }
 
 //returns a CCScene that contains the itself(MainLayer) as the only child
@@ -33,6 +34,7 @@
 @property BOOL plantActive;
 @property BOOL oldLadyMoving;
 
+//@property (nonatomic, strong) CCAction *ladyMoving;
 
 //the boost can be 0 (teleportation), 1 (super speed), or 2 (no boost)
 @property int boost;

@@ -145,12 +145,14 @@ eachShape(void *ptr, void* unused)
         self.plantActive = NO;  
         
         //make touch enabled
-		self.isTouchEnabled = YES;
+		self.isTouchEnabled = YES;  
         
 		cpInitChipmunk();
         
         [self schedule:@selector(nextFrameGoodTarget:)];		
         [self schedule:@selector(nextFrameBadTarget:)];	
+        [self schedule:@selector(restorePlant:)];	
+
     }
 	return self;
 }
@@ -174,10 +176,36 @@ eachShape(void *ptr, void* unused)
         [self gameOver];
     }
     
-    //resurrect the plant if it's already fallen down all the way
-    if (plant.position.y == -50)
+
+}
+
+//listener for restoring the plant to the old lady. Tests whether plant has fallen to the end and the old lady has stopped moving.  Old lady can only get get plant back when she stops moving
+-(void)restorePlant: (ccTime)dt
+{
+
+    //listen to see if old lady is moving. source: http://www.cocos2d-iphone.org/forum/topic/9211
+    if ([oldLady numberOfRunningActions] > 0) {
+        CCAction *action = [oldLady getActionByTag:1];
+        if (nil != action) {
+            if ([action isDone]){
+                oldLadyMoving = NO;
+            }
+            else if (![action isDone]) {
+                oldLadyMoving = YES;
+            }
+        }
+    }
+    else {
+        oldLadyMoving = NO;
+    }
+    
+    //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
+    if (plant.position.y == -50 && !oldLadyMoving)
         plant.position = oldLady.position;
     
+    //if plant gets ressurected in the wrong spot, fix it
+    if (plant.position.y == oldLady.position.y)
+        plant.position = oldLady.position;
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
@@ -311,8 +339,13 @@ eachShape(void *ptr, void* unused)
     //id movetoclick = [CCMoveBy actionWithDuration:travelDuration position:oldLadyLocation];
     //[oldLady runAction:[CCSequence actions:[movetoclick copy], [play copy], nil]];
     
+    CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
+    ladyMoving.tag = 1;
+    [oldLady runAction:ladyMoving];
+    // oldLadyMoving = ![ladyMoving isDone];
     
-    [oldLady runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
+    //[oldLady runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
+    
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
     

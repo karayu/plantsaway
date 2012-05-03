@@ -13,8 +13,8 @@
 @synthesize time, initSpeed;
 
 //define constants
-int initSpeed = 30;
-int speed = 30;
+int initSpeed;
+int speed;
 
 -(id) init
 {
