@@ -14,7 +14,7 @@
 
 @implementation HighScoresLayer
 
-@synthesize deviceID, receivedData;
+@synthesize deviceID, receivedData, highScores;
 
 
 +(CCScene *) scene

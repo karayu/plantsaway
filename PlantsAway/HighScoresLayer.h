@@ -21,6 +21,7 @@
 //variables for NSURL connection
 @property (strong) NSString *deviceID;
 @property (strong) NSMutableData *receivedData;
+@property (strong) NSMutableDictionary *highScores;
 
 //functionality of high scores layer
 -(void)findDeviceID;

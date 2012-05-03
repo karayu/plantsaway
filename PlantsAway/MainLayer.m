@@ -19,6 +19,9 @@ CCSprite *hourGlass;
 Sprite *goodTarget;
 Sprite *badTarget;
 
+int IncreScore = 10;
+int IncreLevel = 40;
+
 enum 
 {
 	kTagBatchNode = 1,
@@ -44,7 +47,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, boost, plantType, oldLadyMoving;
+@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *) scene
@@ -52,9 +55,6 @@ eachShape(void *ptr, void* unused)
 	//initialize scene
 	CCScene *scene = [CCScene node];
 	
-	//initialize layer
-	//MainLayer *layer = [MainLayer node];
-    
 	//add layer as a child to scene
 	[scene addChild: self];
 	
@@ -69,6 +69,9 @@ eachShape(void *ptr, void* unused)
 	//always call "super" init
 	if((self=[super init])) 
     {
+        //initialize level
+        level = 1; 
+        
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
@@ -139,12 +142,14 @@ eachShape(void *ptr, void* unused)
         self.plantActive = NO;  
         
         //make touch enabled
-		self.isTouchEnabled = YES;
+		self.isTouchEnabled = YES;  
         
 		cpInitChipmunk();
         
         [self schedule:@selector(nextFrameGoodTarget:)];		
         [self schedule:@selector(nextFrameBadTarget:)];	
+        [self schedule:@selector(restorePlant:)];	
+
     }
 	return self;
 }
@@ -190,10 +195,59 @@ eachShape(void *ptr, void* unused)
         [self gameOver];
     }
     
-    //resurrect the plant if it's already fallen down all the way
-    if (plant.position.y == -50)
+    //alert the user that they've gone up a level with every 40 points they score
+    if (score == level*IncreLevel)
+    {
+        //source:http://www.cocos2d-iphone.org/forum/topic/1080
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
+        [alert show];
+        [[CCDirector sharedDirector] pause];
+
+        
+    }
+
+}
+	
+//action after dismissing alert telling you that you've gone up a level. Increment level, reset time and decrease speed to make it harder for the next level
+//http://www.cocos2d-iphone.org/forum/topic/1080
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex 
+{    
+    level = level +1;
+    time = 100;
+    oldLady.speed = MAX(oldLady.speed - 20, 20);
+    
+    NSLog(@"old lady speed is: %f", oldLady.speed);
+        
+	[[CCDirector sharedDirector] resume];
+}
+
+//listener for restoring the plant to the old lady. Tests whether plant has fallen to the end and the old lady has stopped moving.  Old lady can only get get plant back when she stops moving
+-(void)restorePlant: (ccTime)dt
+{
+
+    //listen to see if old lady is moving. source: http://www.cocos2d-iphone.org/forum/topic/9211
+    if ([oldLady numberOfRunningActions] > 0) {
+        CCAction *action = [oldLady getActionByTag:1];
+        if (nil != action) {
+            if ([action isDone]){
+                oldLadyMoving = NO;
+            }
+            else if (![action isDone]) {
+                oldLadyMoving = YES;
+            }
+        }
+    }
+    else {
+        oldLadyMoving = NO;
+    }
+    
+    //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
+    if (plant.position.y == -50 && !oldLadyMoving)
         plant.position = oldLady.position;
     
+    //if plant gets ressurected in the wrong spot, fix it
+    if (plant.position.y == oldLady.position.y)
+        plant.position = oldLady.position;
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
@@ -262,9 +316,9 @@ eachShape(void *ptr, void* unused)
 {
     //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
     if (good)
-        score = score - 10;
+        score = score - (IncreScore*plantType);  //adjust the points by the type of plant
     else 
-        score = score + 10;
+        score = score + (IncreScore*plantType);  //adjust the points by the type of plant
     
     [self updateScore];
 }
@@ -320,15 +374,12 @@ eachShape(void *ptr, void* unused)
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
     
-    int travelDuration = [oldLady timeToPosition:oldLadyLocation.x From:oldLady.position.x];
+    ccTime travelDuration = [oldLady timeToPosition: (float)oldLadyLocation.x From: (float)oldLady.position.x];
     
+    CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
+    ladyMoving.tag = 1;
+    [oldLady runAction:ladyMoving];
     
-    //id play = [CCCallFunc actionWithTarget:oldLady selector:@selector(onAnimEnd)];
-    //id movetoclick = [CCMoveBy actionWithDuration:travelDuration position:oldLadyLocation];
-    //[oldLady runAction:[CCSequence actions:[movetoclick copy], [play copy], nil]];
-    
-    
-    [oldLady runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
     //if plant was launched, its destination will be directly below oldLady's location
     CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
     
