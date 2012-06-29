@@ -49,7 +49,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
+@synthesize gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *)scene
@@ -73,6 +73,9 @@ eachShape(void *ptr, void* unused)
     {
         //initialize level
         level = 1; 
+        
+        //not in middle of gameEnding animation
+        gameEnding = NO;
         
         //initialize the score
         score = 0;
@@ -197,22 +200,46 @@ eachShape(void *ptr, void* unused)
 //Countdown timer. updates the time left and if you run out of time, ends game
 -(void)tick:(ccTime)dt
 {
-    time = time - dt/2;
-    [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
-    
-    //end game if reached end of your time
-    if (time == 0) 
+    //end the game if score is <-20, you've hit too many babies
+    if (score <-20)
     {
-        [self gameOver];
+        //end game after doing animation of plant dropping on granny
+        if ((plant.position.y - oldLady.position.y) < 30 && gameEnding == YES)
+        {
+            [self gameOver];
+        }
+        //do the animation of plant hitting granny
+        else if (gameEnding == NO)
+        {
+            plant.position = ccp(oldLady.position.x, oldLady.position.y+150);
+            
+            //plant hits the top of granny
+            id action = [CCMoveTo actionWithDuration:2 position: ccp(oldLady.position.x, oldLady.position.y + 20)]; 
+            id ease = [CCEaseIn actionWithAction:action rate:2];
+            [plant runAction: ease];
+
+            gameEnding = YES;
+        }
     }
-    
-    //alert the user that they've gone up a level with every IncreLevel points they score
-    if (score >= level*IncreLevel)
+    else 
     {
-        //source:http://www.cocos2d-iphone.org/forum/topic/1080
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
-        [alert show];
-        [[CCDirector sharedDirector] pause];
+        time = time - dt/2;
+        [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+    
+        //end game if reached end of your time
+        if (time == 0) 
+        {
+            [self gameOver];
+        }
+        else if (score >= level*IncreLevel) 
+        {           
+            //alert the user that they've gone up a level with every IncreLevel points they score
+
+            //source:http://www.cocos2d-iphone.org/forum/topic/1080
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
+            [alert show];
+            [[CCDirector sharedDirector] pause];
+        }
     }
 }
 
@@ -255,13 +282,17 @@ eachShape(void *ptr, void* unused)
         oldLadyMoving = NO;
     }
     
-    //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
-    if (plant.position.y == -50 && !oldLadyMoving)
-        plant.position = oldLady.position;
-    
-    //if plant gets resurrected in the wrong spot, fix it
-    if (plant.position.y == oldLady.position.y)
-        plant.position = oldLady.position;
+    //continue game play if we're not in middle of doing game end animation bc score is too low    
+    if (!gameEnding)
+    {
+        //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
+        if (plant.position.y == -50 && !oldLadyMoving)
+            plant.position = oldLady.position;
+        
+        //if plant gets resurrected in the wrong spot, fix it
+        if (plant.position.y == oldLady.position.y)
+            plant.position = oldLady.position;
+    }
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time

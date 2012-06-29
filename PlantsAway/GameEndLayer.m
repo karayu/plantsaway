@@ -45,7 +45,10 @@
 //sets text to either congratulate or disparage the user depending on score
 -(void)setScoreText 
 {
-    if (self.score < 50)
+    
+    if (self.score < -20 ) 
+        [gameEndLabel setString: @"Sorry Granny, you've been deemed a menace to society for killing too many babies. Good riddance I'd say, but ya gotta hit more skateboarders to make the police not notice!"];   
+    else if (self.score < 50)
         [gameEndLabel setString: @"Well, that was VERY disappointing! You could try again, but if I were you, I'd just give up"];
     else if (self.score < 100) 
         [gameEndLabel setString:@"Pretty sure my 120 year old grandmother could do better.  Hope this teaches you to respect your elders"];
@@ -58,7 +61,7 @@
     [scoreLabel setString:[NSString stringWithFormat:@"Your score was %d", score]];
 }
 
-//called by new score button
+//called by new game button
 - (void)newGame:(id)sender
 {
 	[SceneManager goInstructions];
