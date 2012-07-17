@@ -49,7 +49,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
+@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *)scene
@@ -81,6 +81,9 @@ eachShape(void *ptr, void* unused)
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
         
+        //number of times you can hit the baby before game ends
+        lives = 1;
+        
         //set up highscores table
         highScores = [[HighScores alloc] init];
         [highScores loadScores];
@@ -110,7 +113,7 @@ eachShape(void *ptr, void* unused)
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
-        time = 100; 
+        time = 60; 
         
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
@@ -135,8 +138,8 @@ eachShape(void *ptr, void* unused)
         badTarget = [Sprite spriteWithTexture:hoodlumTexture1];
         
         //initializes targets with orientations, speed, good or not
-        [goodTarget initializeSprite:YES];
-        [badTarget initializeSprite:NO];
+        [goodTarget initializeSprite:YES atLevel: level];
+        [badTarget initializeSprite:NO atLevel: level];
         
         //add mommy and baby
         [self addChild:goodTarget];
@@ -200,8 +203,8 @@ eachShape(void *ptr, void* unused)
 //Countdown timer. updates the time left and if you run out of time, ends game
 -(void)tick:(ccTime)dt
 {
-    //end the game if score is <-20, you've hit too many babies
-    if (score <-20)
+    //if you've hit three babies, end the game
+    if (lives == 0 )
     {
         //end game after doing animation of plant dropping on granny
         if ((plant.position.y - oldLady.position.y) < 30 && gameEnding == YES)
@@ -299,7 +302,7 @@ eachShape(void *ptr, void* unused)
 -(void)gameOver
 {
     [highScores addHighScore:score];
-    [SceneManager goEndGame: score];
+    [SceneManager goEndGame: score lives: lives];
 }
 
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
@@ -350,6 +353,18 @@ eachShape(void *ptr, void* unused)
         }
         else 
         {
+            if (level > 5) {
+                int i = arc4random() % 1000;
+                
+                if (i == 0)
+                    [target changeDirection];
+            }
+            else if (level > 3) {
+                int j = arc4random() % 500;
+                
+                if (j == 0)
+                    [target changeDirection];
+            }
             //if target has not yet been hit, continue to move normally across screen
             [target move: dt ];
         }
@@ -359,9 +374,9 @@ eachShape(void *ptr, void* unused)
 //Calculates points of hit based on plant type and target type
 -(void)calculateHit:(BOOL)good
 {
-    //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
+    //we hit the good target(i.e. the mom), we decrement lives, otherwise, we increment points
     if (good)
-        score = score - (IncreScore*(4-plantType)); 
+        lives = lives - 1;
     else 
         score = score + (IncreScore*(4-plantType));
     

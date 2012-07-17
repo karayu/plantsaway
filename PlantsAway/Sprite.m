@@ -10,7 +10,7 @@
 
 @implementation Sprite
 
-@synthesize score, collision, start, speed, good;
+@synthesize level, collision, start, speed, good;
 
 
 -(id) init
@@ -30,11 +30,12 @@
 
 
 //sets up sprite by initializing speed, left or right, whether it's a good sprite and gets collision to no
--(void) initializeSprite: (BOOL) type
+-(void) initializeSprite: (BOOL) type atLevel: (int) lev
 {
     //initialize bools: currently no intersection of sprites
     self.collision = NO;
     self.good = type;
+    self.level = lev;
     [self prepareTarget];
 }
 
@@ -55,7 +56,7 @@
 }
 
 //sets the texture based on good or not and orientation
-- (void) setTexture
+-(void)setTexture
 {    
     //sets mom texture if good
     if (self.good == YES)
@@ -85,13 +86,29 @@
     }
 }
 
+//changes the direction of the sprite, used in higher levels
+-(void)changeDirection
+{
+    self.speed = -self.speed;
+    
+    if (self.texture == momTexture1)
+        self.texture = momTexture2;
+    else if (self.texture == momTexture2) 
+        self.texture = momTexture1;
+    else if (self.texture == hoodlumTexture1)
+        self.texture = hoodlumTexture2;
+    else if (self.texture == hoodlumTexture2)
+        self.texture = hoodlumTexture1;
+}
 
 
 //determines random speed
 -(void)initializeSpeed
 {
     int randomNumber = arc4random() % 100;
-    randomNumber += 10;
+    
+    randomNumber += 10*level;
+    
     self.speed = randomNumber;
 }
 

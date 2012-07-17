@@ -13,7 +13,7 @@
 
 //class methods so everyone can call them
 +(void)goPause;
-+(void)goEndGame:(int)score;
++(void)goEndGame:(int)score lives: (int)l;
 +(void)goResumeGame;
 +(void)goNewGame:(int)boost :(int)plantType;
 +(void)goInstructions;

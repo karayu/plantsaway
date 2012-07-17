@@ -31,6 +31,7 @@ extern int IncreScore;  //default amt to increment score when user scores
 extern int IncreLevel;  //the score gap between different levels
 
 //gameplay variables
+@property int lives; 
 @property int score;
 @property int time;
 @property int level;

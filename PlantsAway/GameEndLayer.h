@@ -20,6 +20,9 @@
 //user's score
 @property int score;
 
+//The number of lives from the granny.  We know whether game ended because she hit too many babies
+@property int lives;
+
 //sets text to congratulate or disparage user depending on score
 -(void)setScoreText;
 
