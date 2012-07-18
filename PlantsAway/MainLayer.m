@@ -204,7 +204,7 @@ eachShape(void *ptr, void* unused)
 -(void)tick:(ccTime)dt
 {
     //if you've hit three babies, end the game
-    if (lives == 0 )
+    if (lives <= 0 )
     {
         //end game after doing animation of plant dropping on granny
         if ((plant.position.y - oldLady.position.y) < 30 && gameEnding == YES)
@@ -226,6 +226,7 @@ eachShape(void *ptr, void* unused)
     }
     else 
     {
+        //increment time & show current time
         time = time - dt/2;
         [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
     
@@ -237,7 +238,6 @@ eachShape(void *ptr, void* unused)
         else if (score >= level*IncreLevel) 
         {           
             //alert the user that they've gone up a level with every IncreLevel points they score
-
             //source:http://www.cocos2d-iphone.org/forum/topic/1080
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
             [alert show];
@@ -284,6 +284,7 @@ eachShape(void *ptr, void* unused)
     {
         oldLadyMoving = NO;
     }
+
     
     //continue game play if we're not in middle of doing game end animation bc score is too low    
     if (!gameEnding)
@@ -376,10 +377,9 @@ eachShape(void *ptr, void* unused)
 {
     //we hit the good target(i.e. the mom), we decrement lives, otherwise, we increment points
     if (good)
-        lives = lives - 1;
+        lives -= 1;
     else 
         score = score + (IncreScore*(4-plantType));
-    
     
     [self updateScore];
 }
