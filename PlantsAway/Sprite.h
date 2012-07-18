@@ -19,7 +19,7 @@
     CCTexture2D *momTexture2;
 }
 
--(void)initializeSprite:(BOOL)type;
+-(void)initializeSprite:(BOOL)type atLevel: (int)level;
 -(BOOL)prepareTarget;
 -(void)calculateHit;
 -(void)initializeSpeed;
@@ -27,11 +27,13 @@
 -(void)setTexture;
 -(void)move: (ccTime) time;
 -(BOOL)offScreen;
+-(void)changeDirection;
+
 
 @property (readwrite) BOOL collision;
 @property int speed;
 @property (nonatomic) int start;
-@property int score;
+@property int level;
 @property BOOL good;
 
 @end

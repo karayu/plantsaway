@@ -31,9 +31,11 @@ extern int IncreScore;  //default amt to increment score when user scores
 extern int IncreLevel;  //the score gap between different levels
 
 //gameplay variables
+@property int lives; 
 @property int score;
 @property int time;
 @property int level;
+@property BOOL gameEnding; //whether we're doing the ending animation because your score is too low
 @property BOOL plantActive; //whether user clicked on plant
 @property BOOL oldLadyMoving; //whether the old lady is currently moving 
 @property int boost; //the boost can be 1000 (teleportation), 2 (2x speed), or 1 (1x speed, no boost)

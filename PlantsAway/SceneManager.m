@@ -33,11 +33,12 @@
 }
 
 //ends the game and tells the user the score. called when time runs out
-+(void)goEndGame:(int)score 
++(void)goEndGame:(int)score lives: (int)l
 {
     //create a game end layer and switch to it
     GameEndLayer *layer =  [GameEndLayer node];
     layer.score = score;
+    layer.lives = l;
     [layer setScoreText];
 	[SceneManager go: layer];
 }

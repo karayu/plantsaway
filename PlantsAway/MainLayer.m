@@ -49,7 +49,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
+@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
 
 
 -(CCScene *)scene
@@ -74,9 +74,15 @@ eachShape(void *ptr, void* unused)
         //initialize level
         level = 1; 
         
+        //not in middle of gameEnding animation
+        gameEnding = NO;
+        
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
+        
+        //number of times you can hit the baby before game ends
+        lives = 1;
         
         //set up highscores table
         highScores = [[HighScores alloc] init];
@@ -107,7 +113,7 @@ eachShape(void *ptr, void* unused)
         timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
-        time = 100; 
+        time = 60; 
         
         //initiate the background
         CCSprite *background = [CCSprite spriteWithFile: @"bg.png"];
@@ -132,8 +138,8 @@ eachShape(void *ptr, void* unused)
         badTarget = [Sprite spriteWithTexture:hoodlumTexture1];
         
         //initializes targets with orientations, speed, good or not
-        [goodTarget initializeSprite:YES];
-        [badTarget initializeSprite:NO];
+        [goodTarget initializeSprite:YES atLevel: level];
+        [badTarget initializeSprite:NO atLevel: level];
         
         //add mommy and baby
         [self addChild:goodTarget];
@@ -197,22 +203,46 @@ eachShape(void *ptr, void* unused)
 //Countdown timer. updates the time left and if you run out of time, ends game
 -(void)tick:(ccTime)dt
 {
-    time = time - dt/2;
-    [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
-    
-    //end game if reached end of your time
-    if (time == 0) 
+    //if you've hit three babies, end the game
+    if (lives == 0 )
     {
-        [self gameOver];
+        //end game after doing animation of plant dropping on granny
+        if ((plant.position.y - oldLady.position.y) < 30 && gameEnding == YES)
+        {
+            [self gameOver];
+        }
+        //do the animation of plant hitting granny
+        else if (gameEnding == NO)
+        {
+            plant.position = ccp(oldLady.position.x, oldLady.position.y+150);
+            
+            //plant hits the top of granny
+            id action = [CCMoveTo actionWithDuration:2 position: ccp(oldLady.position.x, oldLady.position.y + 20)]; 
+            id ease = [CCEaseIn actionWithAction:action rate:2];
+            [plant runAction: ease];
+
+            gameEnding = YES;
+        }
     }
-    
-    //alert the user that they've gone up a level with every IncreLevel points they score
-    if (score >= level*IncreLevel)
+    else 
     {
-        //source:http://www.cocos2d-iphone.org/forum/topic/1080
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
-        [alert show];
-        [[CCDirector sharedDirector] pause];
+        time = time - dt/2;
+        [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
+    
+        //end game if reached end of your time
+        if (time == 0) 
+        {
+            [self gameOver];
+        }
+        else if (score >= level*IncreLevel) 
+        {           
+            //alert the user that they've gone up a level with every IncreLevel points they score
+
+            //source:http://www.cocos2d-iphone.org/forum/topic/1080
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
+            [alert show];
+            [[CCDirector sharedDirector] pause];
+        }
     }
 }
 
@@ -255,20 +285,24 @@ eachShape(void *ptr, void* unused)
         oldLadyMoving = NO;
     }
     
-    //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
-    if (plant.position.y == -50 && !oldLadyMoving)
-        plant.position = oldLady.position;
-    
-    //if plant gets resurrected in the wrong spot, fix it
-    if (plant.position.y == oldLady.position.y)
-        plant.position = oldLady.position;
+    //continue game play if we're not in middle of doing game end animation bc score is too low    
+    if (!gameEnding)
+    {
+        //resurrect the plant if it's already fallen down all the way and the old lady isn't moving
+        if (plant.position.y == -50 && !oldLadyMoving)
+            plant.position = oldLady.position;
+        
+        //if plant gets resurrected in the wrong spot, fix it
+        if (plant.position.y == oldLady.position.y)
+            plant.position = oldLady.position;
+    }
 }
 
 //Switches over the the GameEndLayer (passes the score). Called when player runs out of time
 -(void)gameOver
 {
     [highScores addHighScore:score];
-    [SceneManager goEndGame: score];
+    [SceneManager goEndGame: score lives: lives];
 }
 
 //Switches over the the GamePausedLayer (passes score and time). Called when player presses pause
@@ -319,6 +353,18 @@ eachShape(void *ptr, void* unused)
         }
         else 
         {
+            if (level > 5) {
+                int i = arc4random() % 1000;
+                
+                if (i == 0)
+                    [target changeDirection];
+            }
+            else if (level > 3) {
+                int j = arc4random() % 500;
+                
+                if (j == 0)
+                    [target changeDirection];
+            }
             //if target has not yet been hit, continue to move normally across screen
             [target move: dt ];
         }
@@ -328,9 +374,9 @@ eachShape(void *ptr, void* unused)
 //Calculates points of hit based on plant type and target type
 -(void)calculateHit:(BOOL)good
 {
-    //we hit the good target(i.e. the mom), we subtract points, otherwise, we increment
+    //we hit the good target(i.e. the mom), we decrement lives, otherwise, we increment points
     if (good)
-        score = score - (IncreScore*(4-plantType)); 
+        lives = lives - 1;
     else 
         score = score + (IncreScore*(4-plantType));
     
