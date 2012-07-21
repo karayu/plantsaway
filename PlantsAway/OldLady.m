@@ -15,7 +15,7 @@
 //set oldLady's constant speed
 int initSpeed = 80.0;
 
--(id) init
+-(id)init
 {
     if (self = [super init])
     {

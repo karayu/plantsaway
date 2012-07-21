@@ -168,10 +168,19 @@ eachShape(void *ptr, void* unused)
 	return self;
 }
 
+
+//set's oldLady's boost if user gets one
 -(void)initBoost:(int)booster
 {
     self.boost = booster;
     [oldLady setBoost: booster];
+}
+
+//set's plant's boost if user gets one
+-(void)plantBoost:(int)booster
+{
+    self.boost = booster; /*********/
+    [oldLady setBoost: booster]; /*********/
 }
 
 //set up plant at beginning of game play
@@ -218,7 +227,8 @@ eachShape(void *ptr, void* unused)
             
             //plant hits the top of granny
             id action = [CCMoveTo actionWithDuration:2 position: ccp(oldLady.position.x, oldLady.position.y + 20)]; 
-            id ease = [CCEaseIn actionWithAction:action rate:2];
+            //id ease = [CCEaseIn actionWithAction:action rate:2];
+            id ease = [CCEaseOut actionWithAction:action rate:5];
             [plant runAction: ease];
 
             gameEnding = YES;
