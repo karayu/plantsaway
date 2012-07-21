@@ -19,6 +19,8 @@ CCSprite *plant;
 CCSprite *hourGlass;
 Sprite *goodTarget;
 Sprite *badTarget;
+Sprite *plantLightning;
+Sprite *sparkleBoost;
 HighScores *highScores;
 
 
@@ -49,7 +51,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantType, oldLadyMoving;
+@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantBoost, plantType, oldLadyMoving, boostOn;
 
 
 -(CCScene *)scene
@@ -83,6 +85,9 @@ eachShape(void *ptr, void* unused)
         
         //number of times you can hit the baby before game ends
         lives = 1;
+        
+        //iniitalize plant boost to zero
+        plantBoost = 0;
         
         //set up highscores table
         highScores = [[HighScores alloc] init];
@@ -128,10 +133,26 @@ eachShape(void *ptr, void* unused)
         hoodlumTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"hoodlum.png"]];
         momTexture1=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"mom.png"]];
         
+        //initial images for boosts
+        plantLightningTexture=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"speed.png"]];
+        sparkleBoostTexture=[[CCTexture2D alloc]initWithImage:[UIImage imageNamed:@"sparkle.png"]];
+        
         //initiate oldLady
         oldLady = [OldLady spriteWithTexture:oldLadyTexture1];
         [OldLady initialize];
         [self addChild:oldLady];
+        
+        //initialize plant boosts
+        plantLightning = [Sprite spriteWithTexture:plantLightningTexture];
+        [self addChild:plantLightning];
+        [plantLightning setScale:0.5];
+        [plantLightning setVisible:NO];
+        
+        //initialize old lady boosts
+        sparkleBoost = [Sprite spriteWithTexture:sparkleBoostTexture];
+        [self addChild:sparkleBoost];
+        [sparkleBoost setScale:0.75];
+        [sparkleBoost setVisible:NO];
         
         //create targets
         goodTarget = [Sprite spriteWithTexture:momTexture1];
@@ -176,11 +197,35 @@ eachShape(void *ptr, void* unused)
     [oldLady setBoost: booster];
 }
 
-//set's plant's boost if user gets one
--(void)plantBoost:(int)booster
+//set plant boosts to appear randomly
+-(void)randomBoosts
 {
-    self.boost = booster; /*********/
-    [oldLady setBoost: booster]; /*********/
+    int x_location = arc4random() % 320;
+
+    //random boosts if there are none currently visible
+    if ((arc4random() % 50) > (arc4random() % 300))
+    {
+        //speed boost appears on the sidewalk
+        plantLightning.position = ccp( x_location, 50 );
+        [plantLightning setVisible:YES];
+        
+        //fades away after a few seconds; tag action to be checked for later
+        CCAction *fadeAway = [CCFadeOut actionWithDuration:10];
+        //fadeAway.tag = 2;
+        [plantLightning runAction: fadeAway];
+    }
+    else if ((arc4random() % 50) > (arc4random() % 300))
+    {
+        //set the sparkley boost's start and end location
+        sparkleBoost.position = ccp( x_location, 550 );
+        [sparkleBoost setVisible:YES];
+        CGPoint sparkleDestination = ccp( x_location, -50 );
+        
+        //sparkles fall; also tag action to check later if boost is happening
+        CCAction *falling = [CCMoveTo actionWithDuration:3 position:sparkleDestination];
+        //falling.tag = 3;
+        [sparkleBoost runAction:falling];
+    }
 }
 
 //set up plant at beginning of game play
@@ -227,10 +272,9 @@ eachShape(void *ptr, void* unused)
             
             //plant hits the top of granny
             id action = [CCMoveTo actionWithDuration:2 position: ccp(oldLady.position.x, oldLady.position.y + 20)]; 
-            //id ease = [CCEaseIn actionWithAction:action rate:2];
-            id ease = [CCEaseOut actionWithAction:action rate:5];
+            id ease = [CCEaseIn actionWithAction:action rate:2];
             [plant runAction: ease];
-
+            
             gameEnding = YES;
         }
     }
@@ -239,11 +283,36 @@ eachShape(void *ptr, void* unused)
         //increment time & show current time
         time = time - dt/2;
         [timeLabel setString: [NSString stringWithFormat:@"%d", time]];
-    
+        
         //end game if reached end of your time
         if (time == 0) 
         {
             [self gameOver];
+        }
+        else if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0)
+        {
+            /*listen to see if there is sparkle boost falling or lightning visible
+            if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0) 
+            {
+                CCAction *lightningAction = [plantLightning getActionByTag:2];
+                CCAction *sparkleAction = [sparkleBoost getActionByTag:3];
+                
+                //check for sparkles
+                if (nil != sparkleAction && ![sparkleAction isDone]) 
+                {
+                    NSLog(@"there is a sparkle in action");
+                    boostOn = YES;
+                }
+                //check for lightning
+                else if (nil != lightningAction && ![lightningAction isDone]) 
+                {
+                    boostOn = YES;
+                    NSLog(@"lightning is still moving");
+                }
+            }*/
+            //no ongoing actions means no boosts on
+            NSLog(@"boost = NO");
+            [self randomBoosts];
         }
         else if (score >= level*IncreLevel) 
         {           
@@ -294,7 +363,7 @@ eachShape(void *ptr, void* unused)
     {
         oldLadyMoving = NO;
     }
-
+    
     
     //continue game play if we're not in middle of doing game end animation bc score is too low    
     if (!gameEnding)
@@ -443,6 +512,7 @@ eachShape(void *ptr, void* unused)
     //return oldLady to original view and show movement to touch location
     [oldLady backToNormal];
     
+    //set travel duration for old lady
     ccTime travelDuration = [oldLady timeToPosition: (float)oldLadyLocation.x From: (float)oldLady.position.x];
     
     CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
@@ -456,7 +526,7 @@ eachShape(void *ptr, void* unused)
     if (self.plantActive && plant.position.y >= oldLadyLocation.y)
     {
         id action = [CCMoveTo actionWithDuration:2 position:plantDestination]; 
-        id ease = [CCEaseIn actionWithAction:action rate:2];
+        id ease = [CCEaseIn actionWithAction:action rate: 2 + plantBoost];
         [plant runAction: ease];
     }
     else if (plant.position.y == oldLadyLocation.y)
