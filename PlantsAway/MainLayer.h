@@ -31,8 +31,10 @@
 //global constants
 extern int IncreScore;  //default amt to increment score when user scores
 extern int IncreLevel;  //the score gap between different levels
+extern int DefaultDistance;  //the score gap between different levels
 
 //gameplay variables
+@property int plantSpeed;
 @property int lives; 
 @property int score;
 @property int time;
@@ -40,7 +42,8 @@ extern int IncreLevel;  //the score gap between different levels
 @property BOOL gameEnding; //whether we're doing the ending animation because your score is too low
 @property BOOL plantActive; //whether user clicked on plant
 @property BOOL oldLadyMoving; //whether the old lady is currently moving 
-@property BOOL boostOn; //whether or not there is currently a boost visible on screen
+@property int lightningboostOn; //time duration of lightning boost (0 when the boost isn't active)
+@property int sparkleBoostOn; //time duration of sparkle boost (0 when the boost isn't active)
 @property int boost; //the boost can be 1000 (teleportation), 2 (2x speed), or 1 (1x speed, no boost)
 @property int plantType; //the plant can be 1 (tiny) 2(regular) or 3(big)
 @property int plantBoost; //automatically set to zero, incremented to 2 (fast) or 3 (insane) if boost received

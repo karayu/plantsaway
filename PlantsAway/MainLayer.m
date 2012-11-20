@@ -26,6 +26,7 @@ HighScores *highScores;
 
 int IncreScore = 10;
 int IncreLevel = 40;
+int DefaultDistance = 10;  //default distance traveled by the plant. Time to travel determined by this and plantSpeed
 
 enum 
 {
@@ -51,7 +52,7 @@ eachShape(void *ptr, void* unused)
 //MainLayer implementation
 @implementation MainLayer
 
-@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantBoost, plantType, oldLadyMoving, boostOn;
+@synthesize lives, gameEnding, plantActive, startTouchPosition, endTouchPosition, score, time, level, boost, plantBoost, plantType, oldLadyMoving, sparkleBoostOn, lightningboostOn, plantSpeed;
 
 
 -(CCScene *)scene
@@ -79,6 +80,9 @@ eachShape(void *ptr, void* unused)
         //not in middle of gameEnding animation
         gameEnding = NO;
         
+        //makes the plant travel to destination in 2 seconds (10/5)
+        plantSpeed = 5;
+        
         //initialize the score
         score = 0;
         NSString *currentScore = [NSString stringWithFormat:@"%d pts", score];
@@ -88,6 +92,9 @@ eachShape(void *ptr, void* unused)
         
         //iniitalize plant boost to zero
         plantBoost = 0;
+        
+        lightningboostOn = 0;
+        sparkleBoostOn = 0;
         
         //set up highscores table
         highScores = [[HighScores alloc] init];
@@ -115,7 +122,7 @@ eachShape(void *ptr, void* unused)
         [hourGlass setScale:0.12];
         
         //count down timer for gameplay
-        timeLabel = [CCLabelTTF labelWithString:@"100" fontName:@"Marker Felt" fontSize:24];
+        timeLabel = [CCLabelTTF labelWithString:@"60" fontName:@"Marker Felt" fontSize:24];
         timeLabel.position = ccp( 50, 440 ); //Middle of the screen...
         [self addChild:timeLabel];
         time = 60; 
@@ -206,12 +213,13 @@ eachShape(void *ptr, void* unused)
     if ((arc4random() % 50) > (arc4random() % 300))
     {
         //speed boost appears on the sidewalk
-        plantLightning.position = ccp( x_location, 50 );
+        plantLightning.position = ccp( x_location, 150 );
         [plantLightning setVisible:YES];
         
         //fades away after a few seconds; tag action to be checked for later
+        
         CCAction *fadeAway = [CCFadeOut actionWithDuration:10];
-        //fadeAway.tag = 2;
+        fadeAway.tag = 2;
         [plantLightning runAction: fadeAway];
     }
     else if ((arc4random() % 50) > (arc4random() % 300))
@@ -223,7 +231,7 @@ eachShape(void *ptr, void* unused)
         
         //sparkles fall; also tag action to check later if boost is happening
         CCAction *falling = [CCMoveTo actionWithDuration:3 position:sparkleDestination];
-        //falling.tag = 3;
+        falling.tag = 3;
         [sparkleBoost runAction:falling];
     }
 }
@@ -254,7 +262,7 @@ eachShape(void *ptr, void* unused)
     [plant setScale:0.5];
 }
 
-//Countdown timer. updates the time left and if you run out of time, ends game
+//Countdown timer. updates the time left and if you run out of time, ends game. Also ends game if you're out of lives
 -(void)tick:(ccTime)dt
 {
     //if you've hit three babies, end the game
@@ -289,8 +297,10 @@ eachShape(void *ptr, void* unused)
         {
             [self gameOver];
         }
+        //if there are no boosts, roll dice to see whether there should be a boost or two
         else if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0)
         {
+            //OUTDATED BY THE FOLLOWING
             /*listen to see if there is sparkle boost falling or lightning visible
             if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0) 
             {
@@ -312,10 +322,48 @@ eachShape(void *ptr, void* unused)
             }*/
             //no ongoing actions means no boosts on
             NSLog(@"boost = NO");
+            
             [self randomBoosts];
         }
-        else if (score >= level*IncreLevel) 
-        {           
+        //if there are boosts showing, check to see if they've been absorbed by either the plant or the old lady
+        else if ([sparkleBoost numberOfRunningActions] != 0 || [plantLightning numberOfRunningActions] != 0)
+        {
+            //if the sparkle boost is showing
+            if([sparkleBoost numberOfRunningActions] != 0 )
+            {
+                //check to see if granny and sparkleBoost have intersected
+                if (CGRectIntersectsRect(sparkleBoost.boundingBox, oldLady.boundingBox))
+                {
+                    //NEED TO DO SOMETHING TO SHOW THAT GRANNY GOT THE BOOST
+                
+                    //sparkle boost disappears once absorbed by old lady
+                    [sparkleBoost setVisible:NO];
+                    [sparkleBoost stopAllActions];
+                    
+                    //turn sparkle boost on for the next 10 ticks
+                    sparkleBoostOn = 10;
+                }
+            }
+            
+            //if the sparkle boost is showing
+            if([plantLightning numberOfRunningActions] != 0 )
+            {
+                //check to see if plant and plantlightning have intersected
+                if (CGRectIntersectsRect(plantLightning.boundingBox, plant.boundingBox))
+                {
+                    //NEED TO DO SOMETHING TO SHOW THAT PLANT GOT THE BOOST
+                    
+                    //sparkle boost disappears once absorbed by old lady
+                    [plantLightning setVisible:NO];
+                    [plantLightning stopAllActions];
+                    
+                    //turn lightning boost on for the next 10 ticks
+                    lightningboostOn = 10;
+                }
+            }
+        }
+        else if (score >= level*IncreLevel)
+        {
             //alert the user that they've gone up a level with every IncreLevel points they score
             //source:http://www.cocos2d-iphone.org/forum/topic/1080
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:@"Congratulations! You've made it past level %d!", level]  message:@"Press the button to continue" delegate:self cancelButtonTitle:@"Resume" otherButtonTitles:nil];
@@ -337,6 +385,7 @@ eachShape(void *ptr, void* unused)
     //resume game
 	[[CCDirector sharedDirector] resume];
 }
+
 
 //listener for restoring the plant to the old lady. Tests whether plant has fallen to the end and the old lady has stopped moving.  Old lady can only get get plant back when she stops moving
 -(void)restorePlant: (ccTime)dt
@@ -397,11 +446,54 @@ eachShape(void *ptr, void* unused)
     [self moveOrDie:goodTarget InTime:dt];
 }
 
+
 //Thread for bad target. Skateboarder either move along or gets hit by granny
 -(void)nextFrameBadTarget:(ccTime)dt 
 {
     [self moveOrDie:badTarget InTime:dt];
 }
+
+//Thread for creating sparkle boosts
+-(void)nextFrameSparkleBoost:(ccTime)dt
+{
+    //random locaiton where the sparkle boost starts
+    int x_location = arc4random() % 320;
+    
+    //random boosts if there are none currently visible
+    if ((arc4random() % 50) > (arc4random() % 300))
+    {
+        //set the sparkley boost's start and end location
+        sparkleBoost.position = ccp( x_location, 550 );
+        [sparkleBoost setVisible:YES];
+        CGPoint sparkleDestination = ccp( x_location, -50 );
+        
+        //sparkles fall; also tag action to check later if boost is happening
+        CCAction *falling = [CCMoveTo actionWithDuration:3 position:sparkleDestination];
+        falling.tag = 3;  //PROBLEM? this used to be commented out
+        [sparkleBoost runAction:falling];
+    }
+}
+
+//Thread for creating lightning boosts
+-(void)nextFrameLightningBoost:(ccTime)dt
+{
+    //random location to put the lightning boost
+    int x_location = arc4random() % 320;
+
+    //random boosts if there are none currently visible
+    if ((arc4random() % 50) > (arc4random() % 300))
+    {
+        //speed boost appears on the sidewalk
+        plantLightning.position = ccp( x_location, 50 );
+        [plantLightning setVisible:YES];
+        
+        //fades away after a few seconds; tag action to be checked for later
+        CCAction *fadeAway = [CCFadeOut actionWithDuration:10];
+        //fadeAway.tag = 2;
+        [plantLightning runAction: fadeAway];
+    }
+}
+
 
 //function for target to either keep moving (if they haven't been hit) or die if they have been hit
 -(void)moveOrDie:(Sprite *)target InTime:(ccTime)dt
@@ -505,37 +597,44 @@ eachShape(void *ptr, void* unused)
 
 -(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    //set location for oldLady to wherever touch ended
-    CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
-    oldLadyLocation.y = 300;
-    
-    //return oldLady to original view and show movement to touch location
-    [oldLady backToNormal];
-    
-    //set travel duration for old lady
-    ccTime travelDuration = [oldLady timeToPosition: (float)oldLadyLocation.x From: (float)oldLady.position.x];
-    
-    CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
-    ladyMoving.tag = 1;
-    [oldLady runAction:ladyMoving];
-    
-    //if plant was launched, its destination will be directly below oldLady's location
-    CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
-    
-    //decide whether or not plant will stay with oldLady or be launched to the passersby!
-    if (self.plantActive && plant.position.y >= oldLadyLocation.y)
+    //if the game is ending, you can't move the old lady to avoid the plant falling on her head
+    if( !gameEnding)
     {
-        id action = [CCMoveTo actionWithDuration:2 position:plantDestination]; 
-        id ease = [CCEaseIn actionWithAction:action rate: 2 + plantBoost];
-        [plant runAction: ease];
-    }
-    else if (plant.position.y == oldLadyLocation.y)
-    {
-        [plant runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
-    }
+        //set location for oldLady to wherever touch ended
+        CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
+        oldLadyLocation.y = 300;
     
-    //finger is no longer touching plant
-    self.plantActive = NO;
+        //return oldLady to original view and show movement to touch location
+        [oldLady backToNormal];
+    
+        //set travel duration for old lady
+        ccTime travelDuration = [oldLady timeToPosition: (float)oldLadyLocation.x From: (float)oldLady.position.x];
+    
+        CCAction *ladyMoving = [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation];
+        ladyMoving.tag = 1;
+        [oldLady runAction:ladyMoving];
+    
+    
+        //if plant was launched, its destination will be directly below oldLady's location
+        CGPoint plantDestination = ccp( oldLadyLocation.x, -50 );
+    
+        //decide whether or not plant will stay with oldLady or be launched to the passersby!
+        if (self.plantActive && plant.position.y >= oldLadyLocation.y)
+        {
+            //if plant is active and not already in motion, it'll get launched
+            id action = [CCMoveTo actionWithDuration:(DefaultDistance/plantSpeed) position:plantDestination];
+            id ease = [CCEaseIn actionWithAction:action rate: (DefaultDistance/plantSpeed) + plantBoost];
+            [plant runAction: ease];
+        }
+        else if (plant.position.y == oldLadyLocation.y)
+        {
+            //plant just moves to old lady's new position
+            [plant runAction: [CCMoveTo actionWithDuration:travelDuration position:oldLadyLocation]];
+        }
+    
+        //finger is no longer touching plant
+        self.plantActive = NO;
+    }
 }
 
 //registers finger touch sensors
@@ -543,5 +642,32 @@ eachShape(void *ptr, void* unused)
 {
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
+
+
+//BOOSTS!
+
+//FIX THIS!  NEED TO SET A TIMER TO RUN OUT WHEN 
+//listener to figure out if the plant hit the lightening, if it did, increases the plant's speed temporarily.  
+-(BOOL)runLightning: (ccTime) dt
+{
+    //if the boost has timed out or isn't on, just return
+    if (lightningboostOn <= 0)
+        return NO;
+    else
+    {
+        //change plant to a smaller version
+        
+        //slow down plant...
+        plantSpeed =3;
+        
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+
 
 @end
