@@ -190,6 +190,10 @@ eachShape(void *ptr, void* unused)
         [self schedule:@selector(nextFrameBadTarget:)];	
         [self schedule:@selector(restorePlant:)];
         
+        //ticker for lightning, counts down time to run lightning
+        [self schedule:@selector(runBoosts:)];
+
+        
         //scheduler for time countdown, and upleveling
         [self schedule: @selector(tick:) interval:1.0];
     }
@@ -225,14 +229,14 @@ eachShape(void *ptr, void* unused)
     else if ((arc4random() % 50) > (arc4random() % 300))
     {
         //set the sparkley boost's start and end location
-        sparkleBoost.position = ccp( x_location, 550 );
+        sparkleBoost.position = ccp( x_location, -50 );
         [sparkleBoost setVisible:YES];
-        CGPoint sparkleDestination = ccp( x_location, -50 );
+        CGPoint sparkleDestination = ccp( x_location, 550 );
         
         //sparkles fall; also tag action to check later if boost is happening
-        CCAction *falling = [CCMoveTo actionWithDuration:3 position:sparkleDestination];
-        falling.tag = 3;
-        [sparkleBoost runAction:falling];
+        CCAction *rising = [CCMoveTo actionWithDuration:3 position:sparkleDestination];
+        rising.tag = 3;
+        [sparkleBoost runAction:rising];
     }
 }
 
@@ -300,29 +304,6 @@ eachShape(void *ptr, void* unused)
         //if there are no boosts, roll dice to see whether there should be a boost or two
         else if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0)
         {
-            //OUTDATED BY THE FOLLOWING
-            /*listen to see if there is sparkle boost falling or lightning visible
-            if ([sparkleBoost numberOfRunningActions] == 0 && [plantLightning numberOfRunningActions] == 0) 
-            {
-                CCAction *lightningAction = [plantLightning getActionByTag:2];
-                CCAction *sparkleAction = [sparkleBoost getActionByTag:3];
-                
-                //check for sparkles
-                if (nil != sparkleAction && ![sparkleAction isDone]) 
-                {
-                    NSLog(@"there is a sparkle in action");
-                    boostOn = YES;
-                }
-                //check for lightning
-                else if (nil != lightningAction && ![lightningAction isDone]) 
-                {
-                    boostOn = YES;
-                    NSLog(@"lightning is still moving");
-                }
-            }*/
-            //no ongoing actions means no boosts on
-            NSLog(@"boost = NO");
-            
             [self randomBoosts];
         }
         //if there are boosts showing, check to see if they've been absorbed by either the plant or the old lady
@@ -341,11 +322,17 @@ eachShape(void *ptr, void* unused)
                     [sparkleBoost stopAllActions];
                     
                     //turn sparkle boost on for the next 10 ticks
-                    sparkleBoostOn = 10;
+                    sparkleBoostOn = 1000;
+                    
+                    //change the plant to a teddy bear
+                    plant.texture=[[CCTextureCache sharedTextureCache] addImage: @"Icon-Small.png"];
+                    [plant setScale: 0.5];
+                    
+
                 }
             }
             
-            //if the sparkle boost is showing
+            //if the lightning boost is showing
             if([plantLightning numberOfRunningActions] != 0 )
             {
                 //check to see if plant and plantlightning have intersected
@@ -358,7 +345,18 @@ eachShape(void *ptr, void* unused)
                     [plantLightning stopAllActions];
                     
                     //turn lightning boost on for the next 10 ticks
-                    lightningboostOn = 10;
+                    lightningboostOn = 1000;
+                    
+                    //Implement changes from the lightning boost being on (smaller plant, granny and slower plant)
+                    
+                    //shrink the old lady (normal scale is 0.5)
+                    [oldLady setScale:0.3];
+                    
+                    //shrink the plant (normal scale is 0.5)
+                    [plant setScale:0.3];
+                    
+                    //slow down plant...
+                    plantSpeed =3;
                 }
             }
         }
@@ -501,6 +499,17 @@ eachShape(void *ptr, void* unused)
     //detect intersection of hoodlum and plant
     if (CGRectIntersectsRect(target.boundingBox, plant.boundingBox))
     {
+        //if the teddy bear hits the baby, just put the teddy bear at the bottom fo the page so it can be restored
+        if(target.good && sparkleBoostOn)
+        {
+            CGPoint location = ccp(plant.position.x, -50);
+            plant.position = location;
+            
+            return;
+        }
+        
+        //otherwise, show the target getting hit
+        
         //rotate to show that target was hit
         target.rotation = 65;
         
@@ -602,7 +611,12 @@ eachShape(void *ptr, void* unused)
     {
         //set location for oldLady to wherever touch ended
         CGPoint oldLadyLocation = [self convertTouchToNodeSpace: touch];
-        oldLadyLocation.y = 300;
+        
+        //determines old lady's height based on whether she shrunk
+        if (lightningboostOn)
+            oldLadyLocation.y = 295;
+        else
+            oldLadyLocation.y = 300;
     
         //return oldLady to original view and show movement to touch location
         [oldLady backToNormal];
@@ -647,22 +661,83 @@ eachShape(void *ptr, void* unused)
 //BOOSTS!
 
 //FIX THIS!  NEED TO SET A TIMER TO RUN OUT WHEN 
-//listener to figure out if the plant hit the lightening, if it did, increases the plant's speed temporarily.  
--(BOOL)runLightning: (ccTime) dt
+//listener to figure out if the plant hit the lightening, if it did, increases the plant's speed temporarily.
+
+
+-(BOOL)runBoosts: (ccTime)dt
 {
     //if the boost has timed out or isn't on, just return
-    if (lightningboostOn <= 0)
+    if (lightningboostOn <= 0 && sparkleBoostOn <= 0 )
         return NO;
-    else
-    {
-        //change plant to a smaller version
+    
+    if (lightningboostOn > 0) {
+        //decrement time while boost is on
+        lightningboostOn--;
         
-        //slow down plant...
-        plantSpeed =3;
+        //Slow shrinkage progression, above 900 is mid shrinkage
         
+        if (lightningboostOn > 900)
+        {
+            //shrink the old lady (normal scale is 0.5)
+            [oldLady setScale:0.3];
+
+            //set the location so the old lady is still sitting on the wall
+            CGPoint location = ccp(oldLady.position.x, 295);
+            oldLady.position = location;
+            
+            //shrink the plant (normal scale is 0.5)
+            [plant setScale:0.3];
+        }
+        else if (lightningboostOn == 0)
+        {
+            //restore the old lady (normal scale is 0.5)
+            [oldLady setScale:0.5];
+            
+            //restore the old lady so she's back sitting on the wall
+            CGPoint location = ccp(oldLady.position.x, 300);
+            oldLady.position = location;
+            
+            //restore the plant (normal scale is 0.5)
+            [plant setScale:0.5];
+            
+            //restore plant speed...
+            plantSpeed = 5;
+        }
+        else
+        {
+            //shrink the old lady (normal scale is 0.5)
+            [oldLady setScale:0.3];
         
-        return YES;
+            //shrink the plant (normal scale is 0.5)
+            [plant setScale:0.3];
+        }
     }
+    
+    if (sparkleBoostOn > 0)
+    {
+        //decrement time while boost is on
+        sparkleBoostOn--;
+        
+        if (sparkleBoostOn == 0)
+        {            
+            //restore the plant from a teddy bear back to a plant
+            switch (plantType)
+            {
+                case 1:
+                    plant.texture=[[CCTextureCache sharedTextureCache] addImage: @"leaf.png"];
+                    break;
+                case 2:
+                    plant.texture=[[CCTextureCache sharedTextureCache] addImage: @"flower.png"];
+                    break;
+                case 3:
+                    plant.texture=[[CCTextureCache sharedTextureCache] addImage: @"shrub.png"];
+                    break;
+            }
+            
+        }
+        
+    }
+
     
     return NO;
 }

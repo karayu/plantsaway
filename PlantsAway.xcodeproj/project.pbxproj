@@ -37,6 +37,7 @@
 		E761C1DD1544CCC90019E404 /* hourglass.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E761C1DC1544CCC90019E404 /* hourglass.jpg */; };
 		E761C1E61544D1880019E404 /* GameEndLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E761C1E51544D1880019E404 /* GameEndLayer.m */; };
 		E761C1E91544D6970019E404 /* SceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E761C1E81544D6970019E404 /* SceneManager.m */; };
+		E7976130165833DE0080243D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E797612F165833DE0080243D /* Default-568h@2x.png */; };
 		E7CF4CF1153E480200BE422E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF0153E480200BE422E /* QuartzCore.framework */; };
 		E7CF4CF3153E480300BE422E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF2153E480300BE422E /* OpenGLES.framework */; };
 		E7CF4CF5153E480300BE422E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CF4CF4153E480300BE422E /* OpenAL.framework */; };
@@ -220,6 +221,7 @@
 		E761C1E51544D1880019E404 /* GameEndLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameEndLayer.m; sourceTree = "<group>"; };
 		E761C1E71544D6970019E404 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
 		E761C1E81544D6970019E404 /* SceneManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneManager.m; sourceTree = "<group>"; };
+		E797612F165833DE0080243D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E7CF4CEC153E480200BE422E /* PlantsAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlantsAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7CF4CF0153E480200BE422E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E7CF4CF2153E480300BE422E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -571,6 +573,7 @@
 		E7CF4CE1153E480200BE422E = {
 			isa = PBXGroup;
 			children = (
+				E797612F165833DE0080243D /* Default-568h@2x.png */,
 				E7CF4D00153E480300BE422E /* PlantsAway */,
 				E7CF4CEF153E480200BE422E /* Frameworks */,
 				E7CF4CED153E480200BE422E /* Products */,
@@ -1163,6 +1166,7 @@
 				01900CA215529FE700E3F0CD /* app_icon.png in Resources */,
 				012123F815BB1FD1003026BF /* speed.png in Resources */,
 				017E6F3E15BB304D00377146 /* sparkle.png in Resources */,
+				E7976130165833DE0080243D /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,7 @@
 -(void)move: (ccTime) time;
 -(BOOL)offScreen;
 -(void)changeDirection;
+-(void)initializeSpeed;
 
 
 @property (readwrite) BOOL collision;
