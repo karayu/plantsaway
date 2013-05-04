@@ -336,8 +336,10 @@ eachShape(void *ptr, void* unused)
             if([plantLightning numberOfRunningActions] != 0 )
             {
                 //check to see if plant and plantlightning have intersected
-                if (CGRectIntersectsRect(plantLightning.boundingBox, plant.boundingBox))
+                if (CGRectIntersectsRect(plant.boundingBox, plantLightning.boundingBox))
                 {
+                    NSLog(@"GOT lightning boost!");
+                    
                     //NEED TO DO SOMETHING TO SHOW THAT PLANT GOT THE BOOST
                     
                     //sparkle boost disappears once absorbed by old lady
@@ -357,6 +359,13 @@ eachShape(void *ptr, void* unused)
                     
                     //slow down plant...
                     plantSpeed =3;
+                }
+                else
+                {
+                    NSLog(@"bounding boxes didn't intersect but number of running actions ins't 0");
+                    NSLog(@"plant is: $@", plant.boundingBox);
+                    NSLog(@"plantLightning is: $@", plantLightning.boundingBox);
+
                 }
             }
         }
